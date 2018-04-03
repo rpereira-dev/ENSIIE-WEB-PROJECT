@@ -1,0 +1,13 @@
+- Inscription/Connexion (par joueur)
+- Creation d'équipe (le joueur qui crée l'équipe est le 'chef' d'équipe)
+- Demande pour rejoindre une équipe (le chef alors accepte ou refuse)
+- Un joueur est associé à une école, une équipe est associé à une école.
+Une équipe n'a que de membres de la même école
+
+- Différentes vues du site:
+	- Accueil (tournois 'hot')
+	- Inscription/Connexion/Mot de passe oublié/Deconnexion
+	- Création d'équipe
+	- Page d'une équipe (stats de l'équipe...)
+	- Page d'une joueur (stats du joueur...)
+	- Page 'recherche', nom de joueur/d'équipe/de tournoi,
