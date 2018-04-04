@@ -1,0 +1,15 @@
+/**
+ *      Contient le css global de la page
+ */
+html {
+    width:100%;
+    height:100%;
+}
+
+body {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+	background-image: url("../images/background.png");
+	background-attachment: fixed;
+}
