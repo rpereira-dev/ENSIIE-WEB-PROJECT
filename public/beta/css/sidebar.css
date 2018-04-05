@@ -5,28 +5,27 @@
  	width: 13rem;
     height: 100%;
  	background-color:#1B1C23;
-    /*box-shadow: 0.5vh 1vh 0.5vh 0.5vh rgba(0, 0, 0, 0.5);*/
+    box-shadow: 0.5vh 1vh 0.5vh 0.5vh rgba(0, 0, 0, 0.5);
     transition: 0.25s;
     overflow-x: hidden;
-    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     top: 0;
     left: 0;
-    background-color: #111;
     overflow-x: hidden;
 }
 
 .sidebar-logo {
+	width: 13rem;
 	color: #FFFFFF;
 }
 
 .sidebar-section {
+	font-size: 0.8rem;
     color: #656A72;
     width: 100%;
     margin-top:2rem;
     margin-bottom:2rem;
-    font-size: 0.8rem;
 }
 
 .sidebar-section-title {
@@ -39,17 +38,16 @@
 }
 
 .sidebar-section-item {
+    display: flex;
+    align-items: center; /* align vertical */
     color: #959AA2;
-    font-size: 0.9rem;
+    height: 2.0rem;
     text-decoration: none;
     margin-left:0rem;
-    margin-right:1rem;
-    margin-top:1.0rem;
-    margin-bottom:1.0rem;
     cursor: pointer;
     transition: all 0.1s ease-in-out;
     border-left: 0.1rem solid #1B1C23;
-
+    display: flex;
 }
 
 .sidebar-section-item:hover {
@@ -61,5 +59,12 @@
     min-width: 1rem;
     margin-left: 1.0rem;
     margin-right: 0.5rem;
-    text-align: center;
+}
+
+.sidebar-section-item img {
+	width:1rem;
+	height:1rem;
+    min-width: 1rem;
+    margin-left: 1.0rem;
+    margin-right: 0.5rem;
 }
