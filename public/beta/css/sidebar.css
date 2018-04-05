@@ -2,7 +2,8 @@
  *      Contient le css de la barre de navigation (à gauche vertical)
  */
  .sidebar {
- 	width: 13rem;
+    display: block;
+ 	width: 12rem;
     height: 100%;
  	background-color:#1B1C23;
     box-shadow: 0.5vh 1vh 0.5vh 0.5vh rgba(0, 0, 0, 0.5);
@@ -16,25 +17,27 @@
 }
 
 .sidebar-logo {
-	width: 13rem;
+	width: 7rem;
 	color: #FFFFFF;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .sidebar-section {
 	font-size: 0.8rem;
     color: #656A72;
     width: 100%;
-    margin-top:2rem;
     margin-bottom:2rem;
 }
 
 .sidebar-section-title {
     margin-left:0.5rem;
     margin-right:1rem;
-    margin-top:1.0rem;
     margin-bottom:1.0rem;
     font-weight: bold;
     text-transform: uppercase;
+    cursor: default;
 }
 
 .sidebar-section-item {
