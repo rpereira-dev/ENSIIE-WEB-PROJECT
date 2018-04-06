@@ -17,38 +17,6 @@
 	box-shadow: 0 0 1vh 1.0vh rgba(0, 0, 0, 0.5);
 }
 
-.navbar-search {
-	display: flex;
-	align-items: center; /* align vertical */
-	color: #656A72;
-	margin-left:1.5rem;
-	height: 2rem;
-	background-color: #17191F;
-	border-style: solid;
-	border-width: 0.15rem;
-	border-radius: 0.3rem;
-	border-color: #272830;
-	transition: all 0.1s ease-in-out;
-}
-
-.navbar-search:hover {
-	color: #FFFFFF;
-	border-color: #FFFFFF;
-}
-
-.navbar-search-logo {
-	margin-left:0.5rem;
-	margin-right:0.5rem;
-	cursor: pointer;
-	transition: all 0.1s ease-in-out;
-}
-
-.navbar-search-logo:hover {
-    transform: scale(1.1);
-}
-
-.navbar-search-input {
-    background: transparent;
-    border: none;
-    color: #FFFFFF;
+.navbar .prompt {
+	margin-left: 1rem;
 }

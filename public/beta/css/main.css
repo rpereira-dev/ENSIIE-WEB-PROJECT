@@ -14,3 +14,53 @@ body {
 	background-attachment: fixed;
 	font-family: Arial, Helvetica, sans-serif
 }
+
+/** un texte cliquable */
+.label {
+	color: #959AA2;
+	font-size: 0.8rem;
+}
+
+.label-button {
+	cursor: pointer;
+	transition: all 0.15s ease-in-out;
+}
+
+.label-button:hover {
+    text-decoration: underline;
+    color:#FFFFFF;
+}
+
+
+/** prompt: un icone et une entrée texte:; */
+.prompt {
+	display: flex;
+	align-items: center; /* align vertical */
+	color: #656A72;
+	background-color: #17191F;
+	border-style: solid;
+	border-width: 0.15rem;
+	border-radius: 0.3rem;
+	border-color: #272830;
+	transition: all 0.15s ease-in-out;
+}
+
+.prompt:hover {
+	color: #FFFFFF;
+	border-color: #FFFFFF;
+}
+
+.prompt input {
+	height: 2rem;
+	text-indent: 0.5rem;
+	background: transparent;
+    border: none;
+    color: #FFFFFF;
+}
+
+.prompt i {
+}
+
+.prompt-logo {
+	margin-left:0.5rem;
+}

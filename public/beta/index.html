@@ -23,16 +23,16 @@
 
         <!-- barre de navigation en haut-->
         <nav class="nav navbar">
-            <div class="navbar-search">
-                <i class="fa fa-search navbar-search-logo"></i>
-                <input class="navbar-search-input" type="text" placeholder="Rechercher..."/>
+            <div class="prompt">
+                <i class="prompt-logo fa fa-search navbar-search-logo"></i>
+                <input class="prompt-input" type="text" placeholder="Rechercher..."/>
             </div>
         </nav>
 
         <!-- barre de navigation à gauche -->
         <section class="sidebar">
             <!-- le logo -->
-            <img class="sidebar-logo" src="./images/logo.png" />
+            <img class="sidebar-logo" src="./images/logo2.png" />
 
             <!-- la section 'Menu' -->
             <div class="sidebar-section">
@@ -51,13 +51,35 @@
                 <div class="sidebar-section-item"><img src="./images/hs.png"/></i>Hearthstone</div>
                 <div class="sidebar-section-item"><img src="./images/csgo.png"/></i>Counter Strike: Go</div>
                 <div class="sidebar-section-item"><img src="./images/mc.jpg"/></i>Minecraft</div>
-
             </div>
         </section>
 
 
         <!-- barre de navigation à droite -->
         <section class="aside">
+
+            <form class="aside-login-form">
+                <!-- champ pseudo -->
+                <div class="prompt">
+                    <i class="prompt-logo fa fa-user navbar-search-logo"></i>
+                    <input class="prompt-input" type="text" placeholder="Pseudo..."/>
+                </div>
+
+                <!-- champ mot de passe -->
+                <div class="prompt">
+                    <i class="prompt-logo fa fa-lock navbar-search-logo"></i>
+                    <input class="prompt-input" type="text" placeholder="Mot de passe..."/>
+                </div>
+
+
+                <!-- s'enregistrer -->
+                <div class="aside-login-labels">
+                    <a class="label label-button">Connexion</a>
+                    <span class="label"> | </span>
+                    <a class="label label-button">S'enregistrer</a>
+                </div>
+            </form>
+
         </section>
 
         <!-- La page principal -->        

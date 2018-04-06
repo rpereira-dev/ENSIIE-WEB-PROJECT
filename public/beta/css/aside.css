@@ -2,6 +2,7 @@
  *      Contient le css de la barre de navigation (à droite vertical)
  */
  .aside {
+ 	display: block;
  	width: 13rem;
     height: 100%;
  	background-color:#1B1C23;
@@ -13,4 +14,20 @@
     top: 0;
     right: 0;
     overflow-x: hidden;
+}
+
+.aside-login-form {
+	margin-top: 5rem;
+	margin-left: 1rem;
+	margin-right: 1rem;
+	text-align: center;
+}
+
+.aside .prompt {
+	margin-top: 0.5rem;
+}
+
+.aside-login-labels {
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
 }

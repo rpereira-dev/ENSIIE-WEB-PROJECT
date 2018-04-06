@@ -17,7 +17,7 @@
 }
 
 .sidebar-logo {
-	width: 7rem;
+	width: 100%;
 	color: #FFFFFF;
     display: block;
     margin-left: auto;
@@ -28,7 +28,8 @@
 	font-size: 0.8rem;
     color: #656A72;
     width: 100%;
-    margin-bottom:2rem;
+    margin-top:1rem;
+    margin-bottom: 2rem;
 }
 
 .sidebar-section-title {
@@ -48,7 +49,7 @@
     text-decoration: none;
     margin-left:0rem;
     cursor: pointer;
-    transition: all 0.1s ease-in-out;
+    transition: all 0.15s ease-in-out;
     border-left: 0.1rem solid #1B1C23;
     display: flex;
 }
