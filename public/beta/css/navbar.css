@@ -8,10 +8,10 @@
     left: 12rem;
     top: 0;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     overflow-x: hidden;
 	align-items: center; /* align vertical */
-	background-color: #1B1C23;
+	background-color: #1B1C23F7;
 	font-weight: bold;
 	color: #000000;
 	box-shadow: 0 0 1vh 1.0vh rgba(0, 0, 0, 0.5);

@@ -3,21 +3,28 @@
  */
  .aside {
  	display: block;
- 	width: 13rem;
+ 	width: 14rem;
     height: 100%;
- 	background-color:#1B1C23;
+ 	background-color:#1B1C23F7;
     box-shadow: -0.5vh 1vh 0.5vh 0.5vh rgba(0, 0, 0, 0.5);
     transition: 0.25s;
     overflow-x: hidden;
     position: fixed;
-    z-index: 0;
-    top: 0;
+    z-index: 1;
+    top: 4rem;
     right: 0;
     overflow-x: hidden;
+    text-align: center;
+}
+
+.aside-discord {
+    width: 12rem;
+    height: 20rem;
+    margin-top:2rem;
 }
 
 .aside-login-form {
-	margin-top: 5rem;
+	margin-top: 1rem;
 	margin-left: 1rem;
 	margin-right: 1rem;
 	text-align: center;
@@ -25,6 +32,10 @@
 
 .aside .prompt {
 	margin-top: 0.5rem;
+}
+
+.aside-captcha {
+    margin-top:1rem;
 }
 
 .aside-login-labels {

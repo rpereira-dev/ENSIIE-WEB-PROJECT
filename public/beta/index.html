@@ -17,9 +17,17 @@
         <link rel="stylesheet" type="text/css" href="./css/sidebar.css">
         <link rel="stylesheet" type="text/css" href="./css/aside.css">
 
+        <!-- reCaptcha -->
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+
+        <!-- import du fond animé -->
+       <script src="https://unpkg.com/delaunator@2.0.0/delaunator.min.js"></script>
+        <script type="text/javascript" src="./js/background.js"></script>
+
     </head>
 
-    <body>
+    <body onload="onPageLoaded()">
+    <!--<body>-->
 
         <!-- barre de navigation en haut-->
         <nav class="nav navbar">
@@ -52,51 +60,140 @@
                 <div class="sidebar-section-item"><img src="./images/csgo.png"/></i>Counter Strike: Go</div>
                 <div class="sidebar-section-item"><img src="./images/mc.jpg"/></i>Minecraft</div>
             </div>
-        </section>
 
+            <!-- la section 'A propos' -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">A propos de nous</div>
+                <div class="sidebar-section-item"><i class="fa fa-users"></i>L'équipe</div>
+                <div class="sidebar-section-item"><i class="fa fa-book"></i>Notre politque</div>
+                <div class="sidebar-section-item"><i class="fa fa-gavel"></i>Contribuer</div>
+                <div class="sidebar-section-item"></div>
+            </div>
+
+        </section>
 
         <!-- barre de navigation à droite -->
         <section class="aside">
 
             <form class="aside-login-form">
+
+                <!-- addresse mail -->
+                <div id="email" class="prompt">
+                    <i class="prompt-logo fa fa-envelope navbar-search-logo"></i>
+                    <input class="prompt-input" type="text" placeholder="Adresse mail..."/>
+                </div>
+
                 <!-- champ pseudo -->
-                <div class="prompt">
+                <div id="pseudo" class="prompt">
                     <i class="prompt-logo fa fa-user navbar-search-logo"></i>
                     <input class="prompt-input" type="text" placeholder="Pseudo..."/>
                 </div>
 
                 <!-- champ mot de passe -->
-                <div class="prompt">
+                <div id="pass" class="prompt">
                     <i class="prompt-logo fa fa-lock navbar-search-logo"></i>
-                    <input class="prompt-input" type="text" placeholder="Mot de passe..."/>
+                    <input class="prompt-input" type="password" placeholder="Mot de passe..."/>
                 </div>
 
+                <!-- champ confirmation de mot de passe -->
+                <div id="pass_confirm" class="prompt">
+                    <i class="prompt-logo fa fa-lock navbar-search-logo"></i>
+                    <input class="prompt-input" type="password" placeholder="Confirmer..."/>
+                </div>
 
-                <!-- s'enregistrer -->
+                <div id="captcha" class="g-recaptcha aside-captcha" data-sitekey="6LfSvVEUAAAAAI2FQTEC8rBUcm3DybzVmf8g44t_"></div>
+
+                <!-- se connecter / s'enregistrer -->
                 <div class="aside-login-labels">
-                    <a class="label label-button">Connexion</a>
+                    <a class="label label-button" onclick="switchView(false);">Se connecter</a>
                     <span class="label"> | </span>
-                    <a class="label label-button">S'enregistrer</a>
+                    <a class="label label-button" onclick="switchView(true);">S'enregistrer</a>
                 </div>
+
+                <!-- script de coulissement -->
+                <script>
+
+                    function switchView(register) {
+                        if (register) {
+                            document.getElementById("pseudo").style.display = "";
+                            document.getElementById("pass_confirm").style.display = "";
+                            document.getElementById("captcha").style.display = "";
+                        } else {
+                            document.getElementById("pseudo").style.display = "none";
+                            document.getElementById("pass_confirm").style.display = "none";
+                            document.getElementById("captcha").style.display = "none";
+                        }
+                    }
+                    switchView(false);
+                </script>
             </form>
+
+            <!-- serveur discord -->
+            <!--<embed class="aside-discord" src="https://widgetbot.io/embed/432533096609480704/432533096609480706/1001/?lang=fr" />
+            <script src="https://crate.widgetbot.io/v2" defer async data-cfasync="false">
+                var crate = new Crate({ "server" : "432533096609480704",
+                            "channel" : "432533096609480706",
+                            "options" : "1001",
+                            "language":"fr"
+                        });
+                crate.message('`2 seconds`', 2000);
+            </script>-->
+            <!--
+            <script src="https://crate.widgetbot.io/v2" defer async data-cfasync="false">new Crate({"server":"432533096609480704","channel":"432533096609480706"})</script>      
+            -->
+            
+                <iframe
+                    class="aside-discord"
+                    src="https://discordapp.com/widget?id=432533096609480704&theme=dark"
+                    allowtransparency="true"
+                    frameborder="0">
+                </iframe>
+            
+               <!--
+                <script type="text/javascript" src="//cdn.jsdelivr.net/discord-widget/latest/discord-widget.min.js"></script>
+                <script type="text/javascript">
+                    discordWidget.init({
+                        serverId: '432533096609480704',
+                        title: 'Rejoignez notre discord',
+                        join: true,
+                        alphabetical: false,
+                        theme: 'dark',
+                        showAllUsers: true,
+                        allUsersDefaultState: true
+                    });
+                    discordWidget.render();
+                </script>
+            -->
 
         </section>
 
+        <!-- le fond animé -->
+       <canvas class="page-background" id="bgCanvasID"></canvas>
+
         <!-- La page principal -->        
         <div class="page">
+
             <!-- Page Content -->
-            <div class="content">
-       <!--         <script type="text/javascript">
-                    var i;
-                    for (i = 0 ; i < 10 ; i++) {
-                        document.write("\
-                            <div class=\"content-news\">\
-                                <div class=\"content-news-title\">Contenu " + i + "</div>\
-                                <div class=\"content-news-content\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div></div>");
-                    }
-                </script>
-        -->
+            <div class="page-content">
+
+                <!-- Twitch début -->
+                <!--<div class="twitch-container">
+                    <div class="twitch-embed" id="twitch-embed"></div>
+
+                    <script src="https://embed.twitch.tv/embed/v1.js"></script>
+
+                    <script type="text/javascript">
+                        var embed = new Twitch.Embed("twitch-embed", {
+                            width: "100%",
+                            height: "100%",
+                            channel: "monstercat",
+                            autoplay: false
+                        });
+                    </script>
+                </div>-->
+                <!-- Twitch fin -->
             </div>
+
         </div>
 
     </body>
