@@ -34,11 +34,10 @@ CREATE TABLE "ecole" (
 CREATE TABLE "joueur" (
 	id		SERIAL		PRIMARY KEY,
 
+
 	email		VARCHAR		NOT NULL,
 	password	VARCHAR		NOT NULL,
-	prenom		VARCHAR		NOT NULL,
-	nom		VARCHAR		NOT NULL,
-	naissance	date		NOT NULL,
+	pseudo		VARCHAR		NOT NULL,
 
 	ecole_id	INTEGER,
 	FOREIGN KEY (ecole_id) REFERENCES ecole(id)
@@ -137,3 +136,17 @@ INSERT INTO "user"(firstname, lastname, birthday) VALUES ('Silvia', 'Mcguire', '
 INSERT INTO "user"(firstname, lastname, birthday) VALUES ('Brendan', 'Pena', '1950-02-17');
 INSERT INTO "user"(firstname, lastname, birthday) VALUES ('Jackie', 'Cohen', '1967-01-27');
 INSERT INTO "user"(firstname, lastname, birthday) VALUES ('Delores', 'Williamson', '1961-07-19');
+
+
+
+
+INSERT INTO "ecole" (id, nom, type) VALUES ('1', 'testecole', 'ingenieur');
+
+
+INSERT INTO "joueur" (id, email, password,pseudo,ecole_id) VALUES ('1', 'testmail', '111','test1','1');
+
+
+
+
+
+
