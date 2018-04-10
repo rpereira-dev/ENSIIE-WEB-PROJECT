@@ -34,6 +34,8 @@ CREATE TABLE "ecole" (
 CREATE TABLE "joueur" (
 	id		SERIAL		PRIMARY KEY,
 
+	email		VARCHAR		NOT NULL,
+	password	VARCHAR		NOT NULL,
 	prenom		VARCHAR		NOT NULL,
 	nom		VARCHAR		NOT NULL,
 	naissance	date		NOT NULL,
