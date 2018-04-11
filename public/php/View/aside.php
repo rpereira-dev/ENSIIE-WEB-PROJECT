@@ -7,7 +7,7 @@ function afficher_aside() {
         <section class="aside">
 
             <!-- formulaire de connection -->
-            <form id="connection_form" class="aside-login-form" action="./php/Controller/connect.php" method="POST">>
+            <form id="connection_form" class="aside-login-form" action="./php/Controller/connect.php" method="POST">
                 <!-- addresse mail -->
                 <div class="prompt">
                     <i class="prompt-logo fa fa-envelope navbar-search-logo"></i>
@@ -25,7 +25,7 @@ function afficher_aside() {
             </form>
             
             <!-- formulaire d'enregistrement -->
-            <form id="inscription_form" class="aside-login-form" action="./php/Controller/register.php" method="POST">>
+            <form id="inscription_form" class="aside-login-form" action="./php/Controller/register.php" method="POST">
                 <!-- addresse mail -->
                 <div class="prompt">
                     <i class="prompt-logo fa fa-envelope navbar-search-logo"></i>

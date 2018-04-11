@@ -1,30 +1,190 @@
-/** Le fond */
-var Background = function() {
+class Background {
 
-	/** context dans lequel dessiné */
-	this.ctx = canvas.getContext("2d");
-	this.origins = [];
-	this.positions = [];
-	this.radius = [];
+	/* initialise openGL, appelé dans le constructeur */
+	initGL() {
+		/* le fragment shader */
+		var FRAGMENT_SHADER_SRC = `
+			#ifdef GL_ES
+				precision highp float;
+			#endif
+			varying float pass_color;
 
-	var nx = 18;
-	var ny = 12;
-	var w = canvas.width / nx;
-	var h = canvas.height / ny;
-	var vx = w * 0.25;
-	var vy = h * 0.25;
-	 for (var i = 0; i <= nx; i++) {
-    	for (var j = 0; j <= ny; j++) {
-    		var x = i * w + 2.0 * Math.random() * vx - vx;
-    		var y = j * h + 2.0 * Math.random() * vy - vy;
-    		this.origins.push([Math.floor(x), Math.floor(y)]);
-    		this.positions.push([0, 0]);
-    		this.radius.push(1.0 + Math.random() * 2.0);
-    	}
+			void main() {
+				gl_FragColor = vec4(1.0, 1.0, 1.0, pass_color);
+			}
+		`;
+
+		/* le vertex shader */
+		var VERTEX_SHADER_SRC =`
+			uniform float cursorX;
+			uniform float cursorY;
+
+			attribute vec2 position;
+			attribute float color;
+
+			varying float pass_color;
+
+			void main(void) {
+				float x = position.x;
+				float y = position.y;
+				float dx = cursorX - x;
+				float dy = cursorY - y;
+				float d = sqrt(dx * dx + dy * dy);
+				float offx = -dx / d * 0.02;
+				float offy = -dy / d * 0.02;
+
+				float r = (x + 1.0) * (y + 1.0) / 4.0;
+				gl_Position = vec4(x + offx * 9.0 / 16.0, y + offy, 0.0, 1.0);
+
+				pass_color = color * exp(-d);
+			}
+		`;
+
+		gl.viewport(0, 0, canvas.width, canvas.height);
+		gl.clearColor(0.2, 0.21, 0.28, 1.0);
+		gl.clear(gl.COLOR_BUFFER_BIT);
+
+		gl.enable(gl.DEPTH_TEST)
+
+		gl.enable(gl.BLEND);
+		gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+
+		/* create shaders */
+		this.vs = gl.createShader(gl.VERTEX_SHADER);
+		this.fs = gl.createShader(gl.FRAGMENT_SHADER);
+		gl.shaderSource(this.vs, VERTEX_SHADER_SRC);
+		gl.shaderSource(this.fs, FRAGMENT_SHADER_SRC);
+		gl.compileShader(this.vs);
+		gl.compileShader(this.fs);
+	    if (!gl.getShaderParameter(this.vs, gl.COMPILE_STATUS)) {
+	        alert("vertex shader error : " + gl.getShaderInfoLog(this.vs));
+	    }
+	    if (!gl.getShaderParameter(this.fs, gl.COMPILE_STATUS)) {
+	        alert("fragment shader error : " + gl.getShaderInfoLog(this.fs));
+	    }
+
+
+		/* create rendering program */
+		this.program = gl.createProgram();
+		gl.attachShader(this.program, this.vs);
+		gl.attachShader(this.program, this.fs);
+		gl.linkProgram(this.program);
+		/* use the program */
+		gl.useProgram(this.program);
+
+
+	    /* create vbo */
+	    this.vbo = gl.createBuffer();
+	    gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo);
+	    var attrPosition	= gl.getAttribLocation(this.program, "position");
+	    var attrColor		= gl.getAttribLocation(this.program, "color");
+	    var step	= 3 * Float32Array.BYTES_PER_ELEMENT;
+	    var offset	= 0;
+
+	    gl.vertexAttribPointer(attrPosition, 	2, gl.FLOAT, false,	step, offset);
+	    gl.enableVertexAttribArray(attrPosition);
+	    offset += 2 * Float32Array.BYTES_PER_ELEMENT;
+	    
+	    gl.vertexAttribPointer(attrColor,		1, gl.FLOAT, false,	step, offset);
+	    gl.enableVertexAttribArray(attrColor);
+
+
+	    /* uniforms */
+	   	this.u_cursorX = gl.getUniformLocation(this.program, "cursorX");
+	   	this.u_cursorY = gl.getUniformLocation(this.program, "cursorY");
+
+	   	/* line width */
+	   	gl.lineWidth(2.0);
 	}
-	this.triangles = Delaunator.from(this.origins).triangles;
 
-	this.update = function(dt) {
+
+	//TODO : when to call it?
+	deinitGL() {
+		gl.deleteShader(this.fs);
+		gl.deleteShader(this.vs);
+		gl.deleteProgram(this.program);
+		gl.deleteBuffer(this.vbo);
+	}
+
+	//TODO : optimize this with a single buffer and draw indices
+	/* intialises les triangles */
+	initTriangles() {
+		/* initialisation de la grille */
+		var positions = [];
+		var nx = 16 * 1;
+		var ny = 9 * 1;
+		var w = 2.0 / nx;
+		var h = 2.0 / ny;
+		var vx = w * 0.25;
+		var vy = h * 0.25;
+		 for (var i = 0; i <= nx; i++) {
+	    	for (var j = 0; j <= ny; j++) {
+	    		var x = i * w + (2.0 * Math.random() * vx - vx) - 1.0;
+	    		var y = j * h + (2.0 * Math.random() * vy - vy) - 1.0;
+
+	    		positions.push([x, y]);
+	    	}
+		}
+		var triangles = Delaunator.from(positions).triangles;
+
+		/* generate vbo data */
+	    var vertices = [];
+		for (var i = 0 ; i < triangles.length; i += 3) {
+			var x1 = positions[triangles[i + 0]][0];
+			var y1 = positions[triangles[i + 0]][1];
+
+			var x2 = positions[triangles[i + 1]][0];
+			var y2 = positions[triangles[i + 1]][1];
+
+			var x3 = positions[triangles[i + 2]][0];
+			var y3 = positions[triangles[i + 2]][1];
+
+			var c = 0.6 + Math.random() * 0.1;
+
+			var v1 = [x1, y1, c];
+			var v2 = [x2, y2, c];
+			var v3 = [x3, y3, c];
+
+			vertices.push.apply(vertices, v1);
+			vertices.push.apply(vertices, v2);
+			vertices.push.apply(vertices, v3);
+	
+	/*
+			vertices.push.apply(vertices, v1);
+			vertices.push.apply(vertices, v2);
+
+			vertices.push.apply(vertices, v2);
+			vertices.push.apply(vertices, v3);
+
+			vertices.push.apply(vertices, v3);
+			vertices.push.apply(vertices, v1);
+			*/
+		}
+
+	    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+		this.vertexCount = vertices.length / 3;
+
+	}
+
+	/* constructeur par défaut */
+	constructor() {
+		/* context du cavans sur lequel dessiné */
+		this.ctx = canvas.getContext("2d");
+
+		/* initialisation OpenGL */
+		this.initGL();
+
+		/* generation des points / triangles */
+		this.initTriangles();
+	}
+
+	/**
+	 *	Met à jour le fond d'écran
+	 *
+	 *	@param dt : temps entre le dernier appel de cette fonction et maintenant
+	 */
+	 update(dt) {
+	 	/*
 		for (var i = 0 ; i < this.origins.length ; i++) {
 			var x = this.origins[i][0];
 			var y = this.origins[i][1];
@@ -38,58 +198,26 @@ var Background = function() {
 			var offy = -2000 * dy / d;
 			this.positions[i][0] = x + offx;
 			this.positions[i][1] = y + offy;
-		}
+		}*/
 	}
 
-	/** dessines une ligne */
-	this.drawLine = function(x1, y1, x2, y2, lineWidth) {
-		this.ctx.lineWidth = lineWidth;
-		var a = 1.0 - ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) / 30000;
-		if (a < 0) {
-			a = 0;
-		} else if (a > 0.2) {
-			a = 0.2;
-		}
-		this.ctx.strokeStyle = "rgba(255, 255, 255, " + a + ")";
-		this.ctx.beginPath();
-		this.ctx.moveTo(x1, y1);
-		this.ctx.lineTo(x2, y2);
-		this.ctx.stroke();
-	}
+	/**
+	 *	Met à jour le canvas sur lequel le fond est dessiné
+	 */
+	 draw() {
+		/* clear screen */
+		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-	/** dessines un cercle */
-	this.drawCircle = function(x0, y0, r) {
-		this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-		this.ctx.beginPath();
-		this.ctx.arc(x0, y0, r, 0, 2 * Math.PI, false);
-		this.ctx.fill();
-	}
+		/* draw */
+		gl.drawArrays(gl.TRIANGLES, 0, this.vertexCount);
+	//	gl.drawArrays(gl.LINES, 0, this.vertexCount);
+		gl.uniform1f(this.u_cursorX, 2.0 * cursorX / canvas.width - 1.0);
+		gl.uniform1f(this.u_cursorY, 2.0 * (1.0 - cursorY / canvas.height) - 1.0);
 
-	/** dessines le fond d'écran animé */
-	this.draw = function() {
-		this.ctx.fillStyle = "rgb(112, 115, 132)"
-		this.ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-		/** dessines les arrêtes */
-		for (var i = 0 ; i < this.triangles.length; i += 3) {
-			var x1 = this.positions[this.triangles[i + 0]][0];
-			var y1 = this.positions[this.triangles[i + 0]][1];
-
-			var x2 = this.positions[this.triangles[i + 1]][0];
-			var y2 = this.positions[this.triangles[i + 1]][1];
-
-			var x3 = this.positions[this.triangles[i + 2]][0];
-			var y3 = this.positions[this.triangles[i + 2]][1];
-
-			this.drawLine(x1, y1, x2, y2, 2);
-			this.drawLine(x2, y2, x3, y3, 2);
-			this.drawLine(x3, y3, x1, y1, 2);
-		}
-
-		/** dessine les points */
-		for (var i = 0 ; i < this.positions.length ; i++) {
-			this.drawCircle(this.positions[i][0], this.positions[i][1], this.radius[i]);
-		}
+	    var err = gl.getError();
+	    if (err != gl.NO_ERROR) {
+	        console.log("GL error occured: " + prefix + " : " + err);
+	    }
 	}
 }
 
@@ -105,8 +233,10 @@ function onPageLoaded() {
 
 function initCanvas() {
 	canvas = document.getElementById("bgCanvasID");
-	/*canvas.style.webkitFilter = "blur(3px)";*/
 	onResize();
+	gl = canvas.getContext("experimental-webgl");
+
+	/*canvas.style.webkitFilter = "blur(3px)";*/
 }
 
 function onResize() {
@@ -140,16 +270,17 @@ function initLoop() {
 async function loop() {
 	requestAnimationFrame(loop);
 
-	/** l'heure actuelle */
+	/* l'heure actuelle */
 	var now = Date.now();
-	/** l'heure du dernier dessin */
+	/* l'heure du dernier dessin */
 	var dt = (now - then) / 1000.0;
-	/** on incremente le temps total */
+	/* on incremente le temps total */
 	timeElapsed += dt;
-	/** on met à jour, on dessine */
+	/* on met à jour, on dessine */
 	background.update(dt);
 	background.draw();
 	then = now;
+
 	/** on attends le temps du prochain dessin */
 	await new Promise(resolve => setTimeout(resolve, interval));
 
