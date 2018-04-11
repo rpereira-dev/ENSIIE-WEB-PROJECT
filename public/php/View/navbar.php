@@ -1,8 +1,8 @@
-<!-- barre de navigation en haut-->
 <?php
 
 function afficher_navbar() {
 ?>
+    <!-- barre de navigation en haut-->
 	<nav class="nav navbar">
 		<div class="prompt">
 			<i class="prompt-logo fa fa-search navbar-search-logo"></i>

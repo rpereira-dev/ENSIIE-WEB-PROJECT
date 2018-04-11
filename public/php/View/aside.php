@@ -6,58 +6,78 @@ function afficher_aside() {
         <!-- barre de navigation à droite -->
         <section class="aside">
 
-            <form class="aside-login-form">
-
+            <!-- formulaire de connection -->
+            <form id="connection_form" class="aside-login-form" action="./php/Controller/connect.php" method="POST">>
                 <!-- addresse mail -->
-                <div id="email" class="prompt">
+                <div class="prompt">
                     <i class="prompt-logo fa fa-envelope navbar-search-logo"></i>
-                    <input class="prompt-input" type="text" placeholder="Adresse mail..."/>
+                    <input name="email" class="prompt-input" type="text" placeholder="Adresse mail..."/>
                 </div>
-
+                
+                <!-- champ mot de passe -->
+                <div class="prompt">
+                    <i class="prompt-logo fa fa-lock navbar-search-logo"></i>
+                    <input name="pass" class="prompt-input" type="password" placeholder="Mot de passe..."/>
+                </div>
+                
+                <!--  bouton pour envoyer le formulaire -->
+              	<input type="submit"/>
+            </form>
+            
+            <!-- formulaire d'enregistrement -->
+            <form id="inscription_form" class="aside-login-form" action="./php/Controller/register.php" method="POST">>
+                <!-- addresse mail -->
+                <div class="prompt">
+                    <i class="prompt-logo fa fa-envelope navbar-search-logo"></i>
+                    <input name="email" class="prompt-input" type="text" placeholder="Adresse mail..."/>
+                </div>
+                
                 <!-- champ pseudo -->
-                <div id="pseudo" class="prompt">
+                <div class="prompt">
                     <i class="prompt-logo fa fa-user navbar-search-logo"></i>
-                    <input class="prompt-input" type="text" placeholder="Pseudo..."/>
+                    <input name="pseudo" class="prompt-input" type="text" placeholder="Pseudo..."/>
                 </div>
 
                 <!-- champ mot de passe -->
-                <div id="pass" class="prompt">
+                <div class="prompt">
                     <i class="prompt-logo fa fa-lock navbar-search-logo"></i>
-                    <input class="prompt-input" type="password" placeholder="Mot de passe..."/>
+                    <input name="pass" class="prompt-input" type="password" placeholder="Mot de passe..."/>
                 </div>
 
                 <!-- champ confirmation de mot de passe -->
-                <div id="pass_confirm" class="prompt">
+                <div class="prompt">
                     <i class="prompt-logo fa fa-lock navbar-search-logo"></i>
                     <input class="prompt-input" type="password" placeholder="Confirmer..."/>
                 </div>
 
+				<!-- le captcha -->
                 <div id="captcha" class="g-recaptcha aside-captcha" data-sitekey="6LfSvVEUAAAAAI2FQTEC8rBUcm3DybzVmf8g44t_"></div>
 
-                <!-- se connecter / s'enregistrer -->
-                <div class="aside-login-labels">
-                    <a class="label label-button" onclick="switchView(false);">Se connecter</a>
-                    <span class="label"> | </span>
-                    <a class="label label-button" onclick="switchView(true);">S'enregistrer</a>
-                </div>
-
-                <!-- script de coulissement -->
-                <script>
-
-                    function switchView(register) {
-                        if (register) {
-                            document.getElementById("pseudo").style.display = "";
-                            document.getElementById("pass_confirm").style.display = "";
-                            document.getElementById("captcha").style.display = "";
-                        } else {
-                            document.getElementById("pseudo").style.display = "none";
-                            document.getElementById("pass_confirm").style.display = "none";
-                            document.getElementById("captcha").style.display = "none";
-                        }
-                    }
-                    switchView(false);
-                </script>
+                <!--  bouton pour envoyer le formulaire -->
+              	<input type="submit"/>
             </form>
+            
+            <!-- se connecter / s'enregistrer -->
+            <div class="aside-login-labels">
+                <a class="label label-button" onclick="switchView(false);">Se connecter</a>
+                <span class="label"> | </span>
+                <a class="label label-button" onclick="switchView(true);">S'enregistrer</a>
+            </div>
+
+            <!-- script de coulissement -->
+            <script>
+
+                function switchView(register) {
+                    if (register) {
+                        document.getElementById("connection_form").style.display  = "none";
+                        document.getElementById("inscription_form").style.display = "";
+                    } else {
+                        document.getElementById("connection_form").style.display  = "";
+                        document.getElementById("inscription_form").style.display = "none";
+                    }
+                }
+                switchView(false);
+            </script>
 
             <!-- serveur discord -->
             <!--<embed class="aside-discord" src="https://widgetbot.io/embed/432533096609480704/432533096609480706/1001/?lang=fr" />

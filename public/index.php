@@ -1,43 +1,36 @@
 <?php
-require '../vendor/autoload.php';
 
-//postgres
-$dbName = getenv('DB_NAME');
-$dbUser = getenv('DB_USER');
-$dbPassword = getenv('DB_PASSWORD');
-$connection = new PDO("pgsql:host=postgres user=$dbUser dbname=$dbName password=$dbPassword");
+/* recupere la session */
+session_start();
 
-$userRepository = new \User\UserRepository($connection);
-$users = $userRepository->fetchAll();
+/* recupere l'utilisateur */
+include './php/Model/Utilisateur.php';
+$user = Utilisateur\Utilisateur::instance();
+
+/** DEBUT : AFFICHAGE DE LA PAGE */
+include './php/View/all.php';
+
+// le header de la page HTML
+afficher_header();
+
+// affiche le fond du site
+afficher_background();
+
+// affiche la partie horizontal en haut du site
+afficher_navbar();
+
+// affiche la partie vertical à gauche du site
+afficher_sidebar();
+
+// affiche la partie vertical à droite du site
+afficher_aside();
+
+// la page et son contenu (milieu de la page)
+afficher_page();
+
+// le footer de la page HTML
+afficher_footer();
+
+/** FIN : AFFICHAGE DE LA PAGE */
+
 ?>
-
-<html>
-<head>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-</head>
-<body>
-
-<div class="container">
-    <h3><?php echo 'Hello world from Docker! php' . PHP_VERSION; ?></h3>
-
-    <table class="table table-bordered table-hover table-striped">
-        <thead style="font-weight: bold">
-            <td>#</td>
-            <td>Firstname</td>
-            <td>Lastname</td>
-            <td>Age</td>
-        </thead>
-        <?php /** @var \User\User $user */
-        foreach ($users as $user) : ?>
-            <tr>
-                <td><?php echo $user->getId() ?></td>
-                <td><?php echo $user->getFirstname() ?></td>
-                <td><?php echo $user->getLastname() ?></td>
-                <td><?php echo $user->getAge() ?> years</td>
-            </tr>
-        <?php endforeach; ?>
-    </table>
-</div>
-</body>
-</html>
