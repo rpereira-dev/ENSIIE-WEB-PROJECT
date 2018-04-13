@@ -19,9 +19,8 @@ DROP TABLE "joueur" ;
 DROP TABLE "ecole" CASCADE ;
 DROP TYPE "t_ecole";
 
-
-/** les différents types d'école possible */
-CREATE TYPE t_ecole AS ENUM ('ingenieur', 'commerce', 'universite', 'bts', 'iut');
+/** les différents types d'écoles possibles */
+CREATE TYPE t_ecole AS ENUM ('ingenieur', 'commerce', 'universite', 'bts', 'iut', 'lycee', 'autre');
 
 /** les écoles */
 CREATE TABLE "ecole" (

@@ -1,14 +1,21 @@
 <?php
 
+/* include path */
+set_include_path(get_include_path() . PATH_SEPARATOR . "../src");
+require_once("Model/BDD.php");
+require_once("Model/Utilisateur.php");
+require_once("View/all.php");
+
 /* recupere la session */
 session_start();
 
 /* recupere l'utilisateur */
-include './php/Model/Utilisateur.php';
-$user = Utilisateur\Utilisateur::instance();
+$bdd = BDD::instance();
+
+/* recupere l'utilisateur */
+$user = Utilisateur::instance();
 
 /** DEBUT : AFFICHAGE DE LA PAGE */
-include './php/View/all.php';
 
 // le header de la page HTML
 afficher_header();

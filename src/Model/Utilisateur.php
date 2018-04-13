@@ -1,16 +1,11 @@
 <?php
 
-/* namespaces */
-namespace Utilisateur;
-use PDO;
-
 /* import */
-include_once 'Joueur.php';
+require_once('BDD.php');
+require_once('Joueur.php');
 
 /**
  *  Représente l'utilisateur sur le site.
- *  Une seule instance de cette classe peut existe à la fois.
- *  @see
  */
 
 class Utilisateur {
@@ -32,26 +27,30 @@ class Utilisateur {
         }
         return (Utilisateur::$instance);
     }
-    
+
     /** le joueur qui correspond à l'utilisateur (NULL si non connecté) */
     private $joueur;
     
     /** constructeur */
-    public function __construct() {
+    private function __construct() {
         $joueur = NULL;
     }
 
     /**
      *  Enregistres l'utilisateur dans la base de donnée
-     * @param \PDO $db
+     * @param \BDD $bdd
      * @param string $mail
      * @param string $pseudo
      * @param string $pass
      * @return true si l'enregistrement a pu avoir lieu, false sinon
      */
-    public function register($db, $mail, $pseudo, $pass) {
+    public function register($bdd, $mail, $pseudo, $pass) {
+        echo 'in';
+        /* on recupere la connection à la pdo */
+        $pdo = $bdd->getConnection("ulc");
+
         /* prépares la base de données */
-        $stmt = $db->prepare("INSERT INTO joueur (email, pseudo, pass) VALUES (:email, :pseudo, :pass)");
+        $stmt = $pdo->prepare("INSERT INTO joueur (email, pseudo, pass) VALUES (:email, :pseudo, :pass)");
         /* protège des injections sql */
         $pass = $this->hashPass($pass);
         $stmt->bindParam(':email',  $mail,      PDO::PARAM_STR);
@@ -59,7 +58,10 @@ class Utilisateur {
         $stmt->bindParam(':pass',   $pass,      PDO::PARAM_STR);
         
         /* execute la requete sécurisé */
-        return ($stmt->execute());
+        $r = $stmt->execute();
+        echo $r;
+        echo 'done';
+        return ($r);
     }
     
     /**
@@ -83,9 +85,12 @@ class Utilisateur {
      * @see http://php.net/manual/fr/filter.filters.sanitize.php
      * @see http://php.net/manual/fr/pdostatement.bindparam.php
      */
-    public function connectAs($db, $mail, $pass) {
+    public function connectAs($bdd, $mail, $pass) {
+        /* on recupere la connection à la pdo */
+        $pdo = $bdd->getConnection("ulc");
+
         /* prépares la base de données */
-        $stmt = $db->prepare('SELECT * FROM joueur WHERE email = :email');
+        $stmt = $pdo->prepare('SELECT * FROM joueur WHERE email = :email');
         /* protège des injections sql */
         $stmt->bindParam(':email', $mail, PDO::PARAM_STR);
         

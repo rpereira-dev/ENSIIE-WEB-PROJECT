@@ -1,17 +1,20 @@
 <?php
 
+/* include path */
+set_include_path(get_include_path() . PATH_SEPARATOR . "../src");
+require_once("Model/BDD.php");
+require_once("Model/Utilisateur.php");
+
 /* recupere la session */
 session_start();
 
-/* recupere l'utilisateur */
-include '../Model/Utilisateur.php';
-$user = Utilisateur\Utilisateur::instance();
+$bdd = BDD::instance();
+$user = Utilisateur::instance();
 
 /* vérifie que les entrées existent */
 if (isset($_POST['email']) && isset($_POST['pass'])) {
     /* la bdd */
-    include 'bdd.php';
-    $db = getDB(getenv('DB_USER'), getenv('DB_PASSWORD'));
+    $db = $bdd->getConnection(getenv('DB_USER'));
     
     if ($db != NULL) {
         /* verifie la validité des entrées (injections sql ...) */
@@ -24,6 +27,8 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
         } else {
             echo "Erreur d'identification";
         }
+    } else {
+        echo "Erreur d'acces à la bdd";
     }
 }
 

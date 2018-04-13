@@ -5,7 +5,7 @@ function afficher_page_content() {
 	<div class="page-content">
 
 	    <!-- Twitch début -->
-	    <div class="twitch-container">
+<!--	    <div class="twitch-container">
 	        <div class="twitch-embed" id="twitch-embed"></div>
 
 	        <script src="https://embed.twitch.tv/embed/v1.js"></script>
@@ -19,6 +19,7 @@ function afficher_page_content() {
 	            });
 	        </script>
 	    </div>
+	-->
 	    <!-- Twitch fin -->
 	</div>
 <?php
