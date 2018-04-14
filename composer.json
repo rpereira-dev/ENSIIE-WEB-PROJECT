@@ -4,12 +4,12 @@
     },
     "autoload": {
         "psr-4": {
-            "User\\": "src/User/"
+            "Model\\": "src/Model/",
+            "View\\": "src/View/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "User\\": "test/unit/User/"
         }
     }
 }
