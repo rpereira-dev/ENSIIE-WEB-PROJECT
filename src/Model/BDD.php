@@ -1,5 +1,7 @@
 <?php
 
+namespace Model;
+
 /**
  *  Représente la base de donnée
  */

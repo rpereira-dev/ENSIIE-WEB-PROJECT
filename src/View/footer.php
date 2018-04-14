@@ -1,5 +1,8 @@
 <?php
-function afficher_footer() {
+
+namespace View\Footer;
+
+function afficher() {
 ?>
     </body>
 </html>

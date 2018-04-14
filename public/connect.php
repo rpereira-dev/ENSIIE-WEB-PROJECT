@@ -11,25 +11,27 @@ session_start();
 $bdd = BDD::instance();
 $user = Utilisateur::instance();
 
+$responseCode = 401;
+
 /* vérifie que les entrées existent */
 if (isset($_POST['email']) && isset($_POST['pass'])) {
-    /* la bdd */
-    $db = $bdd->getConnection(getenv('DB_USER'));
-    
-    if ($db != NULL) {
-        /* verifie la validité des entrées (injections sql ...) */
-        $mail = filter_input(INPUT_POST, 'email',   FILTER_SANITIZE_EMAIL);
-        $pass = filter_input(INPUT_POST, 'pass',    FILTER_SANITIZE_STRING);
+    /* verifie la validité des entrées (injections sql ...) */
+    $mail = filter_input(INPUT_POST, 'email',   FILTER_SANITIZE_EMAIL);
+    $pass = filter_input(INPUT_POST, 'pass',    FILTER_SANITIZE_STRING);
 
-        /* on connecte l'utilisateur */
-        if ($user->connectAs($db, $mail, $pass)) {
-            echo "Vous etes connecté";
-        } else {
-            echo "Erreur d'identification";
+    /* on enregistre l'utilisateur */
+    try {
+        if ($user->connectAs($bdd, $mail, $pass)) {
+            /* le mot de passe est valide */
+            $responseCode = 200;
         }
-    } else {
-        echo "Erreur d'acces à la bdd";
+    } catch (PDOException $e) {
+        /** erreur base de donnée */
+        $responseCode = 503;
     }
 }
+
+/* code de reponse */
+http_response_code($responseCode);
 
 ?>

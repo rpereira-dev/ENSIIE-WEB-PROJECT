@@ -1,5 +1,7 @@
 <?php
 
+namespace Model;
+
 /**
  *  Représente l'API de Riot.
  *  Cet objet facilite les transactions avec les serveurs de Riot.

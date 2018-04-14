@@ -1,4 +1,7 @@
 <?php
+
+namespace View\Page;
+
 function afficher_page_content() {
 ?>
 	<!-- Page Content -->
@@ -24,7 +27,7 @@ function afficher_page_content() {
 	</div>
 <?php
 }
-function afficher_page() {
+function afficher() {
 ?>
 
         <!-- La page principal -->        

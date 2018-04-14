@@ -1,6 +1,8 @@
 <?php
 
-function afficher_header() {
+namespace View\Header;
+
+function afficher() {
 ?>
 <!DOCTYPE html>
 <html>

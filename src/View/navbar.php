@@ -1,6 +1,8 @@
 <?php
 
-function afficher_navbar() {
+namespace View\Navbar;
+
+function afficher() {
 ?>
     <!-- barre de navigation en haut-->
 	<nav class="nav navbar">

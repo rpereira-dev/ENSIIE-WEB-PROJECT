@@ -18,6 +18,7 @@ class Background {
 		var VERTEX_SHADER_SRC =`
 			uniform float cursorX;
 			uniform float cursorY;
+			uniform float time;
 
 			attribute vec2 position;
 			attribute float color;
@@ -28,15 +29,14 @@ class Background {
 				float x = position.x;
 				float y = position.y;
 				float dx = cursorX - x;
-				float dy = cursorY - y;
+				float dy = (cursorY - y) * 9.0/16.0;
 				float d = sqrt(dx * dx + dy * dy);
-				float offx = -dx / d * 0.02;
-				float offy = -dy / d * 0.02;
+
 
 				float r = (x + 1.0) * (y + 1.0) / 4.0;
-				gl_Position = vec4(x + offx * 9.0 / 16.0, y + offy, 0.0, 1.0);
+				gl_Position = vec4(x, y, 0.0, 1.0);
 
-				pass_color = color * exp(-d);
+				pass_color = color * exp(-d + 0.1 * cos(0.2 * time));
 			}
 		`;
 
@@ -92,6 +92,7 @@ class Background {
 	    /* uniforms */
 	   	this.u_cursorX = gl.getUniformLocation(this.program, "cursorX");
 	   	this.u_cursorY = gl.getUniformLocation(this.program, "cursorY");
+	   	this.u_time    = gl.getUniformLocation(this.program, "time");
 
 	   	/* line width */
 	   	gl.lineWidth(2.0);
@@ -214,6 +215,13 @@ class Background {
 		gl.uniform1f(this.u_cursorX, 2.0 * cursorX / canvas.width - 1.0);
 		gl.uniform1f(this.u_cursorY, 2.0 * (1.0 - cursorY / canvas.height) - 1.0);
 
+		var ms = new Date().getMilliseconds();
+		if (ms > 500) {
+			ms = 1000 - ms;
+		}
+		var t = ms / 500.0 * 3.1418 * 2.0;
+		console.log(t);
+		gl.uniform1f(this.u_time, t);
 	    var err = gl.getError();
 	    if (err != gl.NO_ERROR) {
 	        console.log("GL error occured: " + prefix + " : " + err);
@@ -245,7 +253,7 @@ function onResize() {
 }
 
 function initMouse() {
-	onCursorMove(-1000, -1000);
+	onCursorMove(canvas.width / 2, canvas.height / 2);
 	document.onmousemove = function(e) {
 		onCursorMove(e.pageX, e.pageY);
 	}

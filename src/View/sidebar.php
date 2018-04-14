@@ -1,6 +1,8 @@
 <?php
 
-function afficher_sidebar() {
+namespace View\Sidebar;
+
+function afficher() {
 ?>
         <!-- barre de navigation à gauche -->
         <section class="sidebar">

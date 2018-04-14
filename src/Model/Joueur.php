@@ -1,6 +1,6 @@
 <?php
 
-namespace Utilisateur;
+namespace Model;
 
 /** Contient les données d'un joueur connecté */
 class Joueur {

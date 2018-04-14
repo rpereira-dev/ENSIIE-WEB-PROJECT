@@ -1,5 +1,7 @@
 <?php
 
+namespace Model;
+
 /* import */
 require_once('BDD.php');
 require_once('Joueur.php');
@@ -45,7 +47,7 @@ class Utilisateur {
      * @return true si l'enregistrement a pu avoir lieu, false sinon
      */
     public function register($bdd, $mail, $pseudo, $pass) {
-        echo 'in';
+
         /* on recupere la connection à la pdo */
         $pdo = $bdd->getConnection("ulc");
 
@@ -87,7 +89,10 @@ class Utilisateur {
      */
     public function connectAs($bdd, $mail, $pass) {
         /* on recupere la connection à la pdo */
-        $pdo = $bdd->getConnection("ulc");
+        $pdo = $bdd->getConnection("ulca");
+        if ($pdo == NULL) {
+            throw new PDOException("Connection error");
+        }
 
         /* prépares la base de données */
         $stmt = $pdo->prepare('SELECT * FROM joueur WHERE email = :email');
