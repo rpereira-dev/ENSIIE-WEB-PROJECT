@@ -11,40 +11,39 @@ class Background {
 			uniform float cursorX;
 			uniform float cursorY;
 			uniform float time;
-			uniform sampler2D sampler;
 
-			varying vec2 pass_uv;
+			varying float pass_color;
+			varying float pass_x;
+			varying float pass_y;
 
 			void main() {
-				float off = cos(time * 0.1) * 0.005;
-				gl_FragColor = 0.25 * (texture2D(sampler, pass_uv + vec2(off, off))
-										+ texture2D(sampler, pass_uv + vec2(off, -off))
-										+ texture2D(sampler, pass_uv + vec2(-off, off))
-										+ texture2D(sampler, pass_uv + vec2(-off, -off))
-										);
+				float dx = cursorX - pass_x;
+				float dy = (cursorY - pass_y);
+				float d = sqrt(dx * dx + dy * dy);
+				float f = min(max(0.3, exp(-d * 0.6 + 0.05 * cos(0.1 * time))), 1.0);
+				gl_FragColor = vec4(1.0, 1.0, 1.0, pass_color) * f;
 			}
 		`;
 
 		/* le vertex shader */
 		var VERTEX_SHADER_SRC =`
 			attribute vec2 position;
-			attribute vec2 uv;
+			attribute float color;
 
-			varying vec2 pass_uv;
+			varying float pass_color;
+			varying float pass_x;
+			varying float pass_y;
 
 			void main(void) {
 				gl_Position = vec4(position.x, position.y, 0.0, 1.0);
-				pass_uv = uv;
+				pass_color = color;
+				pass_x = position.x;
+				pass_y = position.y;
 			}
 		`;
 
-	    var err = gl.getError();
-	    if (err != gl.NO_ERROR) {
-	        console.log("GL error occured: a : " + err);
-	    }
-
 		gl.viewport(0, 0, canvas.width, canvas.height);
-		gl.clearColor(1.0, 1.0, 1.0, 1.0);
+		gl.clearColor(0.2, 0.21, 0.28, 1.0);
 		gl.clear(gl.COLOR_BUFFER_BIT);
 
 		gl.enable(gl.DEPTH_TEST)
@@ -80,66 +79,25 @@ class Background {
 	    this.vbo = gl.createBuffer();
 	    gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo);
 	    var attrPosition	= gl.getAttribLocation(this.program, "position");
-	    var attrUv			= gl.getAttribLocation(this.program, "uv");
-	    var step	= 4 * Float32Array.BYTES_PER_ELEMENT;
+	    var attrColor		= gl.getAttribLocation(this.program, "color");
+	    var step	= 3 * Float32Array.BYTES_PER_ELEMENT;
 	    var offset	= 0;
 
 	    gl.vertexAttribPointer(attrPosition, 	2, gl.FLOAT, false,	step, offset);
 	    gl.enableVertexAttribArray(attrPosition);
 	    offset += 2 * Float32Array.BYTES_PER_ELEMENT;
+	    
+	    gl.vertexAttribPointer(attrColor,		1, gl.FLOAT, false,	step, offset);
+	    gl.enableVertexAttribArray(attrColor);
 
-	    gl.vertexAttribPointer(attrUv,			2, gl.FLOAT, false,	step, offset);
-	    gl.enableVertexAttribArray(attrUv);
-	    offset += 2 * Float32Array.BYTES_PER_ELEMENT;
-
-	  	var vertices = [
-	  		-1, -1, 0, 1,
-	  		 1, -1, 1, 1,
-	  		 1,  1, 1, 0,
-
-	  		-1, -1, 0, 1,
-	  		 1,  1, 1, 0,
-	  		-1,  1, 0, 0
-	  	];
-	  	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-	  	this.vertexCount = 6;
 
 	    /* uniforms */
 	   	this.u_cursorX = gl.getUniformLocation(this.program, "cursorX");
 	   	this.u_cursorY = gl.getUniformLocation(this.program, "cursorY");
 	   	this.u_time    = gl.getUniformLocation(this.program, "time");
-	}
 
-	initTextures() {
-		function loadImage(url) {
-			var tex = gl.createTexture();
-			gl.bindTexture(gl.TEXTURE_2D, tex);
-
-			// let's assume all images are not a power of 2
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-
-			var textureInfo = {
-				width: 1,   // we don't know the size until it loads
-				height: 1,
-				texture: tex,
-			};
-			var img = new Image();
-			img.addEventListener('load', function() {
-				textureInfo.width = img.width;
-				textureInfo.height = img.height;
-
-				gl.bindTexture(gl.TEXTURE_2D, textureInfo.texture);
-				gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-			});
-			img.src = url;
-			return (textureInfo);
-		}
-		this.lolbg = loadImage("./images/lolbg.png");
-
-	   	/* bind texture */
-	   	gl.bindTexture(gl.TEXTURE_2D, this.lolbg.texture);
+	   	/* line width */
+	   	gl.lineWidth(2.0);
 	}
 
 
@@ -151,6 +109,66 @@ class Background {
 		gl.deleteBuffer(this.vbo);
 	}
 
+	//TODO : optimize this with a single buffer and draw indices
+	/* intialises les triangles */
+	initTriangles() {
+		/* initialisation de la grille */
+		var positions = [];
+		var nx = 16 * 1;
+		var ny = 9 * 1;
+		var w = 2.0 / nx;
+		var h = 2.0 / ny;
+		var vx = w * 0.25;
+		var vy = h * 0.25;
+		 for (var i = 0; i <= nx; i++) {
+	    	for (var j = 0; j <= ny; j++) {
+	    		var x = i * w + (2.0 * Math.random() * vx - vx) - 1.0;
+	    		var y = j * h + (2.0 * Math.random() * vy - vy) - 1.0;
+
+	    		positions.push([x, y]);
+	    	}
+		}
+		var triangles = Delaunator.from(positions).triangles;
+
+		/* generate vbo data */
+	    var vertices = [];
+		for (var i = 0 ; i < triangles.length; i += 3) {
+			var x1 = positions[triangles[i + 0]][0];
+			var y1 = positions[triangles[i + 0]][1];
+
+			var x2 = positions[triangles[i + 1]][0];
+			var y2 = positions[triangles[i + 1]][1];
+
+			var x3 = positions[triangles[i + 2]][0];
+			var y3 = positions[triangles[i + 2]][1];
+
+			var c = 0.6 + Math.random() * 0.1;
+
+			var v1 = [x1, y1, c];
+			var v2 = [x2, y2, c];
+			var v3 = [x3, y3, c];
+
+			vertices.push.apply(vertices, v1);
+			vertices.push.apply(vertices, v2);
+			vertices.push.apply(vertices, v3);
+	
+	/*
+			vertices.push.apply(vertices, v1);
+			vertices.push.apply(vertices, v2);
+
+			vertices.push.apply(vertices, v2);
+			vertices.push.apply(vertices, v3);
+
+			vertices.push.apply(vertices, v3);
+			vertices.push.apply(vertices, v1);
+			*/
+		}
+
+	    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+		this.vertexCount = vertices.length / 3;
+
+	}
+
 	/* constructeur par défaut */
 	constructor() {
 		/* context du cavans sur lequel dessiné */
@@ -160,7 +178,7 @@ class Background {
 		this.initGL();
 
 		/* generation des points / triangles */
-		this.initTextures();
+		this.initTriangles();
 	}
 
 	/**
@@ -169,6 +187,21 @@ class Background {
 	 *	@param dt : temps entre le dernier appel de cette fonction et maintenant
 	 */
 	 update(dt) {
+	 	/*
+		for (var i = 0 ; i < this.origins.length ; i++) {
+			var x = this.origins[i][0];
+			var y = this.origins[i][1];
+			var dx = cursorX - x;
+			var dy = cursorY - y;
+			var d = dx * dx + dy * dy;
+			if (d < 200) {
+				d = 200;
+			}
+			var offx = -2000 * dx / d;
+			var offy = -2000 * dy / d;
+			this.positions[i][0] = x + offx;
+			this.positions[i][1] = y + offy;
+		}*/
 	}
 
 	/**
@@ -176,9 +209,9 @@ class Background {
 	 */
 	 draw() {
 		/* clear screen */
-		//gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-		/* uniforms */
+		/* draw */
 		gl.uniform1f(this.u_cursorX, 2.0 * cursorX / canvas.width - 1.0);
 		gl.uniform1f(this.u_cursorY, 2.0 * (1.0 - cursorY / canvas.height) - 1.0);
 		var ms = new Date().getMilliseconds();
@@ -188,12 +221,12 @@ class Background {
 		var t = ms / 500.0 * 3.1418 * 2.0;
 		gl.uniform1f(this.u_time, t);
 
-		/* draw */
+	//	gl.drawArrays(gl.LINES, 0, this.vertexCount);
 		gl.drawArrays(gl.TRIANGLES, 0, this.vertexCount);
 
 	    var err = gl.getError();
 	    if (err != gl.NO_ERROR) {
-	        console.log("GL error occured: " + err);
+	        console.log("GL error occured: " + prefix + " : " + err);
 	    }
 	}
 }

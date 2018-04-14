@@ -17,24 +17,24 @@ function afficher() {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
         <!-- css -->
+        <link rel="stylesheet" type="text/css" href="./css/aside.css">
         <link rel="stylesheet" type="text/css" href="./css/main.css">
         <link rel="stylesheet" type="text/css" href="./css/navbar.css">
         <link rel="stylesheet" type="text/css" href="./css/page.css">
         <link rel="stylesheet" type="text/css" href="./css/sidebar.css">
-        <link rel="stylesheet" type="text/css" href="./css/aside.css">
+        <link rel="stylesheet" type="text/css" href="./css/toastbar.css">
 
         <!-- reCaptcha -->
-        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 
         <!-- import du fond animé -->
-       <script src="https://unpkg.com/delaunator@2.0.0/delaunator.min.js"></script>
+       <script type="text/javascript" src="https://unpkg.com/delaunator@2.0.0/delaunator.min.js"></script>
        <script type="text/javascript" src="./js/background.js"></script>
 
     </head>
 
 
     <body onload="onPageLoaded()">
-
 <?php
 }
 

@@ -2,6 +2,9 @@
 
 namespace Model;
 
+use PDO;
+use PDOException;
+
 /**
  *  Représente la base de donnée
  */

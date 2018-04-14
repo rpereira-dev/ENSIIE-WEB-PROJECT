@@ -32,6 +32,8 @@ function afficher() {
 
         <!-- La page principal -->        
         <div class="page">
+        	<!-- le fond d'écran -->
+        	<canvas class="page-background" id="bgCanvasID"></canvas>
         	<?php
         	afficher_page_content();
         	?>

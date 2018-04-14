@@ -16,9 +16,9 @@ class Joueur {
     
     /** constructeur */
     public function __construct($uuid, $mail, $pseudo) {
-        $this->uuid = $uuid;
-        $this->$mail = $mail;
-        $this->$pseudo = $pseudo;
+        $this->uuid     = $uuid;
+        $this->mail     = $mail;
+        $this->pseudo   = $pseudo;
     }
     
     /** la clef primaire du joueur dans la base de donnée */
@@ -33,7 +33,18 @@ class Joueur {
     
     /** le pseudo du joueur */
     public function getPseudo() {
-        return ($this->mail);
+        return ($this->pseudo);
+    }
+
+    /** renvoie le joueur sous une string au format JSON */
+    public function toJSON() {
+        return (
+'
+{
+  "pseudo": "' . $this->pseudo . '"
+}
+'
+        );
     }
 }
 

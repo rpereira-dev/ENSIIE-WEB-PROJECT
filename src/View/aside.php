@@ -2,89 +2,83 @@
 
 namespace View\Aside;
 
-function afficher_champs($user) {
+/** affiche les informations sur le profil du joueur */
+function afficher_profil($user) {
+?>
+            <br></br><span>Connecté sous le mail: <?php echo $user->asJoueur()->getMail(); ?> <span>
+            <br></br><span>Connecté sous le pseudo: <?php echo $user->asJoueur()->getPseudo(); ?> <span>
+<?php
+}
+
+/** affiche les formulaires de connections / enregistrement */
+function afficher_champs() {
 ?>
             <!-- formulaire d'enregistrement -->
             <div id="inscription_form" class="aside-login-form">
                 <!-- addresse mail -->
                 <div id="emailID" class="prompt">
                     <i class="prompt-logo fa fa-envelope navbar-search-logo"></i>
-                    <input id="input_emailID" oninput="return onInput(event);" name="email" class="prompt-input" type="text" placeholder="Adresse mail..."/>
+                    <input  id="input_emailID"
+                            name="email"
+                            class="prompt-input"
+                            type="text"
+                            placeholder="Adresse mail..."
+                            oninput="return onInput(event);"
+                            onkeypress="return onPressed(event);"
+                    />
                 </div>
                 
                 <!-- champ pseudo -->
                 <div id="pseudoID" class="prompt">
                     <i class="prompt-logo fa fa-user navbar-search-logo"></i>
-                    <input id="input_pseudoID" oninput="return onInput(event);" name="pseudo" class="prompt-input" type="text" placeholder="Pseudo..."/>
+                    <input  id="input_pseudoID"
+                            name="pseudo"
+                            class="prompt-input"
+                            type="text"
+                            placeholder="Pseudo..."
+                            oninput="return onInput(event);"
+                    />
                 </div>
 
                 <!-- champ mot de passe -->
                 <div id="passID" class="prompt">
                     <i class="prompt-logo fa fa-lock navbar-search-logo"></i>
-                    <input id="input_passID" oninput="return onInput(event);" name="pass" class="prompt-input" type="password" placeholder="Mot de passe..."/>
+                    <input  id="input_passID"
+                            name="pass"
+                            class="prompt-input"
+                            type="password"
+                            placeholder="Mot de passe..."
+                            onkeypress="return onPressed(event);"
+                            oninput="return onInput(event);"
+                    />
                 </div>
 
                 <!-- champ confirmation de mot de passe -->
                 <div id="confirmPassID" class="prompt">
                     <i class="prompt-logo fa fa-lock navbar-search-logo"></i>
-                    <input id="input_confirmPassID" oninput="return onInput(event);" class="prompt-input" type="password" placeholder="Confirmer..."/>
+                    <input  id="input_confirmPassID"
+                            class="prompt-input"
+                            type="password"
+                            placeholder="Confirmer..."
+                            onkeypress="return onPressed(event);"
+                            oninput="return onInput(event);"
+                    />
                 </div>
 
                 <!-- le captcha -->
                 <div id="captchaID" class="g-recaptcha aside-captcha" data-sitekey="6LfSvVEUAAAAAI2FQTEC8rBUcm3DybzVmf8g44t_"></div>
-            </form>
-            
-            <!-- se connecter / s'enregistrer -->
-            <div class="aside-login-labels">
-                <a class="label label-button" onclick="onConnectClick();">Se connecter</a>
-                <span class="label"> | </span>
-                <a class="label label-button" onclick="onRegisterClick();">S'enregistrer</a>
+
+                <!-- se connecter / s'enregistrer -->
+                <div class="aside-login-labels">
+                    <a class="label label-button" onclick="onConnectClick();">Se connecter</a>
+                    <span class="label"> | </span>
+                    <a class="label label-button" onclick="onRegisterClick();">S'enregistrer</a>
+                </div>
             </div>
 
+        
             <!-- script de coulissement -->
             <script>
-
-                /** enregistre l'utilisateur avec les informations actuellement entrées */
-                function register() {
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", 'register.php', true);
-                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhr.onreadystatechange = function() {//Call a function when the state changes.
-                        if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-
-                        }
-                        console.log(xhr.status);
-                        console.log(xhr.response);
-                    }
-                    xhr.send(   "email=" + document.getElementById("input_emailID").value
-                                + "&pseudo=" + document.getElementById("input_pseudoID").value
-                                + "&pass=" + document.getElementById("input_passID").value
-                            );
-                }
-
-                /** connectes l'utilisateur avec les informations actuellement entrées dans les champs */
-                function connect() {
-
-                    var email = document.getElementById("input_emailID").value;
-                    var pass =  document.getElementById("input_passID").value;
-                    if (email.length < 5 || pass.length < 8) {
-                        console.log("entree invalide, pas de requete envoyé");
-                        return ;
-                    }
-
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", 'connect.php', true);
-                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhr.onreadystatechange = function() {//Call a function when the state changes.
-                        if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-
-                        }
-                        console.log(xhr.status);
-                        console.log(xhr.response);
-                    }
-                    xhr.send("email=" + email + "&pass=" + pass);
-                }
-
 
                 /** renvoie vrai si la vue d'enregistrement est affiché */
                 function isRegistering() {
@@ -145,6 +139,66 @@ function afficher_champs($user) {
 
                 /** lorsqu'un touche est appuyé */
                 function onInput(event) {
+                    if (isRegistering()) {
+                        validateInputs();
+                    }
+                }
+
+                /** enregistre l'utilisateur avec les informations actuellement entrées */
+                function register() {
+                    if (!validates["input_emailID"]() || !validates["input_pseudoID"]() || !validates["input_passID"]()) {
+                        toast("Les informations d'inscriptions sont invalides.", 0);
+                        return ;
+                    }
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", 'register.php', true);
+                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function() {
+                        console.log(xhr.status);
+                        console.log(xhr.response);
+                        if (xhr.readyState == XMLHttpRequest.DONE) {
+                            if (xhr.status == 200) {
+                                toast("Enregistré(e). Vous allez être redirigé(e).", 2);
+                                setTimeout(function () { window.location.replace(window.location.href); }, 2000);
+                            } else {
+                                toast("Les informations d'inscriptions sont déjà utilisées.", 0);
+                            }
+                        }
+                    }
+                    xhr.send(   "email=" + document.getElementById("input_emailID").value
+                                + "&pseudo=" + document.getElementById("input_pseudoID").value
+                                + "&pass=" + document.getElementById("input_passID").value
+                            );
+                }
+
+                /** connectes l'utilisateur avec les informations actuellement entrées dans les champs */
+                function connect() {
+
+                    var email = document.getElementById("input_emailID").value;
+                    var pass =  document.getElementById("input_passID").value;
+                    if (!validates["input_emailID"]() || !validates["input_passID"]()) {
+                        toast("Les identifiants de connections sont invalides.", 0);
+                        return ;
+                    }
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", 'connect.php', true);
+                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == XMLHttpRequest.DONE) {
+                            if (xhr.status == 200) {
+                                toast("Connecté. Vous allez être redirigé.", 2);
+                                setTimeout(function () { window.location.replace(window.location.href); }, 2000);
+                            } else {
+                                toast("Les identifiants de connections sont invalides.", 0);
+                            }
+                        }
+                    }
+                    xhr.send("email=" + email + "&pass=" + pass);
+                }
+
+                /** lorsque l'utilisateur appuie sur une touche */
+                function onPressed(event) {
                     /* si la touche entrée */
                     if (event.keyCode == 13) {
                         /* si l'utilisateur s'enregistre */
@@ -153,8 +207,6 @@ function afficher_champs($user) {
                         } else {
                             connect();
                         }
-                    } else if (isRegistering()) {
-                        validateInputs();
                     }
                 }
 
@@ -221,9 +273,9 @@ function afficher($user) {
         <section class="aside">
 <?php
     if (!$user->isConnected()) {
-        afficher_champs($user);
+        afficher_champs();
     } else {
-
+        afficher_profil($user);
     }
     afficher_discord($user);
 ?>

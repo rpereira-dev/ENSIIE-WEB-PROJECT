@@ -1,16 +1,18 @@
 <?php
 
 /* include path */
-set_include_path(get_include_path() . PATH_SEPARATOR . "../src");
-require_once("Model/BDD.php");
-require_once("Model/Utilisateur.php");
+require '../vendor/autoload.php'; 
 
 /* recupere la session */
 session_start();
 
-$bdd = BDD::instance();
-$user = Utilisateur::instance();
+/* recupere l'utilisateur */
+$bdd = \Model\BDD::instance();
 
+/* recupere l'utilisateur */
+$user = \Model\Utilisateur::instance();
+
+/* code de retour */
 $responseCode = 401;
 
 /* vérifie que les entrées existent */
@@ -22,11 +24,9 @@ if (isset($_POST['email']) && isset($_POST['pseudo']) && isset($_POST['pass'])) 
 
     /* on enregistre l'utilisateur */
     try {
-        if ($user->register($bdd, $mail, $pseudo, $pass)) {
-            /* le mot de passe est valide */
-            $responseCode = 200;
-        }
-    } catch (PDOException $e) {
+        $user->register($bdd, $mail, $pseudo, $pass);
+        $responseCode = 200;
+    } catch (Exception $e) {
         /** erreur base de donnée */
         $responseCode = 503;
     }

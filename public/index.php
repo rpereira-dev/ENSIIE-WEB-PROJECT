@@ -2,6 +2,7 @@
 
 /* include */
 require '../vendor/autoload.php'; 
+require_once('../src/View/all.php');
 
 /* recupere la session */
 session_start();
@@ -13,13 +14,12 @@ $bdd = \Model\BDD::instance();
 $user = \Model\Utilisateur::instance();
 
 /** DEBUT : AFFICHAGE DE LA PAGE */
-require_once('../src/View/all.php');
 
 // le header de la page HTML
 \View\Header\afficher();
 
-// affiche le fond du site
-\View\Background\afficher();
+//la bar d'informations qui pop des messages en bas du site
+\View\Toastbar\afficher();
 
 // affiche la partie horizontal en haut du site
 \View\Navbar\afficher();

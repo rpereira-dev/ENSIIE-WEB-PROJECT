@@ -2,6 +2,10 @@
 
 namespace Model;
 
+use PDO;
+use PDOException;
+
+
 /* import */
 require_once('BDD.php');
 require_once('Joueur.php');
@@ -20,12 +24,8 @@ class Utilisateur {
      */
     public static function instance() {
         if (Utilisateur::$instance == NULL) {
-            if (isset($_SESSION['utilisateur'])) {            
-                Utilisateur::$instance = unserialize($_SESSION['utilisateur']);
-            } else {
-                Utilisateur::$instance = new Utilisateur();
-                $_SESSION['utilisateur'] = serialize(Utilisateur::$instance);
-            }
+            Utilisateur::$instance = new Utilisateur();
+            Utilisateur::$instance->loadSession();
         }
         return (Utilisateur::$instance);
     }
@@ -36,6 +36,21 @@ class Utilisateur {
     /** constructeur */
     private function __construct() {
         $joueur = NULL;
+    }
+
+    /** @internal : export l'utilisateur vers la variable session */
+    private function saveSession() {
+        if ($this->joueur == NULL) {
+            unset($_SESSION['joueur']);
+        } else {
+            $_SESSION['joueur'] = serialize($this->joueur);
+        }
+    }
+
+
+    /** @internal : charges l'utilisateur à partir de sa session */
+    private function loadSession() {
+        $this->joueur = isset($_SESSION['joueur']) ? unserialize($_SESSION['joueur']) : NULL;
     }
 
     /**
@@ -61,8 +76,7 @@ class Utilisateur {
         
         /* execute la requete sécurisé */
         $r = $stmt->execute();
-        echo $r;
-        echo 'done';
+        $this->saveSession();
         return ($r);
     }
     
@@ -79,17 +93,18 @@ class Utilisateur {
      * }
      * </code> </pre>
      *  
-     * @param PDO $db
-     * @param string $mail
-     * @param string $pass
-     * @return $this->joueur Si l'utilisateur a pu se connecter, NULL sinon
-     * @see http://www.phptherightway.com/#databases_interacting
-     * @see http://php.net/manual/fr/filter.filters.sanitize.php
-     * @see http://php.net/manual/fr/pdostatement.bindparam.php
+     *  @param PDO $db
+     *  @param string $mail
+     *  @param string $pass
+     *  @return $this->joueur Si l'utilisateur a pu se connecter
+     *  @throws PDOException : si une erreur a lieu
+     *  @see http://www.phptherightway.com/#databases_interacting
+     *  @see http://php.net/manual/fr/filter.filters.sanitize.php
+     *  @see http://php.net/manual/fr/pdostatement.bindparam.php
      */
     public function connectAs($bdd, $mail, $pass) {
         /* on recupere la connection à la pdo */
-        $pdo = $bdd->getConnection("ulca");
+        $pdo = $bdd->getConnection("ulc");
         if ($pdo == NULL) {
             throw new PDOException("Connection error");
         }
@@ -103,7 +118,7 @@ class Utilisateur {
         $stmt->execute();
         if ($stmt->rowCount() == 0) {
             /* pas d'utilisateur pour cette adresse mail */
-            return (false);
+            throw new PDOException("Wrong email");
         }
         /* renvoie un tableau associatif de l'entrée dans la table */
         $entry = $stmt->fetch();
@@ -111,9 +126,10 @@ class Utilisateur {
         /* si le mot de passe est juste */
         if (password_verify($pass, $entry['pass'])) {
             $this->joueur = new Joueur($entry['id'], $entry['email'], $entry['pseudo']);
+            $this->saveSession();
             return ($this->joueur);
         }
-        return (NULL);
+        throw new PDOException("Wrong password");
     }
         
     /**
