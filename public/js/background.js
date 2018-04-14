@@ -220,7 +220,6 @@ class Background {
 			ms = 1000 - ms;
 		}
 		var t = ms / 500.0 * 3.1418 * 2.0;
-		console.log(t);
 		gl.uniform1f(this.u_time, t);
 	    var err = gl.getError();
 	    if (err != gl.NO_ERROR) {
