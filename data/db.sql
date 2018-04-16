@@ -4,8 +4,6 @@
  */
 
 /** suppression des données précèdentes dans la table */
-DROP TABLE "user" ;
-
 DROP TABLE "inscription_match" ;
 DROP TABLE "match" CASCADE ;
 
@@ -31,7 +29,7 @@ CREATE TABLE "ecole" (
 
 /** joueur */
 CREATE TABLE "joueur" (
-	id		SERIAL		PRIMARY KEY,
+	id			SERIAL		PRIMARY KEY,
 
 	email		VARCHAR		NOT NULL UNIQUE,
 	pseudo		VARCHAR		NOT NULL UNIQUE,
@@ -53,13 +51,13 @@ CREATE TYPE t_mode AS ENUM ('libre', 'restreint') ;
 
 /** un tournoi (peut être une ligue, ou un tournoi ponctuel) */
 CREATE TABLE "tournoi" (
-	id			SERIAL	PRIMARY KEY,
-	nom			VARCHAR	NOT NULL,
-	description		VARCHAR,
-	jeu			t_jeu	NOT NULL,
+	id					SERIAL	PRIMARY KEY,
+	nom					VARCHAR	NOT NULL,
+	description			VARCHAR NOT NULL,
+	jeu					t_jeu	NOT NULL,
 	debut_inscriptions	date	NOT NULL,
 	fin_inscriptions	date	NOT NULL,
-	mode			t_mode	DEFAULT 'restreint' 
+	mode				t_mode	DEFAULT 'restreint' 
 );
 
 /** équipe */
@@ -87,7 +85,7 @@ CREATE TABLE "joueur_equipe" (
 
 /** un match */
 CREATE TABLE "match" (
-	id		SERIAL	PRIMARY KEY,
+	id			SERIAL	PRIMARY KEY,
 
 	tournoi_id	INTEGER,
 	FOREIGN KEY (tournoi_id) REFERENCES tournoi(id),
@@ -111,5 +109,3 @@ CREATE TABLE "inscription_match" (
  */
 
 /** TESTS: utilisateur par défaut: 'test/test/test' */
-INSERT INTO joueur (email, pseudo, pass) VALUES ('test', 'test', '$2y$10$fC1qQD/HulfyynXwHs9kpOIgXU5uExeec7SzIpPN8wmixx4zLcTza') ;
-

@@ -2,13 +2,16 @@
 
 namespace View\Page;
 
-function afficher_page_content() {
+function afficher_accueil() {
 ?>
-	<!-- Page Content -->
-	<div class="page-content">
+	Bienvenue sur l'accueil mdr
+<?php
+}
 
+function afficher_live_twitch() {
+?>
 	    <!-- Twitch début -->
-<!--	    <div class="twitch-container">
+	    <div class="twitch-container">
 	        <div class="twitch-embed" id="twitch-embed"></div>
 
 	        <script src="https://embed.twitch.tv/embed/v1.js"></script>
@@ -22,9 +25,9 @@ function afficher_page_content() {
 	            });
 	        </script>
 	    </div>
-	-->
+
 	    <!-- Twitch fin -->
-	</div>
+
 <?php
 }
 function afficher() {
@@ -34,9 +37,23 @@ function afficher() {
         <div class="page">
         	<!-- le fond d'écran -->
         	<canvas class="page-background" id="bgCanvasID"></canvas>
-        	<?php
-        	afficher_page_content();
-        	?>
+
+        	<!-- contenu de la page -->
+        	<div class="page-content">
+	        	<?php
+	        	if (!isset($_GET['page'])) {
+	        		afficher_accueil();
+	        	} else {
+	        		$page = $_GET['page'];
+	        		if ($page == 'twitch') {
+		        		afficher_live_twitch();
+	        		} else {
+		        		afficher_accueil();
+	        		}
+	        	}
+	        	?>
+	        </div>
+
         </div>
 
 <?php

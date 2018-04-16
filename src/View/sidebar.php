@@ -10,22 +10,29 @@ function afficher() {
             <img class="sidebar-logo" src="./images/logo2.png" />
 
             <!-- la section 'Menu' -->
+            <script type="text/javascript">
+                function redirectToPage(page) {
+                    var l = window.location;
+                    window.location.replace(l.protocol + '//' + l.host + l.pathname + "?page=" + page);
+                }
+            </script>
             <div class="sidebar-section">
                 <div class="sidebar-section-title">Menu</div>
-                <div class="sidebar-section-item"><i class="fa fa-home"></i>Accueil</div>
-                <div class="sidebar-section-item"><i class="fa fa-user"></i>Les joueurs</div>
-                <div class="sidebar-section-item"><i class="fa fa-users"></i>Les tournois</div>
-                <div class="sidebar-section-item"><i class="fa fa-graduation-cap"></i>Les écoles</div>
+                <div onclick="redirectToPage('accueil');" class="sidebar-section-item"><i class="fa fa-home"></i>Accueil</div>
+                <div onclick="redirectToPage('ecoles');" class="sidebar-section-item"><i class="fa fa-graduation-cap"></i>Les écoles</div>
+                <div onclick="redirectToPage('joueurs');" class="sidebar-section-item"><i class="fa fa-user"></i>Les joueurs</div>
+                <div onclick="redirectToPage('tournois');" class="sidebar-section-item"><i class="fa fa-users"></i>Les tournois</div>
+                <div onclick="redirectToPage('twitch');" class="sidebar-section-item"><i class="fa fa-twitch"></i>Live Twitch</div>
             </div>
 
             <!-- la section 'Jeux' -->
             <div class="sidebar-section">
                 <div class="sidebar-section-title">Jeux</div>
-                <div class="sidebar-section-item"><img src="./images/lol.png"/>League of Legends</div>
-                <div class="sidebar-section-item"><img src="./images/fortnite.png"/></i>Fortnite</div>
-                <div class="sidebar-section-item"><img src="./images/hs.png"/></i>Hearthstone</div>
-                <div class="sidebar-section-item"><img src="./images/csgo.png"/></i>Counter Strike: Go</div>
-                <div class="sidebar-section-item"><img src="./images/mc.jpg"/></i>Minecraft</div>
+                <div onclick="redirectToPage('lol');" class="sidebar-section-item"><img src="./images/lol.png"/>League of Legends</div>
+                <div onclick="redirectToPage('fortnite');" class="sidebar-section-item"><img src="./images/fortnite.png"/></i>Fortnite</div>
+                <div onclick="redirectToPage('hs');" class="sidebar-section-item"><img src="./images/hs.png"/></i>Hearthstone</div>
+                <div onclick="redirectToPage('csgo');" class="sidebar-section-item"><img src="./images/csgo.png"/></i>Counter Strike: Go</div>
+                <div onclick="redirectToPage('mc');" class="sidebar-section-item"><img src="./images/mc.jpg"/></i>Minecraft</div>
             </div>
 
             <!-- la section 'A propos' -->

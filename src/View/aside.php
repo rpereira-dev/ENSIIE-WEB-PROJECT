@@ -5,8 +5,43 @@ namespace View\Aside;
 /** affiche les informations sur le profil du joueur */
 function afficher_profil($user) {
 ?>
-            <br></br><span>Connecté sous le mail: <?php echo $user->asJoueur()->getMail(); ?> <span>
-            <br></br><span>Connecté sous le pseudo: <?php echo $user->asJoueur()->getPseudo(); ?> <span>
+            <br></br><span>Joueur: <?php echo $user->asJoueur()->getPseudo(); ?> <span>
+            <?php
+            if ($user->asJoueur()->getEcole() != NULL) {
+            ?>
+                <br></br><span>Ecole: <?php echo $user->asJoueur()->getEcole(); ?> <span>
+            <?php
+            } else {
+                ?>
+                    <br></br><span>Rejoindre une ecole<span>
+                    <br></br><span>Enregistrer son ecole<span>
+
+
+                    <script>
+
+                    /** déconnectes l'utilisateur  */
+                    function disconnect() {
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", 'disconnect.php', true);
+                        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState == XMLHttpRequest.DONE) {
+                                if (xhr.status == 200) {
+                                    toast("Déconnecté(e). Vous allez être redirigé(e).", 2);
+                                    setTimeout(function () { window.location.replace(window.location.href); }, 1000);
+                                } else {
+                                    toast("Une erreur innatendue a eu lieu", 0);
+                                }
+                            }
+                        }
+                        xhr.send();
+                    }
+
+                    </script>
+                    <br></br><button onclick="disconnect();">Se deconnecter</button>
+                <?php
+            }
+            ?>
 <?php
 }
 
@@ -66,7 +101,18 @@ function afficher_champs() {
                 </div>
 
                 <!-- le captcha -->
-                <div id="captchaID" class="g-recaptcha aside-captcha" data-sitekey="6LfSvVEUAAAAAI2FQTEC8rBUcm3DybzVmf8g44t_"></div>
+                <!--<div id="captchaID" class="g-recaptcha aside-captcha" data-sitekey="6LfSvVEUAAAAAI2FQTEC8rBUcm3DybzVmf8g44t_"></div>-->
+                <div id="captchaID" class="g-recaptcha aside-captcha"></div>
+                <script type="text/javascript">
+                    var onloadCallback = function() {
+                        grecaptcha.render('captchaID', {
+                          'sitekey' : '6LfSvVEUAAAAAI2FQTEC8rBUcm3DybzVmf8g44t_'
+                        });
+                    };
+                </script>
+
+                <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+
 
                 <!-- se connecter / s'enregistrer -->
                 <div class="aside-login-labels">
@@ -146,29 +192,46 @@ function afficher_champs() {
 
                 /** enregistre l'utilisateur avec les informations actuellement entrées */
                 function register() {
-                    if (!validates["input_emailID"]() || !validates["input_pseudoID"]() || !validates["input_passID"]()) {
-                        toast("Les informations d'inscriptions sont invalides.", 0);
+                    if (!validates["input_emailID"]()) {
+                        toast("Veuillez entrer une adresse mail valide.", 0);
                         return ;
                     }
+
+                    if (!validates["input_pseudoID"]()) {
+                        toast("Veuillez entrer un pseudo valide.", 0);
+                        return ;
+                    }
+
+                    if (!validates["input_passID"]()) {
+                        toast("Veuillez entrer un mot de passe valide.", 0);
+                        return ;
+                    }
+
+
+                    var response = grecaptcha.getResponse();
+                    if (response == null || response.length == 0) {
+                        toast("Veuillez prouvez que vous n'êtes pas un robot.", 0);
+                        return ;
+                    }
+
 
                     var xhr = new XMLHttpRequest();
                     xhr.open("POST", 'register.php', true);
                     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                     xhr.onreadystatechange = function() {
-                        console.log(xhr.status);
-                        console.log(xhr.response);
                         if (xhr.readyState == XMLHttpRequest.DONE) {
                             if (xhr.status == 200) {
-                                toast("Enregistré(e). Vous allez être redirigé(e).", 2);
-                                setTimeout(function () { window.location.replace(window.location.href); }, 2000);
+                                toast("Enregistré(e). Vous pouvez maintenant vous connecter.", 2);
+                                setRegistrationVisibility(false);
                             } else {
-                                toast("Les informations d'inscriptions sont déjà utilisées.", 0);
+                                toast("Erreur dans l'enregistrement: " + xhr.response, 0);
                             }
                         }
                     }
                     xhr.send(   "email=" + document.getElementById("input_emailID").value
                                 + "&pseudo=" + document.getElementById("input_pseudoID").value
                                 + "&pass=" + document.getElementById("input_passID").value
+                                + "&g-recaptcha=" + response
                             );
                 }
 
@@ -187,10 +250,10 @@ function afficher_champs() {
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState == XMLHttpRequest.DONE) {
                             if (xhr.status == 200) {
-                                toast("Connecté. Vous allez être redirigé.", 2);
-                                setTimeout(function () { window.location.replace(window.location.href); }, 2000);
+                                toast("Connecté(e). Vous allez être redirigé(e).", 2);
+                                setTimeout(function () { window.location.replace(window.location.href); }, 1000);
                             } else {
-                                toast("Les identifiants de connections sont invalides.", 0);
+                                toast("Erreur de connection: " + xhr.response, 0);
                             }
                         }
                     }

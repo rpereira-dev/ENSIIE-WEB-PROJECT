@@ -35,7 +35,13 @@
 }
 
 .aside-captcha {
-    margin-top:1rem;
+    margin-top : 1rem;
+
+    transform : scale(0.62);
+    transform-origin : 0 2.0rem;
+
+    -webkit-transform : scale(0.62);
+    -webkit-transform-origin : 0 2.0rem;
 }
 
 .aside-login-labels {

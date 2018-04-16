@@ -12,9 +12,6 @@ $bdd = \Model\BDD::instance();
 /* recupere l'utilisateur */
 $user = \Model\Utilisateur::instance();
 
-/* code de retour */
-$responseCode = 401;
-
 /* vérifie que les entrées existent */
 if (isset($_POST['email']) && isset($_POST['pass'])) {
     /* verifie la validité des entrées (injections sql ...) */
@@ -23,16 +20,18 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
 
     /* on enregistre l'utilisateur */
     try {
+        http_response_code(200);
         $user->connectAs($bdd, $mail, $pass);
         echo $user->asJoueur()->toJSON();
-        $responseCode = 200;
     } catch (Exception $e) {
         /** erreur base de donnée */
-        $responseCode = 503;
+        http_response_code(503);
+        echo "identifiants incorrects.";
     }
+} else {
+    http_response_code(401);
+    echo "la requête est mal formattée";
 }
 
-/* code de reponse */
-http_response_code($responseCode);
 
 ?>

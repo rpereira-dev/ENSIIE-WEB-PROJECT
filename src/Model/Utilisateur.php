@@ -59,7 +59,7 @@ class Utilisateur {
      * @param string $mail
      * @param string $pseudo
      * @param string $pass
-     * @return true si l'enregistrement a pu avoir lieu, false sinon
+     * @return Le retour de la requete sql d'insertion
      */
     public function register($bdd, $mail, $pseudo, $pass) {
 
@@ -69,15 +69,13 @@ class Utilisateur {
         /* prépares la base de données */
         $stmt = $pdo->prepare("INSERT INTO joueur (email, pseudo, pass) VALUES (:email, :pseudo, :pass)");
         /* protège des injections sql */
-        $pass = $this->hashPass($pass);
-        $stmt->bindParam(':email',  $mail,      PDO::PARAM_STR);
-        $stmt->bindParam(':pseudo', $pseudo,    PDO::PARAM_STR);        
-        $stmt->bindParam(':pass',   $pass,      PDO::PARAM_STR);
+        $hashedPass = $this->hashPass($pass);
+        $stmt->bindParam(':email',  $mail,          PDO::PARAM_STR);
+        $stmt->bindParam(':pseudo', $pseudo,        PDO::PARAM_STR);        
+        $stmt->bindParam(':pass',   $hashedPass,    PDO::PARAM_STR);
         
         /* execute la requete sécurisé */
-        $r = $stmt->execute();
-        $this->saveSession();
-        return ($r);
+        return ($stmt->execute());
     }
     
     /**
@@ -125,7 +123,7 @@ class Utilisateur {
  
         /* si le mot de passe est juste */
         if (password_verify($pass, $entry['pass'])) {
-            $this->joueur = new Joueur($entry['id'], $entry['email'], $entry['pseudo']);
+            $this->joueur = new Joueur($entry['id'], $entry['email'], $entry['pseudo'], $entry['ecole']);
             $this->saveSession();
             return ($this->joueur);
         }

@@ -6,9 +6,14 @@ function afficher() {
 ?>
         <!-- la barre des messages d'informations en bas du site (toast) -->
         <script type="text/javascript">
+            var toasts = {};
             var nextToastTime = 0;
 
             function toast(message, level) {
+                if (toasts[message]) {
+                    return ;
+                }
+                toasts[message] = true;
                 setTimeout(function() {
                     var bar = document.getElementById("toastbar");
                     bar.innerHTML = message;
@@ -21,6 +26,7 @@ function afficher() {
                                 bar.classList.remove("show");
                                 bar.classList.remove(color);
                                 nextToastTime -= 2000;
+                                toasts[message] = null;
                                 }, 2000);
                 }, nextToastTime);
                 nextToastTime += 2000;
