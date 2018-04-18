@@ -5,43 +5,30 @@ namespace View\Aside;
 /** affiche les informations sur le profil du joueur */
 function afficher_profil($user) {
 ?>
-            <br></br><span>Joueur: <?php echo $user->asJoueur()->getPseudo(); ?> <span>
-            <?php
-            if ($user->asJoueur()->getEcole() != NULL) {
-            ?>
-                <br></br><span>Ecole: <?php echo $user->asJoueur()->getEcole(); ?> <span>
-            <?php
-            } else {
-                ?>
-                    <br></br><span>Rejoindre une ecole<span>
-                    <br></br><span>Enregistrer son ecole<span>
-
-
-                    <script>
-
-                    /** déconnectes l'utilisateur  */
-                    function disconnect() {
-                        var xhr = new XMLHttpRequest();
-                        xhr.open("POST", 'disconnect.php', true);
-                        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                        xhr.onreadystatechange = function() {
-                            if (xhr.readyState == XMLHttpRequest.DONE) {
-                                if (xhr.status == 200) {
-                                    toast("Déconnecté(e). Vous allez être redirigé(e).", 2);
-                                    setTimeout(function () { window.location.replace(window.location.href); }, 1000);
-                                } else {
-                                    toast("Une erreur innatendue a eu lieu", 0);
-                                }
-                            }
+        <script type="text/javascript">
+            /** déconnectes l'utilisateur  */
+            function disconnect() {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", 'disconnect.php', true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == XMLHttpRequest.DONE) {
+                        if (xhr.status == 200) {
+                            toast("Déconnecté(e). Vous allez être redirigé(e).", 2);
+                            setTimeout(function () { window.location.replace(window.location.href); }, 1000);
+                        } else {
+                            toast("Une erreur innatendue a eu lieu", 0);
                         }
-                        xhr.send();
                     }
-
-                    </script>
-                    <br></br><button onclick="disconnect();">Se deconnecter</button>
-                <?php
+                }
+                xhr.send();
             }
-            ?>
+        </script>
+
+        <div class="button">
+            <div class="button_text" onclick="disconnect();">Se déconnecter</div>
+        </div>
+
 <?php
 }
 

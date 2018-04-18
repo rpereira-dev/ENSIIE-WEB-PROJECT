@@ -8,7 +8,25 @@ function afficher_accueil() {
 <?php
 }
 
-function afficher_live_twitch() {
+function afficher_ecoles() {
+?>
+	Bienvenue sur les écoles mdr
+<?php
+}
+
+function afficher_joueurs() {
+?>
+	Bienvenue sur les joueurs mdr
+<?php
+}
+
+function afficher_tournois() {
+?>
+	Bienvenue sur les tournois mdr
+<?php
+}
+
+function afficher_twitch() {
 ?>
 	    <!-- Twitch début -->
 	    <div class="twitch-container">
@@ -30,6 +48,13 @@ function afficher_live_twitch() {
 
 <?php
 }
+
+function afficher_page_erreur() {
+?>
+	T'es pommé mec
+<?php
+}
+
 function afficher() {
 ?>
 
@@ -38,21 +63,25 @@ function afficher() {
         	<!-- le fond d'écran -->
         	<canvas class="page-background" id="bgCanvasID"></canvas>
 
-        	<!-- contenu de la page -->
-        	<div class="page-content">
-	        	<?php
-	        	if (!isset($_GET['page'])) {
-	        		afficher_accueil();
-	        	} else {
-	        		$page = $_GET['page'];
-	        		if ($page == 'twitch') {
-		        		afficher_live_twitch();
-	        		} else {
-		        		afficher_accueil();
-	        		}
-	        	}
-	        	?>
-	        </div>
+        	<?php
+        	if (!isset($_GET['page'])) {
+        		afficher_accueil();
+        	} else {
+        		$page = $_GET['page'];
+        		$afficher_pages = array(
+        			"accueil" 	=> "afficher_accueil",
+        			"joueurs" 	=> "afficher_joueurs",
+        			"ecoles" 	=> "afficher_ecoles",
+        			"tournois" 	=> "afficher_tournois",
+        			"twitch" 	=> "afficher_twitch"
+        		);
+        		if (isset($afficher_pages[$page])) {
+        			("\View\Page\\" . $afficher_pages[$page])();
+        		} else {
+        			afficher_page_erreur();
+        		}
+        	}
+        	?>
 
         </div>
 
