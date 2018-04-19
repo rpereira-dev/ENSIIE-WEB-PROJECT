@@ -1,7 +1,7 @@
 <?php
 
 /* include */
-require '../vendor/autoload.php'; 
+require('../vendor/autoload.php'); 
 require_once('../src/View/all.php');
 
 /* recupere la session */

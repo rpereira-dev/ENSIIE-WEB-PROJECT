@@ -22,7 +22,7 @@ function afficher() {
                 <div onclick="redirectToPage('ecoles');" class="sidebar-section-item"><i class="fa fa-graduation-cap"></i>Les écoles</div>
                 <div onclick="redirectToPage('joueurs');" class="sidebar-section-item"><i class="fa fa-user"></i>Les joueurs</div>
                 <div onclick="redirectToPage('tournois');" class="sidebar-section-item"><i class="fa fa-users"></i>Les tournois</div>
-                <div onclick="redirectToPage('twitch');" class="sidebar-section-item"><i class="fa fa-twitch"></i>Live Twitch</div>
+                <div onclick="redirectToPage('live');" class="sidebar-section-item"><i class="fa fa-twitch"></i>Live Twitch</div>
             </div>
 
             <!-- la section 'Jeux' -->
