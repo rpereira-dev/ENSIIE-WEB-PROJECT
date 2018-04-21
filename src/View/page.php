@@ -17,6 +17,7 @@ function afficher() {
 		"erreur" 	=> "\View\Page\PageErreur",
 		"joueurs" 	=> "\View\Page\PageJoueurs",
 		"live" 		=> "\View\Page\PageLive",
+		"profil"	=> "\View\Page\PageProfil",
 		"tournois" 	=> "\View\Page\PageTournois",
 	);
 

@@ -28,7 +28,13 @@ abstract class Page {
             <link rel="shortcut icon" href="./images/favicon.ico" />
             <title>
 <?php
-                print("ULC : " . $this->getTitle());
+                $user = \Model\Utilisateur::instance();
+                $count = count($user->asJoueur()->getNotifications());
+                $title = "ULC : " . $this->getTitle();
+                if ($count > 0) {
+                    $title = "(" . $count . ") " . $title;
+                }
+                echo($title);
 ?>
             </title>
 

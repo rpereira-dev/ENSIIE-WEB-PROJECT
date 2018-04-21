@@ -7,7 +7,6 @@
     height: 100%;
  	background-color:#1B1C23F7;
     box-shadow: 0.5vh 1vh 0.5vh 0.5vh rgba(0, 0, 0, 0.5);
-    transition: 0.25s;
     overflow-x: hidden;
     position: fixed;
     z-index: 3;
@@ -47,16 +46,15 @@
     color: #959AA2;
     height: 2.0rem;
     text-decoration: none;
-    margin-left:0rem;
     cursor: pointer;
     transition: all 0.15s ease-in-out;
     border-left: 0.1rem solid #1B1C23;
-    display: flex;
 }
 
 .sidebar-section-item:hover {
     color: #FFFFFF;
     border-left: 0.1rem solid #FFFFFF;
+    background-color: #12132367 ;
 }
 
 .sidebar-section-item i {

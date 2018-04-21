@@ -4,7 +4,7 @@
  .aside {
  	display: block;
  	width: 14rem;
-    height: 100%;
+    height: calc(100% - 4rem);
  	background-color:#1B1C23F7;
     box-shadow: -0.5vh 1vh 0.5vh 0.5vh rgba(0, 0, 0, 0.5);
     transition: 0.25s;
@@ -20,7 +20,6 @@
 .aside-discord {
     width: 12rem;
     height: 20rem;
-    margin-top:2rem;
 }
 
 .aside-login-form {
@@ -50,5 +49,5 @@
 }
 
 .aside .button {
-    margin-top: 1.5rem;
+    margin-bottom: 1.0rem;
 }

@@ -10,12 +10,6 @@ function afficher() {
             <img class="sidebar-logo" src="./images/logo2.png" />
 
             <!-- la section 'Menu' -->
-            <script type="text/javascript">
-                function redirectToPage(page) {
-                    var l = window.location;
-                    window.location.replace(l.protocol + '//' + l.host + l.pathname + "?page=" + page);
-                }
-            </script>
             <div class="sidebar-section">
                 <div class="sidebar-section-title">Menu</div>
                 <div onclick="redirectToPage('accueil');" class="sidebar-section-item"><i class="fa fa-home"></i>Accueil</div>
@@ -41,7 +35,6 @@ function afficher() {
                 <div class="sidebar-section-item"><i class="fa fa-users"></i>L'équipe</div>
                 <div class="sidebar-section-item"><i class="fa fa-book"></i>Notre politque</div>
                 <div class="sidebar-section-item"><i class="fa fa-gavel"></i>Contribuer</div>
-                <div class="sidebar-section-item"></div>
             </div>
 
         </section>

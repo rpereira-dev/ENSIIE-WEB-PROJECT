@@ -31,6 +31,13 @@ function afficher() {
        <script type="text/javascript" src="https://unpkg.com/delaunator@2.0.0/delaunator.min.js"></script>
        <!--<script type="text/javascript" src="./js/background.js"></script>-->
 
+       <!-- fonction de redirection -->
+       <script type="text/javascript">
+            function redirectToPage(page) {
+                window.location.replace("?page=" + page);
+            }
+        </script>
+
     </head>
 
 

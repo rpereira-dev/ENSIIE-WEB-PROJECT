@@ -25,7 +25,7 @@ function afficher_profil($user) {
             }
         </script>
 
-        <div class="button">
+        <div class="button" style="margin-top: 1.5rem;">
             <div class="button_text" onclick="disconnect();">Se déconnecter</div>
         </div>
 

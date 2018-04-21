@@ -16,13 +16,16 @@ class Joueur {
 
     /** l'école */
     private $ecole;
+
+    /** les notifications */
+    private $notifications;
     
     /** constructeur */
     public function __construct($uuid, $mail, $pseudo, $ecole) {
-        $this->uuid     = $uuid;
-        $this->mail     = $mail;
-        $this->pseudo   = $pseudo;
-        $this->ecole    = $ecole;
+        $this->uuid             = $uuid;
+        $this->mail             = $mail;
+        $this->pseudo           = $pseudo;
+        $this->ecole            = $ecole;
     }
     
     /** la clef primaire du joueur dans la base de donnée */
@@ -43,6 +46,12 @@ class Joueur {
     /** l'ecole à laquelle le joueur appartient */
     public function getEcole() {
         return ($this->ecole);
+    }
+
+    /** renvoie les notifications du joueur (tableau) */
+    public function getNotifications() {
+        $notification = new Notification(0, "Titre", "Lorem ipsum dolor I am the content lol mdr OKOK ca roule ma poule", "index.php?page=notification");
+        return array($notification);
     }
 
 

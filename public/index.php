@@ -22,7 +22,7 @@ $user = \Model\Utilisateur::instance();
 \View\Toastbar\afficher();
 
 // affiche la partie horizontal en haut du site
-\View\Navbar\afficher();
+\View\Navbar\afficher($user);
 
 // affiche la partie vertical à gauche du site
 \View\Sidebar\afficher();
