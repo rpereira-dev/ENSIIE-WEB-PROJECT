@@ -136,7 +136,7 @@ CREATE TABLE "notification" (
 	id		SERIAL	PRIMARY KEY,
 
 	/* status de la requete */
-	status		t_status	DEFAULT 'sent',
+	status		t_status	DEFAULT 'unseen',
 
 	/* le type de la notification */
 	type		t_notification	NOT NULL,

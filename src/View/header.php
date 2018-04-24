@@ -33,8 +33,8 @@ function afficher() {
         <script type="text/javascript" src="./js/utils.js"></script>
 
         <!-- import du fond animé -->
-       <!--<script type="text/javascript" src="https://unpkg.com/delaunator@2.0.0/delaunator.min.js"></script>-->
-       <!--<script type="text/javascript" src="./js/background.js"></script>-->
+       <script type="text/javascript" src="https://unpkg.com/delaunator@2.0.0/delaunator.min.js"></script>
+       <script type="text/javascript" src="./js/background.js"></script>
 
 
     </head>
