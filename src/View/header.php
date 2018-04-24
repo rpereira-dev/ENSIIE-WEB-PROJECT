@@ -20,6 +20,7 @@ function afficher() {
         <link rel="stylesheet" type="text/css" href="./css/aside.css">
         <link rel="stylesheet" type="text/css" href="./css/main.css">
         <link rel="stylesheet" type="text/css" href="./css/navbar.css">
+        <link rel="stylesheet" type="text/css" href="./css/notification.css">
         <link rel="stylesheet" type="text/css" href="./css/page.css">
         <link rel="stylesheet" type="text/css" href="./css/sidebar.css">
         <link rel="stylesheet" type="text/css" href="./css/toastbar.css">
@@ -27,21 +28,20 @@ function afficher() {
         <!-- reCaptcha -->
         <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 
+        <!-- style -->
+        <script type="text/javascript" src="./js/animation.js"></script>
+        <script type="text/javascript" src="./js/utils.js"></script>
+
         <!-- import du fond animé -->
-       <script type="text/javascript" src="https://unpkg.com/delaunator@2.0.0/delaunator.min.js"></script>
+       <!--<script type="text/javascript" src="https://unpkg.com/delaunator@2.0.0/delaunator.min.js"></script>-->
        <!--<script type="text/javascript" src="./js/background.js"></script>-->
 
-       <!-- fonction de redirection -->
-       <script type="text/javascript">
-            function redirectToPage(page) {
-                window.location.replace("?page=" + page);
-            }
-        </script>
 
     </head>
 
 
     <body onload="onPageLoaded()">
+   
 <?php
 }
 

@@ -4,6 +4,13 @@
  */
 
 /** suppression des données précèdentes dans la table */
+DROP TABLE "notification" CASCADE;
+DROP TYPE "t_notification";
+DROP TYPE "t_status";
+
+DROP TRIGGER "notifieur_enregistrement" ON joueur ;
+DROP FUNCTION "bienvenue" ;
+
 DROP TABLE "inscription_match" ;
 DROP TABLE "match" CASCADE ;
 
@@ -13,7 +20,7 @@ DROP TABLE "tournoi" CASCADE ;
 DROP TYPE "t_mode";
 DROP TYPE "t_jeu";
 
-DROP TABLE "joueur" ;
+DROP TABLE "joueur" CASCADE ;
 DROP TABLE "ecole" CASCADE ;
 DROP TYPE "t_ecole";
 
@@ -108,3 +115,49 @@ CREATE TABLE "inscription_match" (
  *	JOUEURS / EQUIPES / TOURNOIS FIN
  */
 
+
+/**
+ *	Notifications
+ */
+
+/**
+ *	les différentes notifications possibles
+ *
+ *	bienvenue : l'utilisateur vient de rejoindre le site
+ *	message: un message brute d'information
+ *	invitation : notification qu'un joueur a été invité dans une équipe
+ *	join : notification qu'un joueur à rejoinds une équipe
+ */
+
+CREATE TYPE t_status AS ENUM ('unseen', 'seen');
+CREATE TYPE t_notification AS ENUM ('bienvenue', 'message', 'invitation', 'join') ;
+
+CREATE TABLE "notification" (
+	id		SERIAL	PRIMARY KEY,
+
+	/* status de la requete */
+	status		t_status	DEFAULT 'sent',
+
+	/* le type de la notification */
+	type		t_notification	NOT NULL,
+
+	/* date ou la notification a été envoyé */
+	date_envoie	date 			DEFAULT CURRENT_DATE,
+
+	/* joueur auquelle la notification a été envoyé */
+	joueur_id	INTEGER		NOT NULL,
+	FOREIGN KEY (joueur_id) REFERENCES joueur(id)
+);
+
+/* envoie une notification de bienvenue au joueur donné */
+CREATE FUNCTION bienvenue() RETURNS TRIGGER AS
+$$
+	BEGIN
+		INSERT INTO notification (type, joueur_id) VALUES ('bienvenue', NEW.id) ;
+		RETURN NULL ;
+	END
+$$
+LANGUAGE 'plpgsql';
+
+/** trigger lorsqu'un joueur s'enregistre */
+CREATE TRIGGER "notifieur_enregistrement" AFTER INSERT ON joueur FOR EACH ROW EXECUTE PROCEDURE bienvenue() ;

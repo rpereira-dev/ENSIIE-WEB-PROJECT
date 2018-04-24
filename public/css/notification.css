@@ -1,0 +1,37 @@
+/**
+ *      Contient le css de tout ce qui touche aux notifications
+ */
+
+ .notifications {
+    position: absolute;
+    max-width: 12rem;
+    min-width: 12rem;
+    z-index: 99;
+    background: red;
+ }
+
+
+.notifications-counter {
+    position: absolute;
+    width: 1.2rem;
+    z-index: 99;
+    text-align: center;
+    background: #EE0000;
+    border-radius: 0.2rem;
+    pointer-events: none;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 0.8rem;
+    padding-top:0.2rem;
+    transition: all 0.15s ease-in-out;
+}
+
+
+ .notification {
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    border: solid 2px black;
+ }
+
+.notification-content {
+    text-align: center;
+}

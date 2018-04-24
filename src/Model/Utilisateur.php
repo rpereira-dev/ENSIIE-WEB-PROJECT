@@ -149,7 +149,7 @@ class Utilisateur {
      *  @return true si l'utilisateur est connecté, false sinon
      */
     public function isConnected() {
-        return ($this->joueur != NULL);
+        return ($this->asJoueur() != NULL);
     }
     
 }

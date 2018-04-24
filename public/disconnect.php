@@ -1,5 +1,11 @@
 <?php
 
+/**
+ *  Requete GET
+ *
+ *  Deconnectes un utilisateur
+ */
+
 /* include path */
 require '../vendor/autoload.php'; 
 

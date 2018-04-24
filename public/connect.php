@@ -1,5 +1,15 @@
 <?php
 
+/**
+ *  Requete POST
+ *
+ *  Connectes un utilisateur
+ *
+ *  Arguments:
+ *      - email
+ *      - pass (en 'clair') (sera crypté par la suite)
+ */
+
 /* include path */
 require '../vendor/autoload.php'; 
 

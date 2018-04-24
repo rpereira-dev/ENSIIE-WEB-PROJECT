@@ -1,5 +1,17 @@
 <?php
 
+/**
+ *  Requete POST
+ *
+ *  Enregistre un utilisateur
+ *
+ *  Arguments:
+ *      - email
+ *      - pseudo
+ *      - pass (en 'clair') (sera crypté par la suite)
+ *      - g-recaptcha : code captcha google
+ */
+
 /* include path */
 require '../vendor/autoload.php'; 
 
@@ -43,7 +55,7 @@ if (isset($_POST['email']) && isset($_POST['pseudo']) && isset($_POST['pass']) &
         );
         $context  = stream_context_create($opts);
         $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify', false, $context);
-        $result = json_decode($response);
+        $result   = json_decode($response);
         /* si le captcha est faux */
         if (!$result->success) {
             http_response_code(401);

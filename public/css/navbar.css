@@ -14,12 +14,10 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
-    overflow: hidden;
 }
 
 .navbar-item {
-	border-top: 0.2rem solid #1B1C23F7;
-    transition: all 0.15s ease-in-out;
+    position: relative;
 }
 
 .navbar-item-prompt {
@@ -53,11 +51,15 @@
     color: #F0F0F0;
     text-align: center;
     padding: 1.2rem 1.2rem;
-    font-size: 1.6rem;
-
+    font-size: 1.4rem;
 }
 
-.navbar-item:hover {
+.navbar-item-hoverable {
+    border-top: 0.2rem solid #1B1C23F7;
+    transition: all 0.15s ease-in-out;
+}
+
+.navbar-item-hoverable:hover {
 	cursor: pointer;
 	color: #FFFFFF;
 	border-color: #FFFFFF;
@@ -65,23 +67,23 @@
     background-color: #12132367 ;
 }
 
-.notification {
-	position: relative;
-	width: 1.2rem;
-    height: 1.0rem;
-    bottom: 2.0rem;
-    left: 1.5rem;
-    text-align: center;
-    background: #EE0000;
-    border-radius: 0.2rem;
-    pointer-events: none;
-	color: #FFFFFF;
-	font-weight: bold;
-	font-size: 0.8rem;
-	padding-top:0.2rem;
-	transition: all 0.15s ease-in-out;
+.navbar-item-bell {
+    position: absolute;
+    right: 0rem;
 }
 
-.navbar-item-icon:hover .notification {
-    background: #FF0000;
+.navbar-item .notifications {
+    position: absolute;
+    min-width: 12rem;
+    max-width: 12rem;
+    right: 0rem;
+    top: 4rem;
+}
+
+.navbar-item .notifications-counter {
+    position: absolute;
+    width: 1.2rem;
+    height: 1.2rem;
+    right: 0.2rem;
+    top: 0.5rem;
 }
