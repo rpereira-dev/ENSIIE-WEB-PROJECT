@@ -1,30 +1,10 @@
 <?php
 
-namespace View\Aside;
+namespace View;
 
 /** affiche les informations sur le profil du joueur */
-function afficher_profil($user) {
+function afficher_profil() {
 ?>
-        <script type="text/javascript">
-            /** déconnectes l'utilisateur  */
-            function disconnect() {
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", 'disconnect.php', true);
-                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState == XMLHttpRequest.DONE) {
-                        if (xhr.status == 200) {
-                            toast("Déconnecté(e). Vous allez être redirigé(e).", 2);
-                            setTimeout(function () { window.location.replace(window.location.href); }, 1000);
-                        } else {
-                            toast("Une erreur innatendue a eu lieu", 0);
-                        }
-                    }
-                }
-                xhr.send();
-            }
-        </script>
-
         <div class="button" style="margin-top: 1.5rem;">
             <div class="button_text" onclick="disconnect();">Se déconnecter</div>
         </div>
@@ -301,7 +281,7 @@ function afficher_champs() {
 <?php
 }
 
-function afficher_discord($user) {
+function afficher_discord() {
 ?>
                 <iframe
                     class="aside-discord"
@@ -311,25 +291,19 @@ function afficher_discord($user) {
                 </iframe>
 <?php
 }
-
-/**
- *  Fonction principal d'affichage
- *
- *  \Utilisateur $user : l'utilisateur
- */
-function afficher($user) {
 ?>
         <!-- barre de navigation à droite -->
         <section class="aside">
+
+
 <?php
-    if (!$user->isConnected()) {
+    if (!$this->getUser()->isConnected()) {
         afficher_champs();
     } else {
-        afficher_profil($user);
+        afficher_profil();
     }
-    afficher_discord($user);
+    afficher_discord();
 ?>
+
+
         </section>
-<?php
-}
-?>

@@ -2,7 +2,8 @@
 
 /* include */
 require('../vendor/autoload.php'); 
-require_once('../src/View/all.php');
+define('PROJECT_ROOT', realpath(dirname(__FILE__) . "/../"  ));
+define('VIEW_FOLDER', PROJECT_ROOT . "/src/View");
 
 /* recupere la session */
 session_start();
@@ -16,26 +17,25 @@ $user = \Model\Utilisateur::instance();
 /** DEBUT : AFFICHAGE DE LA PAGE */
 
 // le header de la page HTML
-\View\Header\afficher();
+\Controller\Header::afficher($user);
 
 //la bar d'informations qui pop des messages en bas du site
-\View\Toastbar\afficher();
+\Controller\Toastbar::afficher($user);
 
 // affiche la partie horizontal en haut du site
-\View\Navbar\afficher($user);
+\Controller\Navbar::afficher($user);
 
 // affiche la partie vertical à gauche du site
-\View\Sidebar\afficher();
+\Controller\Sidebar::afficher($user);
 
 // affiche la partie vertical à droite du site
-\View\Aside\afficher($user);
+$aside = new \Controller\Aside($bdd, $user);
+$aside->afficher();
 
-// la page et son contenu (milieu de la page)
-\View\Page\afficher();
+// la page et son contenu (milieu de la page).
+$content = \Controller\Content::afficher($bdd, $user);
 
 // le footer de la page HTML
-\View\Footer\afficher();
+\Controller\Footer::afficher($user);
 
 /** FIN : AFFICHAGE DE LA PAGE */
-
-?>

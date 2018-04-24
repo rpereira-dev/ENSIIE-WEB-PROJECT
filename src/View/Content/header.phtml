@@ -1,0 +1,15 @@
+<!-- Requiet une instance de Page.php -->
+
+        <!-- La page principal -->        
+        <div class="page">
+            <!-- le titre de la page -->
+            <link rel="shortcut icon" href="./images/favicon.ico" />
+            <title>
+<?php
+                $title = "ULC : " . $page->getTitle();
+                echo($title);
+?>
+            </title>
+
+            <!-- le fond d'écran -->
+            <canvas class="page-background" id="bgCanvasID"></canvas>
