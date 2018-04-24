@@ -5,7 +5,7 @@ namespace Controller\Content;
 /**
  *  Représente la page du live twitch
  */
-class Live extends Content {
+class Live extends \Controller\Content {
 
     /**
      *  @return string : le titre de la page
@@ -20,7 +20,7 @@ class Live extends Content {
      *  @return le fichier .phtml qui correspond au contenu de la page
      */
     public function getPHTML() {
-        return ('live.phtml');
+        return ('/live.phtml');
     }
 }
 

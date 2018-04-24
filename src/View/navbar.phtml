@@ -12,12 +12,12 @@
 
 
 <?php
-	if ($user->isConnected()) {
+	if ($this->getUser()->isConnected()) {
 ?>
 		<li class="navbar-item navbar-item-hoverable" style="float:right" onclick="redirectToPage('profil');">
 			<div class="navbar-item-profil">
-				<span><?php echo $user->asJoueur()->getPseudo(); ?></span>
-				<img src="./images/profil/<?php echo $user->asJoueur()->getPseudo(); ?>.png"></img>
+				<span><?php echo $this->getUser()->asJoueur()->getPseudo(); ?></span>
+				<img src="./images/profil/<?php echo $this->getUser()->asJoueur()->getPseudo(); ?>.png"></img>
 			</div>
 		</li>
 

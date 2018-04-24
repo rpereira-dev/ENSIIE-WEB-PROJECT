@@ -5,7 +5,7 @@ namespace Controller\Content;
 /**
  *  Représente la page de profil
  */
-class Profil extends Content {
+class Profil extends \Controller\Content {
 
     /**
      *  @return string : le titre de la page
@@ -20,7 +20,7 @@ class Profil extends Content {
      *  @return le fichier .phtml qui correspond au contenu de la page
      */
     public function getPHTML() {
-        return ('profil.phtml');
+        return ('/profil.phtml');
     }
 }
 

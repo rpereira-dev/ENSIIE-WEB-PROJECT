@@ -38,5 +38,10 @@ abstract class PageElement {
 		return ($this->user);
 	}
 
+	/**
+	 *	affiches le contenu dans la page
+	 */
+	public abstract function afficher();
+
 
 }

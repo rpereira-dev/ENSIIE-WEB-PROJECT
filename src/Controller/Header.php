@@ -5,12 +5,12 @@ namespace Controller;
 /**
  *  Représente le header de la page
  */
-abstract class Header {
+class Header extends PageElement {
 
     /**
-     *  Fonction principal qui affiche le contenu
+	 *	affiches le contenu dans la page
      */
-    public static function afficher($user) {
+    public function afficher() {
 		include VIEW_FOLDER . "/header.phtml";
     }
 }

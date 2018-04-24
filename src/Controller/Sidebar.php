@@ -5,14 +5,15 @@ namespace Controller;
 /**
  *  Représente la barre à gauche du site
  */
-abstract class Sidebar {
+class Sidebar extends PageElement {
 
     /**
-     *  Fonction principal qui affiche le contenu
+	 *	affiches le contenu dans la page
      */
-    public static function afficher($user) {
+    public function afficher() {
         include "../src/View/sidebar.phtml";
     }
+
 }
 
 ?>

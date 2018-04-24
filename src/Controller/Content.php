@@ -10,10 +10,9 @@ abstract class Content extends PageElement {
 
     /**
      *  Fonction principal qui renvoie le PageElement à afficher
-     *  de la page du site (au centre),
      *  en fonction de la variable GET['page']
      */
-    public static function afficher($bdd, $user) {
+    public static function getContent() {
         /** les pages afficheables */
         $pages = [
             "accueil"   => Content\Accueil::class,
@@ -26,14 +25,34 @@ abstract class Content extends PageElement {
         ];
 
         $pageID = isset($_GET['page']) ? $_GET['page'] : "accueil";
-        $pageClass = isset($pages[$pageID]) ? $pages[$pageID] : $pages["erreur"];
-        $page = new $pageClass($bdd, $user);
+        return (isset($pages[$pageID]) ? $pages[$pageID] : $pages["erreur"]);
+    }
 
+    /**
+     *  affiches le contenu dans la page
+     */
+    public function afficher() {
         /* affiche le header de la page et le titre */
         include VIEW_FOLDER . "/Content/header.phtml";
 
         /* affiche le contenu */
-        include VIEW_FOLDER . "/Content" . $page->getPHTML();
+        include VIEW_FOLDER . "/Content" . $this->getPHTML();
+
+        /* affiche le footer du contenu */
+        include VIEW_FOLDER . "/Content/footer.phtml";
     }
 
+
+    /**
+     *  @return string : le titre de la page
+     */
+    public abstract function getTitle();
+
+    /**
+     *  Renvoie le code html à être inséré dans le contenu de la page
+     *  (entre 2 balises <div class="page"> </div>)
+     *  @return le fichier .phtml qui correspond au contenu de la page
+     */
+    public abstract function getPHTML();
+    
 }

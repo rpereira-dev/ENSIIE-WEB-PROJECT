@@ -5,12 +5,12 @@ namespace Controller;
 /**
  *  Représente le footer (bas du site)
  */
-abstract class Footer {
+class Footer {
 
     /**
-     *  Fonction principal qui affiche le contenu
+	 *	affiches le contenu dans la page
      */
-    public static function afficher($user) {
+    public function afficher() {
 		include VIEW_FOLDER . "/footer.phtml";
     }
 }

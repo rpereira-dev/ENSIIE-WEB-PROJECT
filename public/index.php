@@ -15,27 +15,20 @@ $bdd = \Model\BDD::instance();
 $user = \Model\Utilisateur::instance();
 
 /** DEBUT : AFFICHAGE DE LA PAGE */
+$pageElementsClass = [
+	\Controller\Header::class,
+	\Controller\Toastbar::class,
+	\Controller\Navbar::class,
+	\Controller\Sidebar::class,
+	\Controller\Aside::class,
+	\Controller\Content::getContent(),
+	\Controller\Footer::class
+];
 
-// le header de la page HTML
-\Controller\Header::afficher($user);
+foreach ($pageElementsClass as $pageElementClass) {
+	$pageElement = new $pageElementClass($bdd, $user);
+	$pageElement->afficher();
+}
 
-//la bar d'informations qui pop des messages en bas du site
-\Controller\Toastbar::afficher($user);
-
-// affiche la partie horizontal en haut du site
-\Controller\Navbar::afficher($user);
-
-// affiche la partie vertical à gauche du site
-\Controller\Sidebar::afficher($user);
-
-// affiche la partie vertical à droite du site
-$aside = new \Controller\Aside($bdd, $user);
-$aside->afficher();
-
-// la page et son contenu (milieu de la page).
-$content = \Controller\Content::afficher($bdd, $user);
-
-// le footer de la page HTML
-\Controller\Footer::afficher($user);
 
 /** FIN : AFFICHAGE DE LA PAGE */

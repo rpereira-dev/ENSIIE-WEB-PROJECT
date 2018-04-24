@@ -5,7 +5,7 @@ namespace Controller\Content;
 /**
  *  Représente la page d'accueil
  */
-class Ecoles extends Content {
+class Ecoles extends \Controller\Content {
 
     /**
      *  @return string : le titre de la page
@@ -14,14 +14,13 @@ class Ecoles extends Content {
     	return ("Ecoles");
     }
 
-
     /**
      *  Renvoie le code html à être inséré dans le contenu de la page
      *  (entre 2 balises <div class="page"> </div>)
      *  @return le fichier .phtml qui correspond au contenu de la page
      */
     public function getPHTML() {
-        return ('ecoles.phtml');
+        return ('/ecoles.phtml');
     }
 }
 

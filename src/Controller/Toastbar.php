@@ -5,12 +5,12 @@ namespace Controller;
 /**
  *  Représente le header de la page
  */
-abstract class Toastbar {
+class Toastbar extends PageElement {
 
     /**
-     *  Fonction principal qui affiche le contenu
+	 *	affiches le contenu dans la page
      */
-    public static function afficher($user) {
+    public function afficher() {
         include "../src/View/toastbar.phtml";
     }
 }

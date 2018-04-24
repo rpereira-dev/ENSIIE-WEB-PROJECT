@@ -5,12 +5,12 @@ namespace Controller;
 /**
  *  Représente la barre en haut du site
  */
-abstract class Navbar {
+class Navbar extends PageElement {
 
     /**
-     *  Fonction principal qui affiche le contenu
+	 *	affiches le contenu dans la page
      */
-    public static function afficher($user) {
+    public function afficher() {
         include "../src/View/navbar.phtml";
     }
 }

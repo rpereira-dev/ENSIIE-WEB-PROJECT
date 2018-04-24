@@ -5,7 +5,7 @@ namespace Controller\Content;
 /**
  *  Représente la page listant les tournois
  */
-class Tournois extends Content {
+class Tournois extends \Controller\Content {
 
     /**
      *  @return string : le titre de la page
@@ -20,7 +20,7 @@ class Tournois extends Content {
      *  @return le fichier .phtml qui correspond au contenu de la page
      */
     public function getPHTML() {
-        return ('tournois.phtml');
+        return ('/tournois.phtml');
     }
 }
 
