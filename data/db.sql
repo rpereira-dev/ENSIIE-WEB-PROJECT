@@ -6,14 +6,19 @@
 /** suppression des données précèdentes dans la table */
 DROP TABLE "notification" CASCADE;
 DROP TYPE "t_notification";
-DROP TYPE "t_status";
+DROP TYPE "t_notification_status";
 
 DROP TRIGGER "notifieur_enregistrement" ON joueur ;
-DROP FUNCTION "bienvenue" ;
+DROP FUNCTION "notifier_bienvenue" ;
+
+DROP TRIGGER "notifieur_invitation" ON invitation;
+DROP FUNCTION "notifier_invite" ;
 
 DROP TABLE "inscription_match" ;
 DROP TABLE "match" CASCADE ;
 
+DROP TYPE "t_invitation_status" ;
+DROP TABLE "invitation" ;
 DROP TABLE "joueur_equipe" ;
 DROP TABLE "equipe" CASCADE ;
 DROP TABLE "tournoi" CASCADE ;
@@ -90,6 +95,19 @@ CREATE TABLE "joueur_equipe" (
 	PRIMARY KEY (equipe_id, joueur_id)
 );
 
+/** invitations à rejoindre des équipes */
+CREATE TYPE t_invitation_status AS ENUM ('pending', 'accepted', 'refused');
+
+CREATE TABLE "invitation" (
+	id			SERIAL		PRIMARY KEY,
+
+	equipe_id	INTEGER,
+	FOREIGN KEY (equipe_id) REFERENCES equipe(id),
+		
+	invited_id	INTEGER,
+	FOREIGN KEY (invited_id) REFERENCES joueur(id)
+);
+
 /** un match */
 CREATE TABLE "match" (
 	id		SERIAL	PRIMARY KEY,
@@ -129,28 +147,30 @@ CREATE TABLE "inscription_match" (
  *	join : notification qu'un joueur à rejoinds une équipe
  */
 
-CREATE TYPE t_status AS ENUM ('unseen', 'seen');
+CREATE TYPE t_notification_status AS ENUM ('unseen', 'seen');
 CREATE TYPE t_notification AS ENUM ('bienvenue', 'message', 'invitation', 'join') ;
 
 CREATE TABLE "notification" (
 	id		SERIAL	PRIMARY KEY,
 
 	/* status de la requete */
-	status		t_status	DEFAULT 'unseen',
+	status		t_notification_status	DEFAULT 'unseen',
 
 	/* le type de la notification */
 	type		t_notification	NOT NULL,
 
 	/* date ou la notification a été envoyé */
-	date_envoie	date 			DEFAULT CURRENT_DATE,
+	date_envoie	timestamp 		DEFAULT now(),
 
 	/* joueur auquelle la notification a été envoyé */
 	joueur_id	INTEGER		NOT NULL,
 	FOREIGN KEY (joueur_id) REFERENCES joueur(id)
 );
 
+
+
 /* envoie une notification de bienvenue au joueur donné */
-CREATE FUNCTION bienvenue() RETURNS TRIGGER AS
+CREATE FUNCTION notifier_bienvenue() RETURNS TRIGGER AS
 $$
 	BEGIN
 		INSERT INTO notification (type, joueur_id) VALUES ('bienvenue', NEW.id) ;
@@ -160,4 +180,19 @@ $$
 LANGUAGE 'plpgsql';
 
 /** trigger lorsqu'un joueur s'enregistre */
-CREATE TRIGGER "notifieur_enregistrement" AFTER INSERT ON joueur FOR EACH ROW EXECUTE PROCEDURE bienvenue() ;
+CREATE TRIGGER "notifieur_enregistrement" AFTER INSERT ON joueur FOR EACH ROW EXECUTE PROCEDURE notifier_bienvenue() ;
+
+
+
+
+/* envoie une notification quand un joueur est invité dans une équipe */
+CREATE FUNCTION notifier_invite() RETURNS TRIGGER AS
+$$
+	BEGIN
+		INSERT INTO notification (type, joueur_id) VALUES ('invitation', NEW.invited_id) ;
+		RETURN NULL ;
+	END
+$$
+LANGUAGE 'plpgsql';
+
+CREATE TRIGGER "notifieur_invitation" AFTER INSERT ON invitation FOR EACH ROW EXECUTE PROCEDURE notifier_invite() ;

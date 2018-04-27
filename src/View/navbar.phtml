@@ -36,8 +36,12 @@
 			</div>
 
 			<!-- notifications -->
-			<div id="notifications_counter" 	class="notifications-counter" 	style="display: none;"></div>
-			<div id="notifications"		 		class="notifications" 			style="display: none;"></div>    
+			<div id="notifications-counter" 	class="notifications-counter" 	style="display: none;"></div>
+			<div id="notifications"		 		class="notifications" 			style="display: none;">
+				<span class="notifications-title">Notifications <a href="" style="float: right;">vu</a></span>
+				<div id="notifications-list">
+				</div>
+			</div>
 
 		</li>			
 
@@ -50,35 +54,47 @@
 		<!-- la cloche des notifications -->
 		<script type="text/javascript">
 			/** recharges les notifications */
-        	var node_notifications 	= document.getElementById("notifications");
-        	var node_counter 		= document.getElementById("notifications_counter");
+        	var node_notifications 		= document.getElementById("notifications");
+        	var node_notifications_list	= document.getElementById("notifications-list");
+        	var node_counter 		    = document.getElementById("notifications-counter");
 
 			function loadNotifications() {
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", 'notifications.php', true);
+                var MAX_NOTIF = 99;
+                xhr.open("POST", 'notifications.php?max=' + MAX_NOTIF, true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState == XMLHttpRequest.DONE) {
                         if (xhr.status == 200) {
                         	var notifications = JSON.parse(xhr.response).notifications;
-                        	node_counter.innerHTML = notifications.length;
+                        	node_counter.innerHTML = notifications.length >= MAX_NOTIF ? MAX_NOTIF + "+" : notifications.length;
                         	node_counter.style.display = notifications.length == 0 ? "none" : "";
 
                         	//supprimes le contenu précèdent
-							while (node_notifications.firstChild) {
-    							node_notifications.removeChild(node_notifications.firstChild);
+							while (node_notifications_list.firstChild) {
+    							node_notifications_list.removeChild(node_notifications_list.firstChild);
 							}
 
                         	//ajoute la notification
                         	for (var i = 0 ; i < notifications.length ; i++) {
-                        		var node_notification = document.createElement("notification_" + i);
-                        		node_notification.class = "notification";
-								node_notifications.appendChild(node_notification);
+                        		var node_notification   = document.createElement("div");
+                        		node_notification.classList.add("notification");
+                        		node_notification.id    = "notification_" + i;
 
-								var node_notification_content = document.createElement("notification_content_" + i);
-								node_notification_content.class = "notification_content";
+								var node_notification_content = document.createElement("div");
+								node_notification_content.classList.add("notification-content");
 								node_notification_content.innerHTML = notifications[i].content;
+                        		node_notification_content.id        = "notification_content_" + i;
+
+                        		var node_notification_date = document.createElement("div");
+                        		node_notification_date.classList.add("notification-date");
+                        		node_notification_date.id = "notification-date";
+                        		node_notification_date.innerHTML = notifications[i].date;
+
 								node_notification.appendChild(node_notification_content);
+								node_notification.appendChild(node_notification_date);
+								node_notifications_list.appendChild(node_notification);
+
                         	}
 
                         } else {
@@ -91,14 +107,6 @@
 			/** on rappelle la fonction toutes les 5 secondes */
 			setInterval(loadNotifications, 5000);
 			loadNotifications();
-
-			/** positionne les composants */
-			/*var rect = document.getElementById("notification-bell").getBoundingClientRect();
-			node_notifications.style.top   = rect.bottom + "px";
-			node_notifications.style.left  = rect.left + "px";
-			node_counter.style.top  = (rect.bottom  + 0.75 * (rect.top - rect.bottom)) + "px";
-			node_counter.style.left = (rect.left + 0.6 * (rect.right - rect.left)) + "px";
-*/
 
 			/** rends visible / invisible la barre des notifications */
 			function switchNotificationVisiblity() {

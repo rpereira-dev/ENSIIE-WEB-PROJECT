@@ -11,7 +11,7 @@ class Toastbar extends PageElement {
 	 *	affiches le contenu dans la page
      */
     public function afficher() {
-        include "../src/View/toastbar.phtml";
+        include VIEW_FOLDER . "/toastbar.phtml";
     }
 }
 

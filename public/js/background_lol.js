@@ -97,7 +97,7 @@ class Background {
 			uniform vec2 off4;
 
 			# define TIMER 4.0
-			# define MAX_DISTORTION 0.15
+			# define MAX_DISTORTION 0.005
 			# define DISTORTION_SPEED 0.1
 
 			void main() {

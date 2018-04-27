@@ -31,14 +31,14 @@ if ($pdo == NULL) {
 }
 
 /* prépares la base de données */
-$max = 10;
+$max = 999;
 $rows = isset($_GET["max"]) ? $_GET["max"] : $max;
 if ($rows < 0) {
     $rows = 0;
 } else if ($rows > $max) {
-    $rows= $max;
+    $rows = $max;
 }
-$stmt = $pdo->prepare('SELECT * FROM notification WHERE joueur_id = :joueur_id ORDER BY date_envoie DESC LIMIT :rows');
+$stmt = $pdo->prepare('SELECT * FROM notification WHERE joueur_id = :joueur_id ORDER BY date_envoie DESC, id DESC LIMIT :rows');
 /* protège des injections sql */
 $id = $user->asJoueur()->getUUID();
 $stmt->bindParam(':joueur_id', $id, PDO::PARAM_INT);
@@ -53,10 +53,20 @@ if ($stmt->rowCount() > 0) {
     $entry = $stmt->fetch();
     while ($entry != NULL) {
         echo '{';
-            echo '"type":"bienvenue"';
+            echo '"type":"' . $entry['type'] . '"';
             echo ',';
-            echo '"content":"Hello <strong>World</strong>"';
-            echo ',';
+            echo '"content":"';
+            switch ($entry['type']) {
+                case 'bienvenue':
+                    echo "L'équipe d'ULC vous souhaite la <strong>bienvenue</strong>.";
+                    break ;
+                case 'invitation':
+                    echo "Vous avez reçu une <strong>invitation</strong> pour rejoindre une équipe.";
+                    break ;
+                default:
+                    break;
+            }
+            echo '",';
             echo '"date":"' . $entry['date_envoie'] . '"';
             echo ',';
             echo '"status":"' . $entry['status'] . '"';

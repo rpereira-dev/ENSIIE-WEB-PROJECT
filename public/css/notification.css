@@ -2,14 +2,24 @@
  *      Contient le css de tout ce qui touche aux notifications
  */
 
- .notifications {
+.notifications {
     position: absolute;
-    max-width: 12rem;
-    min-width: 12rem;
+    max-height: 60vh;
+    overflow-y: scroll;
     z-index: 99;
-    background: red;
+    background: #FFFFFF;
+    border: 0.1rem solid #1B1C23F7;
+    padding-left  : 1.5rem;
+    padding-right : 1.5rem;
+    padding-bottom: 1rem;
+    padding-top   : 1.0rem;
+    box-shadow: 0 0 4rem #FFFFFFFF;
  }
 
+.notifications-title {
+    text-align: center;
+    text-decoration: underline;
+}
 
 .notifications-counter {
     position: absolute;
@@ -27,11 +37,15 @@
 }
 
 
- .notification {
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-    border: solid 2px black;
- }
+.notification {
+    padding-top: 1.0rem;
+    cursor: pointer;
+}
 
 .notification-content {
-    text-align: center;
+    padding-bottom: 0.2rem;
+}
+
+.notification-date {
+    font-size: 0.7rem;
 }

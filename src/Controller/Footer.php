@@ -5,7 +5,7 @@ namespace Controller;
 /**
  *  Représente le footer (bas du site)
  */
-class Footer {
+class Footer extends PageElement {
 
     /**
 	 *	affiches le contenu dans la page

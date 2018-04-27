@@ -18,10 +18,9 @@ class Background {
 
 			void main() {
 				float dx = cursorX - pass_x;
-				float dy = (cursorY - pass_y);
+				float dy = (cursorY - pass_y) / 1.6;
 				float d = sqrt(dx * dx + dy * dy);
-				float f = min(max(0.3, exp(-d * 0.6 + 0.05 * cos(0.1 * time))), 1.0);
-				gl_FragColor = vec4(1.0, 1.0, 1.0, pass_color) * f;
+				gl_FragColor = vec4(1.0, 1.0, 1.0, pass_color);
 			}
 		`;
 

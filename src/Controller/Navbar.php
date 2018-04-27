@@ -11,7 +11,7 @@ class Navbar extends PageElement {
 	 *	affiches le contenu dans la page
      */
     public function afficher() {
-        include "../src/View/navbar.phtml";
+        include VIEW_FOLDER . "/navbar.phtml";
     }
 }
 

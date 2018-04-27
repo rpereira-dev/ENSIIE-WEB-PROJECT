@@ -191,7 +191,8 @@ function afficher_champs() {
                                 toast("Enregistré(e). Vous pouvez maintenant vous connecter.", 2);
                                 setRegistrationVisibility(false);
                             } else {
-                                toast("Erreur dans l'enregistrement: " + xhr.response, 0);
+                                toast("Ces identifiants sont déjà utilisés.", 0);
+                                grecaptcha.reset();
                             }
                         }
                     }
@@ -204,7 +205,6 @@ function afficher_champs() {
 
                 /** connectes l'utilisateur avec les informations actuellement entrées dans les champs */
                 function connect() {
-
                     var email = document.getElementById("input_emailID").value;
                     var pass =  document.getElementById("input_passID").value;
                     if (!validates["input_emailID"]() || !validates["input_passID"]()) {
