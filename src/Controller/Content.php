@@ -16,6 +16,7 @@ abstract class Content extends PageElement {
         /** les pages afficheables */
         $pages = [
             "accueil"   => Content\Accueil::class,
+            "equipe"    => Content\Equipe::class,
             "ecoles"    => Content\Ecoles::class,
             "erreur"    => Content\Erreur::class,
             "joueurs"   => Content\Joueurs::class,

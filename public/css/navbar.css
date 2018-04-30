@@ -2,11 +2,10 @@
  *      Contient le css de la barre de recherche (en haut au milieu)
  */
 .navbar {
+    position: fixed;
  	width: calc(100% - 12rem);
  	height: 4rem;
- 	min-width: 16rem;
-    position: fixed;
-    top: 0;
+    top: 0rem;
     left: 12rem;
  	background-color:#1B1C23F7;
     box-shadow: 0.5vh 1vh 0.5vh 0.5vh rgba(0, 0, 0, 0.5);

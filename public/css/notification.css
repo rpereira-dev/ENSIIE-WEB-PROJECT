@@ -9,16 +9,22 @@
     z-index: 99;
     background: #FFFFFF;
     border: 0.1rem solid #1B1C23F7;
-    padding-left  : 1.5rem;
-    padding-right : 1.5rem;
-    padding-bottom: 1rem;
-    padding-top   : 1.0rem;
     box-shadow: 0 0 4rem #FFFFFFFF;
  }
 
-.notifications-title {
-    text-align: center;
+ .notifications-vu {
+    float: right;
+    cursor: pointer;
     text-decoration: underline;
+    color: #0000FF;
+ }
+
+.notifications-title {
+    text-decoration: underline;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .notifications-counter {
@@ -32,18 +38,24 @@
     color: #FFFFFF;
     font-weight: bold;
     font-size: 0.8rem;
-    padding-top:0.2rem;
     transition: all 0.15s ease-in-out;
 }
 
 
 .notification {
-    padding-top: 1.0rem;
     cursor: pointer;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-top: 0.1rem solid #1B1C23F7;
+}
+
+.notification-unseen {
+    background: linear-gradient(to right, #DDDDFF, #EEEEFF, #DDDDFF);
 }
 
 .notification-content {
-    padding-bottom: 0.2rem;
 }
 
 .notification-date {

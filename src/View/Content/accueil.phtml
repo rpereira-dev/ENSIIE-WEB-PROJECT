@@ -1,1 +1,130 @@
-		Bienvenue sur l'accueil mdr
+		<style type="text/css">
+
+			.accueil {
+				display: inline-block;
+				padding-left: 2rem;
+				padding-top: 0.1rem;
+				padding-bottom: 2rem;
+				padding-right: 1rem;
+				transition: all 1s ease-in-out;
+				color: #F1F1F1;
+			}
+
+			.accueil:hover {
+				background: rgba(0, 0, 0, 0.5);
+				padding-left: 14rem;
+				padding-right: 14rem;
+				padding-top: 4rem;
+				padding-bottom: 10rem;
+			}
+
+			h1 {
+				transition: all 1s ease-in-out;
+			}
+
+			.accueil:hover h1 {
+				transform: translateX(calc(50% - 14rem));
+			}
+
+			h2 {
+				transition: all 1s ease-in-out;
+			}
+
+			.accueil:hover h2 {
+				transform: translateX(calc(50% - 8rem));
+			}
+
+			h3 {
+				transition: all 1s ease-in-out;
+				text-decoration: underline;
+			}
+
+			.accueil:hover h3 {
+				transform: translateX(calc(50% - 8rem));
+			}
+
+			.accueil-details {
+				color: #f1f1f100;
+				transition: all 1s steps(4, end);
+				text-align: center;
+				font-size: 1.2rem;
+			}
+
+			.accueil:hover .accueil-details {
+				color: #f1f1f1FF;
+			}
+
+			.accueil-content {
+				line-height: 1.5rem;
+			}
+
+			#bgVideo {
+			    position: fixed;
+			    left: 0;
+			    top: 0;
+			    min-width: 100%;
+			    min-height: 100%;
+			    z-index: -1;
+			}
+
+		</style>
+
+
+        <!-- video de fond du site -->
+		<video autoplay muted loop id="bgVideo">
+			<source src="./video/bg.mp4" type="video/mp4">
+		</video>
+
+		<div class="accueil">
+			<div class="accueil-content">
+				<div class="accueil-title">
+					<h1 style="font-size: 3.5rem;">REJOIGNEZ ULC</h1>
+					<h2 style="font-size: 2rem;" id="timer">Temps avant ouverture</h2>
+					<h3 style="font-size: 1rem;">La 1ère ligue universitaire d'e-sport</h3>
+				</div>
+				<br></br>
+
+				<div class="accueil-details">
+					Pour le lancement de la plateforme, nous vous proposons un championnat
+					universitaire national, visant à opposer toutes les écoles dans un immense tournoi.
+				</div>
+				<br></br>
+				<div class="accueil-details">
+					<u>Inscrivez vous dés maintenant</u>, et montrez à tous que <strong>vous</strong>, êtes le meilleur.
+				</div>
+
+			</div>
+		</div>
+
+		<!-- Display the countdown timer in an element -->
+
+		<script>
+			// Set the date we're counting down to
+			var countDownDate = new Date("Sep 5, 2018 15:37:25").getTime();
+
+			// Update the count down every 1 second
+			var x = setInterval(function() {
+
+			  // Get todays date and time
+			  var now = new Date().getTime();
+
+			  // Find the distance between now an the count down date
+			  var distance = countDownDate - now;
+
+			  // Time calculations for days, hours, minutes and seconds
+			  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+			  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+			  // Display the result in the element with id="demo"
+			  document.getElementById("timer").innerHTML = days + "j " + hours + "h "
+			  + minutes + "m " + seconds + "s ";
+
+			  // If the count down is finished, write some text
+			  if (distance < 0) {
+			    clearInterval(x);
+			    document.getElementById("demo").innerHTML = "EXPIRED";
+			  }
+			}, 1000);
+		</script>

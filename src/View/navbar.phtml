@@ -38,9 +38,30 @@
 			<!-- notifications -->
 			<div id="notifications-counter" 	class="notifications-counter" 	style="display: none;"></div>
 			<div id="notifications"		 		class="notifications" 			style="display: none;">
-				<span class="notifications-title">Notifications <a href="" style="float: right;">vu</a></span>
-				<div id="notifications-list">
+
+				<script>
+					function seeNotifications() {
+		                var xhr = new XMLHttpRequest();
+		                xhr.open("POST", 'notifications/see.php', true);
+		                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		                xhr.onreadystatechange = function() {
+		                    if (xhr.readyState == XMLHttpRequest.DONE) {
+		                        if (xhr.status == 200) {
+		                      		console.log("see: " + xhr.response);
+		                        } else {
+		                            console.log("Erreur de connection: " + xhr.response);
+		                        }
+		                    }
+		                }
+		                xhr.send();
+					}
+				</script>
+
+				<div class="notifications-title">
+					Notifications
+					<div class="notifications-vu" onmousedown="seeNotifications();">vu</div>
 				</div>
+				<div id="notifications-list"></div>
 			</div>
 
 		</li>			
@@ -61,41 +82,59 @@
 			function loadNotifications() {
                 var xhr = new XMLHttpRequest();
                 var MAX_NOTIF = 99;
-                xhr.open("POST", 'notifications.php?max=' + MAX_NOTIF, true);
+                xhr.open("POST", 'notifications/get.php?max=' + MAX_NOTIF, true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState == XMLHttpRequest.DONE) {
                         if (xhr.status == 200) {
-                        	var notifications = JSON.parse(xhr.response).notifications;
-                        	node_counter.innerHTML = notifications.length >= MAX_NOTIF ? MAX_NOTIF + "+" : notifications.length;
-                        	node_counter.style.display = notifications.length == 0 ? "none" : "";
-
                         	//supprimes le contenu précèdent
 							while (node_notifications_list.firstChild) {
     							node_notifications_list.removeChild(node_notifications_list.firstChild);
 							}
 
-                        	//ajoute la notification
+							// les notifications au format json
+                        	var notifications = JSON.parse(xhr.response).notifications;
+
+                        	// nombre de notifications non lues
+                        	var unseen = 0;
+                        	//pour chaque notification
                         	for (var i = 0 ; i < notifications.length ; i++) {
+                        		//la notifcation
+                        		var notification = notifications[i];
+
+                        		//on cree un element html
                         		var node_notification   = document.createElement("div");
                         		node_notification.classList.add("notification");
                         		node_notification.id    = "notification_" + i;
+                        		node_notification.onclick = function() {
+                        			redirectToPage(notification.action);
+                        		};
 
 								var node_notification_content = document.createElement("div");
 								node_notification_content.classList.add("notification-content");
-								node_notification_content.innerHTML = notifications[i].content;
+								node_notification_content.innerHTML = notification.content;
                         		node_notification_content.id        = "notification_content_" + i;
 
                         		var node_notification_date = document.createElement("div");
                         		node_notification_date.classList.add("notification-date");
                         		node_notification_date.id = "notification-date";
-                        		node_notification_date.innerHTML = notifications[i].date;
+                        		node_notification_date.innerHTML = notification.date;
 
 								node_notification.appendChild(node_notification_content);
 								node_notification.appendChild(node_notification_date);
 								node_notifications_list.appendChild(node_notification);
 
+								//si non lu...
+								if (notification.status == "unseen") {
+									++unseen;
+									node_notification.classList.add("notification-unseen");
+								}
                         	}
+
+                        	//on met à jour le nombre de notifications non lues
+                        	node_counter.innerHTML = unseen > 10 ? 10 + "+" : unseen;
+                        	node_counter.style.display = unseen == 0 ? "none" : "";
+
 
                         } else {
                             console.log("Erreur de connection: " + xhr.response);
@@ -104,8 +143,8 @@
                 }
                 xhr.send();
 			}
-			/** on rappelle la fonction toutes les 5 secondes */
-			setInterval(loadNotifications, 5000);
+			/** on rappelle la fonction toutes les 2 secondes */
+			setInterval(loadNotifications, 2000);
 			loadNotifications();
 
 			/** rends visible / invisible la barre des notifications */
