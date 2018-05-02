@@ -60,16 +60,19 @@ class Utilisateur {
      * @param string $pseudo
      * @param string $pass
      * @return Le retour de la requete sql d'insertion
+     *  @throws PDOException : si une erreur a lieu
      */
     public function register($bdd, $mail, $pseudo, $pass) {
-
         /* on recupere la connection à la pdo */
         $pdo = $bdd->getConnection("ulc");
+        if ($pdo == NULL) {
+            throw new PDOException("Connection error");
+        }
 
         /* prépares la base de données */
         $stmt = $pdo->prepare("INSERT INTO joueur (email, pseudo, pass) VALUES (:email, :pseudo, :pass)");
         /* protège des injections sql */
-        $hashedPass = $this->hashPass($pass);
+        $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
         $stmt->bindParam(':email',  $mail,          PDO::PARAM_STR);
         $stmt->bindParam(':pseudo', $pseudo,        PDO::PARAM_STR);        
         $stmt->bindParam(':pass',   $hashedPass,    PDO::PARAM_STR);
@@ -129,13 +132,29 @@ class Utilisateur {
         }
         throw new PDOException("Wrong password");
     }
-        
+
     /**
-     *  @internal fonction interne qui hash le mot de passe
-     *  @see http://php.net/manual/fr/book.password.php
+     * Lie l'utilisateur du site au compte League of Legend
+     *  
+     *  @param PDO $db
+     *  @param integer $summonerID
+     *  @throws PDOException : si le summonerID est déjà lié à un autre joueur
      */
-    static private function hashPass($pass) {
-        return (password_hash($pass, PASSWORD_DEFAULT));
+    public function linkLolAccount($bdd, $summonerID) {
+        if (!$this->isConnected()) {
+            return (false);
+        }
+        $pdo = $bdd->getConnection("ulc");
+        if ($pdo == NULL) {
+            throw new PDOException("Connection error");
+        }
+
+        $stmt = $pdo->prepare("INSERT INTO joueur_lol (joueur_id, summoner_id) VALUES (:joueur_id, :summoner_id)");
+        $uuid = $this->asJoueur()->getUUID();
+        $stmt->bindParam(':joueur_id',   $uuid,         PDO::PARAM_INT);
+        $stmt->bindParam(':summoner_id', $summonerID,   PDO::PARAM_INT);
+        $stmt->execute();
+        return (true);
     }
 
     /**

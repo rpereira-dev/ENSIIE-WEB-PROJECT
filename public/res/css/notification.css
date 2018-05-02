@@ -28,6 +28,7 @@
 }
 
 .notifications-counter {
+    padding-top: 0.2rem;
     position: absolute;
     width: 1.2rem;
     z-index: 99;

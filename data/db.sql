@@ -25,6 +25,7 @@ DROP TABLE "tournoi" CASCADE ;
 DROP TYPE "t_mode";
 DROP TYPE "t_jeu";
 
+DROP TABLE "joueur_lol" CASCADE ;
 DROP TABLE "joueur" CASCADE ;
 DROP TABLE "ecole" CASCADE ;
 DROP TYPE "t_ecole";
@@ -60,9 +61,7 @@ CREATE TABLE "joueur_lol" (
 	FOREIGN KEY (joueur_id) REFERENCES joueur(id),
 
 	/** riot summoner id (long <=> BIGINT) */
-	summoner_id	BIGINT,
-
-	PRIMARY KEY (joueur_id, summoner_id)
+	summoner_id	BIGINT PRIMARY KEY
 );
 
 /**
