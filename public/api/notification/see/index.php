@@ -6,10 +6,9 @@
  *  Marques toutes les notifications comme 'vu' de l'utilisateur dans la session 
  */
 
-/** TODO */
 
 /* include path */
-require '../../vendor/autoload.php'; 
+require '../../../../vendor/autoload.php'; 
 
 /* on charge la session */
 session_start();

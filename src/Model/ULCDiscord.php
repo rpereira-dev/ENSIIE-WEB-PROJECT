@@ -4,10 +4,13 @@
  *  Pour ouvrir la Gateway, lancer ULCDiscord::discord() à partir de la ligne de commande
  *
  *  exemple d'utilisation:
+ *      require('../vendor/autoload.php'); 
  *
- *  $client = ULCDiscord::client();
- *  var_dump($client->guild->getGuild(['guild.id' => ULCDiscord::guildID()]));
- *  var_dump($client->channel->createMessage(['channel.id' => 440662985997025280, 'content' => '<@172798956823248896> est une tâche']));
+ *      use Model\ULCDiscord;
+ *
+ *      $client = ULCDiscord::client();
+ *      var_dump($client->guild->getGuild(['guild.id' => ULCDiscord::guildID()]));
+ *      var_dump($client->channel->createMessage(['channel.id' => 440662985997025280, 'content' => '<@172798956823248896> est une tâche']));
  */
 
 namespace Model;

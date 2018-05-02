@@ -2,7 +2,8 @@
 	"require": {
 		"restcord/restcord": "^0.1.1",
 		"team-reflex/discord-php": "^4.0",
-		"dolejska-daniel/riot-api": "^1.0"
+		"dolejska-daniel/riot-api": "^1.0",
+		"tustin/fortnite-php": "^0.0.4"
 	},
 	
 	"require-dev": {

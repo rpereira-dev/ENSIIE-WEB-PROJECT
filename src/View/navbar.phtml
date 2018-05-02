@@ -17,7 +17,7 @@
 		<li class="navbar-item navbar-item-hoverable" style="float:right" onclick="redirectToPage('profil');">
 			<div class="navbar-item-profil">
 				<span><?php echo $this->getUser()->asJoueur()->getPseudo(); ?></span>
-				<img src="./images/profil/<?php echo $this->getUser()->asJoueur()->getPseudo(); ?>.png"></img>
+				<img src="./res/images/profil/<?php echo $this->getUser()->asJoueur()->getPseudo(); ?>.png"></img>
 			</div>
 		</li>
 
@@ -41,19 +41,11 @@
 
 				<script>
 					function seeNotifications() {
-		                var xhr = new XMLHttpRequest();
-		                xhr.open("POST", 'notifications/see.php', true);
-		                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		                xhr.onreadystatechange = function() {
-		                    if (xhr.readyState == XMLHttpRequest.DONE) {
-		                        if (xhr.status == 200) {
-		                      		console.log("see: " + xhr.response);
-		                        } else {
-		                            console.log("Erreur de connection: " + xhr.response);
-		                        }
-		                    }
-		                }
-		                xhr.send();
+						requestAPI("/notification/see/", "POST", {
+							200: 	function(response) {
+		                      			console.log("seen");
+									}
+						});
 					}
 				</script>
 
@@ -72,6 +64,9 @@
 	</ul>
 
 
+<?php
+	if ($this->getUser()->isConnected()) {
+?>
 		<!-- la cloche des notifications -->
 		<script type="text/javascript">
 			/** recharges les notifications */
@@ -80,68 +75,64 @@
         	var node_counter 		    = document.getElementById("notifications-counter");
 
 			function loadNotifications() {
-                var xhr = new XMLHttpRequest();
-                var MAX_NOTIF = 99;
-                xhr.open("POST", 'notifications/get.php?max=' + MAX_NOTIF, true);
-                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState == XMLHttpRequest.DONE) {
-                        if (xhr.status == 200) {
-                        	//supprimes le contenu précèdent
-							while (node_notifications_list.firstChild) {
-    							node_notifications_list.removeChild(node_notifications_list.firstChild);
-							}
+                requestAPI("/notification/get/", "POST",
+                	{
+                		200: 	function(response) {
+		                        	//supprimes le contenu précèdent
+									while (node_notifications_list.firstChild) {
+		    							node_notifications_list.removeChild(node_notifications_list.firstChild);
+									}
 
-							// les notifications au format json
-                        	var notifications = JSON.parse(xhr.response).notifications;
+									// les notifications au format json
+		                        	var notifications = JSON.parse(response).notifications;
 
-                        	// nombre de notifications non lues
-                        	var unseen = 0;
-                        	//pour chaque notification
-                        	for (var i = 0 ; i < notifications.length ; i++) {
-                        		//la notifcation
-                        		var notification = notifications[i];
+		                        	// nombre de notifications non lues
+		                        	var unseen = 0;
+		                        	//pour chaque notification
+		                        	for (var i = 0 ; i < notifications.length ; i++) {
+		                        		//la notifcation
+		                        		var notification = notifications[i];
 
-                        		//on cree un element html
-                        		var node_notification   = document.createElement("div");
-                        		node_notification.classList.add("notification");
-                        		node_notification.id    = "notification_" + i;
-                        		node_notification.onclick = function() {
-                        			redirectToPage(notification.action);
-                        		};
+		                        		//on cree un element html
+		                        		var node_notification   = document.createElement("div");
+		                        		node_notification.classList.add("notification");
+		                        		node_notification.id    = "notification_" + i;
+		                        		node_notification.onclick = function() {
+		                        			redirectToPage(notification.action);
+		                        		};
 
-								var node_notification_content = document.createElement("div");
-								node_notification_content.classList.add("notification-content");
-								node_notification_content.innerHTML = notification.content;
-                        		node_notification_content.id        = "notification_content_" + i;
+										var node_notification_content = document.createElement("div");
+										node_notification_content.classList.add("notification-content");
+										node_notification_content.innerHTML = notification.content;
+		                        		node_notification_content.id        = "notification_content_" + i;
 
-                        		var node_notification_date = document.createElement("div");
-                        		node_notification_date.classList.add("notification-date");
-                        		node_notification_date.id = "notification-date";
-                        		node_notification_date.innerHTML = notification.date;
+		                        		var node_notification_date = document.createElement("div");
+		                        		node_notification_date.classList.add("notification-date");
+		                        		node_notification_date.id = "notification-date";
+		                        		node_notification_date.innerHTML = notification.date;
 
-								node_notification.appendChild(node_notification_content);
-								node_notification.appendChild(node_notification_date);
-								node_notifications_list.appendChild(node_notification);
+										node_notification.appendChild(node_notification_content);
+										node_notification.appendChild(node_notification_date);
+										node_notifications_list.appendChild(node_notification);
 
-								//si non lu...
-								if (notification.status == "unseen") {
-									++unseen;
-									node_notification.classList.add("notification-unseen");
-								}
-                        	}
+										//si non lu...
+										if (notification.status == "unseen") {
+											++unseen;
+											node_notification.classList.add("notification-unseen");
+										}
+		                        	}
 
-                        	//on met à jour le nombre de notifications non lues
-                        	node_counter.innerHTML = unseen > 10 ? 10 + "+" : unseen;
-                        	node_counter.style.display = unseen == 0 ? "none" : "";
+		                        	//on met à jour le nombre de notifications non lues
+		                        	node_counter.innerHTML = unseen > 10 ? 10 + "+" : unseen;
+		                        	node_counter.style.display = unseen == 0 ? "none" : "";
 
+                				}
+                	},
 
-                        } else {
-                            console.log("Erreur de connection: " + xhr.response);
-                        }
-                    }
-                }
-                xhr.send();
+                	{
+                		"max": 99
+                	}
+                );
 			}
 			/** on rappelle la fonction toutes les 2 secondes */
 			setInterval(loadNotifications, 2000);
@@ -156,3 +147,6 @@
 				}
 			}
 		</script>
+<?php
+}
+?>

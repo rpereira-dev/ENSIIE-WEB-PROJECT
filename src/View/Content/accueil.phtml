@@ -1,5 +1,14 @@
 		<style type="text/css">
 
+			#bgVideo {
+			    position: fixed;
+			    left: 0;
+			    top: 0;
+			    min-width: 100%;
+			    min-height: 100%;
+			    z-index: -1;
+			}
+
 			.accueil {
 				display: inline-block;
 				padding-left: 1rem;
@@ -11,7 +20,7 @@
 				color: #F1F1F1;
 			}
 
-			.accueil:hover {
+			.page:hover .accueil {
 				background: rgba(0, 0, 0, 0.5);
 				margin-left: 22%;
 				margin-right: 10rem;
@@ -26,7 +35,7 @@
 				transition: all 1.0s ease-in;
 			}
 
-			.accueil:hover h1 {
+			.page:hover h1 {
 				transform: translateX(calc(50% - 14rem));
 			}
 
@@ -34,7 +43,7 @@
 				transition: all 1.0s ease-out;
 			}
 
-			.accueil:hover h2 {
+			.page:hover h2 {
 				transform: translateX(calc(50% - 8rem));
 			}
 
@@ -43,7 +52,7 @@
 				text-decoration: underline;
 			}
 
-			.accueil:hover h3 {
+			.page:hover h3 {
 				transform: translateX(calc(50% - 9rem));
 			}
 
@@ -54,7 +63,7 @@
 				font-size: 1.2rem;
 			}
 
-			.accueil:hover .accueil-details {
+			.page:hover .accueil-details {
 				color: #f1f1f1FF;
 			}
 
@@ -68,21 +77,12 @@
 				text-decoration: underline;
 			}
 
-			#bgVideo {
-			    position: fixed;
-			    left: 0;
-			    top: 0;
-			    min-width: 100%;
-			    min-height: 100%;
-			    z-index: -1;
-			}
-
 		</style>
 
 
         <!-- video de fond du site -->
-		<video autoplay muted loop id="bgVideo">
-			<source src="./video/bg.mp4" type="video/mp4">
+		<video class="accueil-video" autoplay muted loop id="bgVideo">
+			<source src="./res/video/bg.mp4" type="video/mp4">
 		</video>
 
 		<div class="accueil">

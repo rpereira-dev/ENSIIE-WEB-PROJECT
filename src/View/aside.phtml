@@ -6,7 +6,16 @@ namespace View;
 function afficher_profil() {
 ?>
         <div class="button" style="margin-top: 1.5rem;">
-            <div class="button_text" onclick="disconnect();">Se déconnecter</div>
+            <div class="button_text" onclick="
+                requestAPI('/user/disconnect/', 'GET', {
+                    200: function(response) {
+                        toast('Déconnecté(e). Vous allez être redirigé(e).', 2);
+                        setTimeout(function () { window.location.replace(window.location.href); }, 1000);
+                    }
+                });
+            ">
+                Se déconnecter
+            </div>
         </div>
 
 <?php
@@ -174,33 +183,27 @@ function afficher_champs() {
                         return ;
                     }
 
-
-                    var response = grecaptcha.getResponse();
-                    if (response == null || response.length == 0) {
+                    var catpchaResponse = grecaptcha.getResponse();
+                    if (catpchaResponse == null || catpchaResponse.length == 0) {
                         toast("Veuillez prouvez que vous n'êtes pas un robot.", 0);
                         return ;
                     }
 
+                    requestAPI('/user/register/', 'POST', 
+                        {
+                            200:    function(response) {
+                                        toast("Enregistré(e). Vous pouvez maintenant vous connecter.", 2);
+                                        setRegistrationVisibility(false);
+                                    }
+                        },
 
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", 'register.php', true);
-                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState == XMLHttpRequest.DONE) {
-                            if (xhr.status == 200) {
-                                toast("Enregistré(e). Vous pouvez maintenant vous connecter.", 2);
-                                setRegistrationVisibility(false);
-                            } else {
-                                toast("Ces identifiants sont déjà utilisés.", 0);
-                                grecaptcha.reset();
-                            }
+                        {
+                            "email"         : document.getElementById("input_emailID").value,
+                            "pseudo"        : document.getElementById("input_pseudoID").value,
+                            "pass"          : document.getElementById("input_passID").value,
+                            "g-recaptcha"   : catpchaResponse
                         }
-                    }
-                    xhr.send(   "email=" + document.getElementById("input_emailID").value
-                                + "&pseudo=" + document.getElementById("input_pseudoID").value
-                                + "&pass=" + document.getElementById("input_passID").value
-                                + "&g-recaptcha=" + response
-                            );
+                    );
                 }
 
                 /** connectes l'utilisateur avec les informations actuellement entrées dans les champs */
@@ -211,20 +214,20 @@ function afficher_champs() {
                         toast("Les identifiants de connections sont invalides.", 0);
                         return ;
                     }
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", 'connect.php', true);
-                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState == XMLHttpRequest.DONE) {
-                            if (xhr.status == 200) {
-                                toast("Connecté(e). Vous allez être redirigé(e).", 2);
-                                setTimeout(function () { window.location.replace(window.location.href); }, 1000);
-                            } else {
-                                toast("Erreur de connection: " + xhr.response, 0);
-                            }
+
+                    requestAPI('/user/connect/', 'POST', 
+                        {
+                            200:    function(response) {
+                                        toast("Connecté(e). Vous allez être redirigé(e).", 2);
+                                        setTimeout(function () { window.location.replace(window.location.href); }, 1000);
+                                    }
+                        },
+
+                        {
+                            "email": email,
+                            "pass" : pass
                         }
-                    }
-                    xhr.send("email=" + email + "&pass=" + pass);
+                    );
                 }
 
                 /** lorsque l'utilisateur appuie sur une touche */
@@ -283,12 +286,11 @@ function afficher_champs() {
 
 function afficher_discord() {
 ?>
-                <iframe
-                    class="aside-discord"
-                    src="https://discordapp.com/widget?id=432533096609480704&theme=dark"
-                    allowtransparency="true"
-                    frameborder="0">
-                </iframe>
+    <div style="width: 12rem; height: 12rem; margin-left: 1rem; ">
+<?php
+        include 'discord.phtml';
+?>
+    </div>
 <?php
 }
 ?>

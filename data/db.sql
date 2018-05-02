@@ -41,7 +41,7 @@ CREATE TABLE "ecole" (
 
 /** joueur */
 CREATE TABLE "joueur" (
-	id		SERIAL		PRIMARY KEY,
+	id			SERIAL		PRIMARY KEY,
 
 	email		VARCHAR		NOT NULL UNIQUE,
 	pseudo		VARCHAR		NOT NULL UNIQUE,
@@ -53,6 +53,17 @@ CREATE TABLE "joueur" (
 
 /** les différents jeux possibles */
 CREATE TYPE t_jeu AS ENUM ('lol', 'fortnite', 'csgo', 'minecraft', 'hearthstone') ;
+
+/** les identifiants permettant de relier un joueur à un compte League of Legend */
+CREATE TABLE "joueur_lol" (
+	joueur_id	INTEGER,
+	FOREIGN KEY (joueur_id) REFERENCES joueur(id),
+
+	/** riot summoner id (long <=> BIGINT) */
+	summoner_id	BIGINT,
+
+	PRIMARY KEY (joueur_id, summoner_id)
+);
 
 /**
  * les différents modes de tournois possibles :
