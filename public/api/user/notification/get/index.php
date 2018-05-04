@@ -1,8 +1,6 @@
 <?php
 
 /**
- *  Requete GET
- *
  *  Renvoie les notifications de l'utilisateur connecté à une session au format json
  *
  *  Arguments:
@@ -10,7 +8,7 @@
  */
 
 /* include path */
-require '../../../../vendor/autoload.php'; 
+require '../../../../../vendor/autoload.php'; 
 
 /* on charge la session */
 session_start();
@@ -32,7 +30,7 @@ if ($pdo == NULL) {
 
 /* prépares la base de données */
 $max = 999;
-$rows = isset($_GET["max"]) ? $_GET["max"] : $max;
+$rows = isset($_POST["max"]) ? $_POST["max"] : $max;
 if ($rows < 0) {
     $rows = 0;
 } else if ($rows > $max) {

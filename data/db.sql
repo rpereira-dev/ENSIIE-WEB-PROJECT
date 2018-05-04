@@ -73,10 +73,10 @@ CREATE TYPE t_mode AS ENUM ('libre', 'restreint') ;
 
 /** un tournoi (peut être une ligue, ou un tournoi ponctuel) */
 CREATE TABLE "tournoi" (
-	id			SERIAL	PRIMARY KEY,
-	nom			VARCHAR	NOT NULL,
-	description		VARCHAR NOT NULL,
-	jeu			t_jeu	NOT NULL,
+	id			SERIAL			PRIMARY KEY,
+	nom			VARCHAR			NOT NULL,
+	description	VARCHAR 		NOT NULL,
+	jeu			t_jeu			NOT NULL,
 	debut_inscriptions	date	NOT NULL,
 	fin_inscriptions	date	NOT NULL,
 	mode				t_mode	DEFAULT 'restreint' 

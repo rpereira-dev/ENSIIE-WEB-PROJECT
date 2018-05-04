@@ -41,7 +41,7 @@
 
 				<script>
 					function seeNotifications() {
-						requestAPI("/notification/see/", "POST", {
+						requestAPI("/user/notification/see/", {
 							200: 	function(response) {
 		                      			console.log("seen");
 									}
@@ -75,7 +75,7 @@
         	var node_counter 		    = document.getElementById("notifications-counter");
 
 			function loadNotifications() {
-                requestAPI("/notification/get/", "POST",
+                requestAPI("/user/notification/get/",
                 	{
                 		200: 	function(response) {
 		                        	//supprimes le contenu précèdent

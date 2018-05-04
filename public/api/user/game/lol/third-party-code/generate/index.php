@@ -1,24 +1,21 @@
 <?php
 
 /**
- *  Requete GET
- *
- *  Relis l'utilisateur de la session courante au compte
-  * League of Legend passé en paramètre.
+ *	Génère un 'third-party-code'
  *
  *  Arguments: -
 
  *  Code erreur:
- *      - 200: la liaison a bien été enregistré.
+ *      - 200: le code a été généré
  *      - 400: reqûete mal formatté. (paramètre manquant, utilisateur non connecté, ou sumonnerID inexistant)
  */
 
 /* include path */
-require '../../../../../vendor/autoload.php'; 
+require '../../../../../../../vendor/autoload.php'; 
 
-use Model\ULCRiot;
 use Model\BDD;
 use Model\Utilisateur;
+use Model\Utils;
 
 /* recupere la session */
 session_start();
@@ -32,7 +29,7 @@ if (!$user->isConnected()) {
 //si la requete est invalide
 } else {
     http_response_code(200);
-    $code = 'IMATOSS';
+    $code = Utils::random_str(32);
     $_SESSION['third-party-code'] = $code;
     echo $code;
 }

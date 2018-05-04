@@ -1,1 +1,86 @@
-		mon profil
+<?php
+		if (!$this->getUser()->isConnected()) {
+			echo 'Non connecté';
+			return ;
+		}
+?>
+
+
+
+		<!-- DEBUT: Profil -->
+		<h1>Votre profil</h1>
+		<form action="TODO" method="post" enctype="multipart/form-data">
+	    	<div>Modifier votre image de profil:</div>
+		    <input type="file">
+		    <input type="submit" value="Envoyer" name="submit">
+		</form>
+
+		<br></br>
+		<div>Changer mon mot de passe: <button>Envoyer mail de réintialisation</button></div>
+
+		<!-- FIN: Profil -->
+
+
+		<!-- DEBUT : League of Legends -->
+		<script>
+			function regenerateCode() {
+                requestAPI('/user/game/lol/third-party-code/generate/', {
+	                    200: function(response) {
+	                        toast('Code regénéré: ' + response, 2);
+	                        document.getElementById("code").value = response;
+	                    },
+	                    400: function(response) {
+	                    	toast('Vous êtes deconnecté. Veuillez vous reconnecter au site...', 0)
+                    	}
+                	}
+                );
+			}
+			regenerateCode();
+
+
+			function verificateCode() {
+				var summonerName = document.getElementById('summoner_name').value;
+				requestAPI('/user/game/lol/third-party-code/link/',
+	                {
+	                    200: 	function(response) {
+	                        		toast("Le nom d'invocateur '" + summonerName + "' est maintenant lié à votre compte!");
+	                    		},
+
+	                    400: 	function(response) {
+	                    			toast("Le nom d'invocateur '" + summonerName + "' ne semble pas exister: " + response, 0)
+	                    		}
+	                },
+
+					{
+						'summonerName': summonerName
+					}
+                );
+			}
+
+			function copyCode() {
+				var copyText = document.getElementById("code");
+				copyText.select();
+				document.execCommand("Copy");
+				toast("Code copié " + copyText.value, 2);
+			}
+		</script>
+
+		<style>
+			.code {
+				cursor: pointer;
+			}
+		</style>
+
+		<h1>League of Legends</h1>
+		<h3>Liste des comptes liées:</h3>
+		<ul>
+			<li>abc</li>
+			<li>def</li>
+			<li>123</li>
+		</ul>
+		<div>Veuillez entrer votre pseudo League of Legends, puis entrez le code dans votre client:</div>
+		<input id="summoner_name"></input>
+		<input type="text" id="code" class="code" onclick="copyCode();" readonly></input>
+		<button style="cursor: pointer;" onclick="verificateCode();">Lier les comptes</button>
+
+		<!-- FIN : League of Legends -->

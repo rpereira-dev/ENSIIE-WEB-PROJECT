@@ -8,6 +8,8 @@
                     return ;
                 }
                 toasts[message] = true;
+                
+                var timer = duration + 500;
                 setTimeout(function() {
                     var bar = document.getElementById("toastbar");
                     bar.innerHTML = message;
@@ -17,7 +19,6 @@
                     var color = (level == 0) ? "error" : (level == 1) ? "warning" : "fine";
                     bar.classList.add(color);
 
-                    var timer = duration + 500;
                     setTimeout(function() {
                                 bar.style.visibility = "hidden";
                                 bar.style.animation  = "";

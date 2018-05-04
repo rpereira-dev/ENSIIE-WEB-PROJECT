@@ -1,8 +1,7 @@
 <?php
 
 /**
- *  Requete POST
- *
+
  *  Enregistre un utilisateur
  *
  *  Arguments:
@@ -13,7 +12,7 @@
  */
 
 /* include path */
-require '../../../../vendor/autoload.php'; 
+require '../../../../../vendor/autoload.php'; 
 
 /* recupere la session */
 session_start();

@@ -1,8 +1,6 @@
 <?php
 
 /**
- *  Requete GET
- *
  *  Relis l'utilisateur de la session courante au compte
   * League of Legend passé en paramètre.
  *
@@ -18,7 +16,7 @@
  */
 
 /* include path */
-require '../../../../../vendor/autoload.php'; 
+require '../../../../../../../vendor/autoload.php'; 
 
 use Model\ULCRiot;
 use Model\BDD;
@@ -34,7 +32,7 @@ if (!$user->isConnected()) {
     http_response_code(400);
     echo 'Non connecté.';
 //si la requete est invalide
-} else if (!isset($_GET['summonerName'])) {
+} else if (!isset($_POST['summonerName'])) {
     http_response_code(400);
     echo "'summonerName' manquant";
 // si le third-party-code n'existe pas (ou à expiré...)
@@ -45,14 +43,14 @@ if (!$user->isConnected()) {
 } else {
     $riot = ULCRiot::riot();
     try {
-        $summoner   = $riot->getSummonerByName($_GET['summonerName']);
+        $summoner   = $riot->getSummonerByName($_POST['summonerName']);
         $code       = $riot->getThirdPartyCodeBySummonerId($summoner->id);
         if (strcmp($_SESSION['third-party-code'], $code) != 0) {
             http_response_code(424);
             echo 'code entré invalide';
         } else {
             try {
-                $user->linkLolAccount(BDD::instance(), $summoner->id);
+                $user->asJoueur()->linkLolAccount(BDD::instance(), $summoner->id);
                 http_response_code(200);
                 echo 'OK';
             } catch (Exception $e) {

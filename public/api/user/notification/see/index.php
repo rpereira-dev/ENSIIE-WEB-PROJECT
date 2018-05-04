@@ -1,14 +1,12 @@
 <?php
 
 /**
- *  Requete GET
- *
  *  Marques toutes les notifications comme 'vu' de l'utilisateur dans la session 
  */
 
 
 /* include path */
-require '../../../../vendor/autoload.php'; 
+require '../../../../../vendor/autoload.php'; 
 
 /* on charge la session */
 session_start();
@@ -38,6 +36,6 @@ $stmt->bindParam(':joueur_id', $id, PDO::PARAM_INT);
 $stmt->execute();
 
 echo 'OK';
-http_response_code(201);
+http_response_code(200);
 
 ?>

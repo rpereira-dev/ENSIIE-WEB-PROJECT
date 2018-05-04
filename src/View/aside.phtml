@@ -7,7 +7,8 @@ function afficher_profil() {
 ?>
         <div class="button" style="margin-top: 1.5rem;">
             <div class="button_text" onclick="
-                requestAPI('/user/disconnect/', 'GET', {
+                requestAPI('/user/account/disconnect/',
+                {
                     200: function(response) {
                         toast('Déconnecté(e). Vous allez être redirigé(e).', 2);
                         setTimeout(function () { window.location.replace(window.location.href); }, 1000);
@@ -189,7 +190,7 @@ function afficher_champs() {
                         return ;
                     }
 
-                    requestAPI('/user/register/', 'POST', 
+                    requestAPI('/user/account/register/', 
                         {
                             200:    function(response) {
                                         toast("Enregistré(e). Vous pouvez maintenant vous connecter.", 2);
@@ -215,7 +216,7 @@ function afficher_champs() {
                         return ;
                     }
 
-                    requestAPI('/user/connect/', 'POST', 
+                    requestAPI('/user/account/connect/', 
                         {
                             200:    function(response) {
                                         toast("Connecté(e). Vous allez être redirigé(e).", 2);
