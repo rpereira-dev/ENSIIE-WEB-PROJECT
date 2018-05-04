@@ -22,7 +22,6 @@ function redirect(domain) {
  function requestAPI(service, callback, args={}) {
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", './api' + service, true);
-	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			if (!callback[xhr.status]) {
@@ -33,11 +32,10 @@ function redirect(domain) {
 		}
 	}
 
-	var arguments = '';
+	var formData = new FormData();
 	for (var argName in args) {
-		arguments = arguments + argName + '=' + args[argName] + '&';
+		formData.append(argName, args[argName]);
 	}
-	console.log(arguments);
 
-	xhr.send(arguments);
+	xhr.send(formData);
  }

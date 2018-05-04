@@ -93,14 +93,18 @@ class Joueur {
         }
 
         $stmt = $pdo->prepare("SELECT * FROM joueur_lol WHERE joueur_id = :joueur_id");
-        $uuid = $this->asJoueur()->getUUID();
+        $uuid = $this->getUUID();
         $stmt->bindParam(':joueur_id',   $uuid,         PDO::PARAM_INT);
         $stmt->execute();
+        if ($stmt->rowCount() == 0) {
+            return [];
+        }
 
+        /* renvoie un tableau associatif de l'entrée dans la table */
         $r = array();
 
-        while (($entry = $stmt−>fetch()) != NULL) {
-            $array_push($r, $entry['summoner_id']);
+        while (($entry = $stmt->fetch()) != NULL) {
+            array_push($r, $entry['summoner_id']);
         }
 
         return ($r);

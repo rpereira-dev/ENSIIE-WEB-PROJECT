@@ -17,7 +17,7 @@
 		<li class="navbar-item navbar-item-hoverable" style="float:right" onclick="redirectToPage('profil');">
 			<div class="navbar-item-profil">
 				<span><?php echo $this->getUser()->asJoueur()->getPseudo(); ?></span>
-				<img src="./res/images/profil/<?php echo $this->getUser()->asJoueur()->getPseudo(); ?>.png"></img>
+				<img src="./api/user/account/image/get/<?php echo $this->getUser()->asJoueur()->getPseudo(); ?>.png"></img>
 			</div>
 		</li>
 

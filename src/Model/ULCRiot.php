@@ -34,7 +34,7 @@ class ULCRiot {
     public static function riot() {
         if (ULCRiot::$riot == NULL) {
             ULCRiot::$riot = new RiotAPI([
-                    RiotAPI::SET_KEY    => 'RGAPI-2b8678bd-1b53-43ef-bfbb-afbc7ca25dad',
+                    RiotAPI::SET_KEY    => 'RGAPI-2b8d4eea-913c-4d2c-ba8b-499aa9ed299f',
                     RiotAPI::SET_REGION => Region::EUROPE_WEST,
                 ]
             );

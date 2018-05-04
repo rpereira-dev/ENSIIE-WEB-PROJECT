@@ -8,12 +8,35 @@
 
 
 		<!-- DEBUT: Profil -->
+		<script>
+			function uploadProfilImage() {
+				var input = document.getElementById('input_image_profil');
+				if (input.files.length < 1) {
+					toast('Veuillez selectionner une image.', 0)
+					return ;
+				}
+
+                requestAPI('/user/account/image/set/',
+                	{
+	                    200: function(response) {
+	                        toast('Votre image a bien été uploadé :) ' + response, 2);
+	                    },
+	                    400: function(response) {
+	                    	toast('Vous êtes deconnecté. Veuillez vous reconnecter au site...', 0)
+                    	}
+                	},
+
+                	{
+                		'image': input.files[0]
+                	}
+                );
+			}
+		</script>
+
 		<h1>Votre profil</h1>
-		<form action="TODO" method="post" enctype="multipart/form-data">
-	    	<div>Modifier votre image de profil:</div>
-		    <input type="file">
-		    <input type="submit" value="Envoyer" name="submit">
-		</form>
+    	<div>Modifier votre image de profil:</div>
+    	<input type="file" accept="image/*" id="input_image_profil"> 
+	    <input type="submit" value="Envoyer" name="submit" onclick="uploadProfilImage();">
 
 		<br></br>
 		<div>Changer mon mot de passe: <button>Envoyer mail de réintialisation</button></div>
@@ -36,7 +59,6 @@
                 );
 			}
 			regenerateCode();
-
 
 			function verificateCode() {
 				var summonerName = document.getElementById('summoner_name').value;
@@ -74,9 +96,15 @@
 		<h1>League of Legends</h1>
 		<h3>Liste des comptes liées:</h3>
 		<ul>
-			<li>abc</li>
-			<li>def</li>
-			<li>123</li>
+<?php 		use Model\ULCRiot;
+    		$riot = ULCRiot::riot();
+			$accounts = $this->getUser()->asJoueur()->listLolAccounts($this->getBDD());
+			foreach ($accounts as $summonerID) {
+				$summoner = $riot->getSummoner($summonerID);
+				echo '<li>' . $summoner->name . '</li>';
+			}
+?>
+
 		</ul>
 		<div>Veuillez entrer votre pseudo League of Legends, puis entrez le code dans votre client:</div>
 		<input id="summoner_name"></input>
