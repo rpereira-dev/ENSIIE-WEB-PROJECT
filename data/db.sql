@@ -26,6 +26,8 @@ DROP TYPE "t_mode";
 DROP TYPE "t_jeu";
 
 DROP TABLE "joueur_lol" CASCADE ;
+DROP TRIGGER "updater_reset_token" ON reset_token;
+DROP FUNCTION "update_reset_token" ;
 DROP TABLE "reset_token" CASCADE ;
 DROP TABLE "joueur" CASCADE ;
 DROP TABLE "ecole" CASCADE ;
@@ -65,6 +67,22 @@ CREATE TABLE "reset_token" (
 	/* date de création du token */
 	date_generation	TIMESTAMP 	DEFAULT now()
 );
+
+/* met à jour la date de génération du token */
+CREATE FUNCTION update_reset_token() RETURNS TRIGGER AS
+$$
+	BEGIN
+		IF NEW IS NOT NULL THEN
+			UPDATE reset_token SET date_generation=NOW() WHERE joueur_id=NEW.joueur_id ;
+		END IF ;
+		RETURN NULL ;
+	END
+$$
+LANGUAGE 'plpgsql';
+
+CREATE TRIGGER "updater_reset_token" AFTER UPDATE OF token ON reset_token FOR EACH ROW EXECUTE PROCEDURE update_reset_token() ;
+
+
 
 /** les différents jeux possibles */
 CREATE TYPE t_jeu AS ENUM ('lol', 'fortnite', 'csgo', 'minecraft', 'hearthstone') ;
@@ -224,6 +242,5 @@ CREATE TRIGGER "notifieur_invitation" AFTER INSERT ON invitation FOR EACH ROW EX
 
 
 
-
-/** TESTS */
+/** TESTS : pass: '123456' */
 INSERT INTO joueur (mail, pseudo, pass) VALUES ('a@a.fr', 'toss', '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');

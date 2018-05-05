@@ -48,7 +48,7 @@ if (!isset($_GET['mail'])) {
 
     } catch (Exception $e) {
         http_response_code(500);
-        echo 'Erreur serveur';
+        echo 'Erreur serveur ' . $e;
     }
 }
 
