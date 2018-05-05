@@ -26,6 +26,7 @@ DROP TYPE "t_mode";
 DROP TYPE "t_jeu";
 
 DROP TABLE "joueur_lol" CASCADE ;
+DROP TABLE "reset_token" CASCADE ;
 DROP TABLE "joueur" CASCADE ;
 DROP TABLE "ecole" CASCADE ;
 DROP TYPE "t_ecole";
@@ -44,12 +45,25 @@ CREATE TABLE "ecole" (
 CREATE TABLE "joueur" (
 	id			SERIAL		PRIMARY KEY,
 
-	email		VARCHAR		NOT NULL UNIQUE,
+	mail		VARCHAR		NOT NULL UNIQUE,
 	pseudo		VARCHAR		NOT NULL UNIQUE,
 	pass		VARCHAR		NOT NULL,
 
 	ecole_id	INTEGER,
 	FOREIGN KEY (ecole_id) REFERENCES ecole(id)
+);
+
+/** token de reinitialisation */
+CREATE TABLE "reset_token" (
+	/* le joueur */
+	joueur_id		INTEGER 	PRIMARY KEY,
+	FOREIGN KEY (joueur_id) 	REFERENCES joueur(id),
+	
+	/* le token */
+	token 			VARCHAR(32)	NOT NULL,
+	
+	/* date de création du token */
+	date_generation	TIMESTAMP 	DEFAULT now()
 );
 
 /** les différents jeux possibles */
@@ -206,3 +220,10 @@ $$
 LANGUAGE 'plpgsql';
 
 CREATE TRIGGER "notifieur_invitation" AFTER INSERT ON invitation FOR EACH ROW EXECUTE PROCEDURE notifier_invite() ;
+
+
+
+
+
+/** TESTS */
+INSERT INTO joueur (mail, pseudo, pass) VALUES ('a@a.fr', 'toss', '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');
