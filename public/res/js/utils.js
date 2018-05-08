@@ -1,23 +1,29 @@
 /**
- *	rediriges vers une autre page du site
+ * rediriges vers une autre page du site
  */
 function redirectToPage(page) {
     window.location.replace("?page=" + page);
 }
 
 /**
- *	rediriges vers une autre page externe au site
+ * rediriges vers une autre page externe au site
  */
 function redirect(domain) {
     window.location.replace(domain);
 }
 
 /**
- *	effectue une requete à l'api (toujours en méthode POST)
- *
- *	@param service: la chaine de caractère correspondant au service. e.x: '/user/disconnect'
- *	@param callback : 	une map reliant les codes de réponses html (200, 404, ...) à une fonction
- *						qui sera appelé en fonction du code de réponse obtenus par la requête.
+ * effectue une requete à l'api (toujours en méthode POST)
+ * 
+ * @param service:
+ *            la chaine de caractère correspondant au service. e.x:
+ *            '/user/disconnect'
+ * @param callback :
+ *            une map reliant les codes de réponses html (200, 404, ...) à une
+ *            fonction qui sera appelé en fonction du code de réponse obtenus
+ *            par la requête.
+ * @param args:
+ *            une map avec les paramètres de la requête
  */
  function requestAPI(service, callback, args={}) {
 	var xhr = new XMLHttpRequest();

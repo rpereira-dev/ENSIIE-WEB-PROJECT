@@ -1,25 +1,25 @@
 /**
  *      Contient le css de la barre de navigation (à droite vertical)
  */
- .aside {
- 	display: block;
- 	width: 14rem;
-    height: calc(100% - 4rem);
- 	background-color:#1B1C23F7;
-    box-shadow: -0.5vh 1vh 0.5vh 0.5vh rgba(0, 0, 0, 0.5);
-    transition: 0.25s;
-    overflow-x: hidden;
-    position: fixed;
-    z-index: 1;
-    top: 4rem;
-    right: 0;
-    overflow-x: hidden;
-    text-align: center;
+.aside {
+	display: block;
+	width: 14rem;
+	height: calc(100% - 4rem);
+	background-color: #1B1C23F7;
+	box-shadow: -0.5vh 1vh 0.5vh 0.5vh rgba(0, 0, 0, 0.5);
+	transition: 0.25s;
+	overflow-x: hidden;
+	position: fixed;
+	z-index: 1;
+	top: 4rem;
+	right: 0;
+	overflow-x: hidden;
+	text-align: center;
 }
 
 .aside-discord {
-    width: 12rem;
-    height: 20rem;
+	width: 12rem;
+	height: 20rem;
 }
 
 .aside-login-form {
@@ -34,13 +34,11 @@
 }
 
 .aside-captcha {
-    margin-top : 1rem;
-
-    transform : scale(0.62);
-    transform-origin : 0 2.0rem;
-
-    -webkit-transform : scale(0.62);
-    -webkit-transform-origin : 0 2.0rem;
+	margin-top: 1rem;
+	transform: scale(0.62);
+	transform-origin: 0 2.0rem;
+	-webkit-transform: scale(0.62);
+	-webkit-transform-origin: 0 2.0rem;
 }
 
 .aside-login-labels {
@@ -49,5 +47,5 @@
 }
 
 .aside .button {
-    margin-bottom: 1.0rem;
+	margin-bottom: 1.0rem;
 }

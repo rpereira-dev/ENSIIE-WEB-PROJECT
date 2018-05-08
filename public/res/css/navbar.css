@@ -2,41 +2,41 @@
  *      Contient le css de la barre de recherche (en haut au milieu)
  */
 .navbar {
-    position: fixed;
- 	width: calc(100% - 12rem);
- 	height: 4rem;
-    top: 0rem;
-    left: 12rem;
- 	background-color:#1B1C23F7;
-    box-shadow: 0.5vh 1vh 0.5vh 0.5vh rgba(0, 0, 0, 0.5);
-    z-index: 3;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+	position: fixed;
+	width: calc(100% - 12rem);
+	height: 4rem;
+	top: 0rem;
+	left: 12rem;
+	background-color: #1B1C23F7;
+	box-shadow: 0.5vh 1vh 0.5vh 0.5vh rgba(0, 0, 0, 0.5);
+	z-index: 3;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
 }
 
 .navbar-item {
-    position: relative;
+	position: relative;
 }
 
 .navbar-item-prompt {
 	display: block;
-    color: white;
-    text-align: center;
-    font-size: 1.2rem;
-    margin-top: 0.8rem;
-    margin-left: 1rem
+	color: white;
+	text-align: center;
+	font-size: 1.2rem;
+	margin-top: 0.8rem;
+	margin-left: 1rem
 }
 
 .navbar-item-profil {
-    display: flex;
+	display: flex;
 	padding: 1.0rem 1.0rem;
 	text-align: center;
 }
 
 .navbar-item-profil span {
-    color: white;
-    margin-top: 0.5rem;
+	color: white;
+	margin-top: 0.5rem;
 }
 
 .navbar-item-profil img {
@@ -47,42 +47,42 @@
 
 .navbar-item-icon {
 	display: block;
-    color: #F0F0F0;
-    text-align: center;
-    padding: 1.2rem 1.2rem;
-    font-size: 1.4rem;
+	color: #F0F0F0;
+	text-align: center;
+	padding: 1.2rem 1.2rem;
+	font-size: 1.4rem;
 }
 
 .navbar-item-hoverable {
-    border-top: 0.2rem solid #1B1C23F7;
-    transition: all 0.15s ease-in-out;
+	border-top: 0.2rem solid #1B1C23F7;
+	transition: all 0.15s ease-in-out;
 }
 
 .navbar-item-hoverable:hover {
 	cursor: pointer;
 	color: #FFFFFF;
 	border-color: #FFFFFF;
-    border-top: 0.2rem solid #FFFFFF;
-    background-color: #12132367 ;
+	border-top: 0.2rem solid #FFFFFF;
+	background-color: #12132367;
 }
 
 .navbar-item-bell {
-    position: absolute;
-    right: 0rem;
+	position: absolute;
+	right: 0rem;
 }
 
 .navbar-item .notifications {
-    position: absolute;
-    min-width: 12rem;
-    max-width: 12rem;
-    right: 0rem;
-    top: 4rem;
+	position: absolute;
+	min-width: 12rem;
+	max-width: 12rem;
+	right: 0rem;
+	top: 4rem;
 }
 
 .navbar-item .notifications-counter {
-    position: absolute;
-    width: 1.2rem;
-    height: 1.2rem;
-    right: 0.2rem;
-    top: 0.5rem;
+	position: absolute;
+	width: 1.2rem;
+	height: 1.2rem;
+	right: 0.2rem;
+	top: 0.5rem;
 }

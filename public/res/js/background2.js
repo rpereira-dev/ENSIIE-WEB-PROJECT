@@ -105,7 +105,7 @@ function onPageLoaded() {
 
 function initCanvas() {
 	canvas = document.getElementById("bgCanvasID");
-	/*canvas.style.webkitFilter = "blur(3px)";*/
+	/* canvas.style.webkitFilter = "blur(3px)"; */
 	onResize();
 }
 

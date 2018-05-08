@@ -1,0 +1,117 @@
+\documentclass[10pt]{article}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[frenchb]{babel}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[T1]{fontenc}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{wrapfig}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage[hmargin=1.25in,vmargin=1.25in]{geometry}
+\usepackage{framed}
+\usepackage{mathenv}
+\usepackage{blkarray}
+
+%title setuplisting
+\title{Projet WEB de groupe}
+\author{
+  Gangyue CHEN \\
+  Louis LAFUMA \\
+  Baptiste LAMBERT \\
+  Romain PEREIRA
+}
+\date{22/05/2018}
+
+% table of contents setup
+\renewcommand{\contentsname}{Sommaire}
+\usepackage{etoolbox}
+\patchcmd{\thebibliography}{\section*{\refname}}{}{}{}
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+\newcommand{\hsp}{\hspace{20pt}}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\hypersetup{
+  colorlinks,
+  citecolor=black,
+  filecolor=black,
+  linkcolor=blue,
+  urlcolor=red
+}
+
+\begin{document}
+  \begin{titlepage}
+    \begin{sffamily}
+      \begin{center}
+	
+	\textsc{\LARGE ENSIIE}\\[2cm]
+	\textsc{\Large Rapport de projet}\\[1.5cm]
+	% Title
+	\HRule \\[0.4cm]
+	{ \huge \bfseries Projet web en groupe ENSIIE 1A 2018\\[0.4cm] }
+	\HRule \\[2cm]
+	
+	\begin{minipage}{0.4\textwidth}
+	  \begin{flushleft} \large
+	    Guangyue \textsc{Chen}\\
+	    Louis \textsc{Lafuma}\\
+	    Baptiste \textsc{Lambert}\\
+	    Romain \textsc{Pereira}\\
+	  \end{flushleft}
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+	  \begin{flushright} \large
+	    \emph{Encadrants :} \\
+	    Thomas \textsc{Comes}\\
+	    Nassim \textsc{Kirouane}\\
+	    Rémi \textsc{Parpaillon}\\
+	  \end{flushright}
+	\end{minipage}
+	
+	\vfill
+	% Bottom of the page
+	{\large 22/05/2018}
+      \end{center}
+    \end{sffamily}
+  \end{titlepage}
+  \maketitle
+  \tableofcontents
+  
+  \section*{Préambule}
+  Ce projet est réalisé dans le cadre de nos études à l'ENSIIE.
+  Les objectifs sont d'apprendre à concevoir et développer des applications web utilisant un serveur de bases de données,
+  et prendre conscience des problématiques d’organisations d’équipes et de répartition des tâches.
+  
+  \newpage
+  \section{Partie A}
+  
+  \newpage
+  \section{Références}
+  \begin{thebibliography}{}
+    
+    \bibitem{riotapi}\label{riotapi}
+    API officiel de Riot Games\newline
+    \href{https://fr.wikipedia.org/wiki/Matrice\_tridiagonale}
+    {\textit{https://fr.wikipedia.org/wiki/Matrice\_tridiagonale}}
+    
+    
+    \bibitem{banded}\label{banded}
+    'Résolution de système linéaires 'en bande' - SCIPY\newline
+    \href{https://docs.scipy.org/doc/scipy/reference/linalg.html}
+    {\textit{https://docs.scipy.org/doc/scipy/reference/linalg.html}}
+    
+    
+  \end{thebibliography}
+  
+\end{document}

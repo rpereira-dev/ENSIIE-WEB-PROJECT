@@ -100,7 +100,7 @@ class Background {
 	}
 
 
-	//TODO : when to call it?
+	// TODO : when to call it?
 	deinitGL() {
 		gl.deleteShader(this.fs);
 		gl.deleteShader(this.vs);
@@ -108,7 +108,7 @@ class Background {
 		gl.deleteBuffer(this.vbo);
 	}
 
-	//TODO : optimize this with a single buffer and draw indices
+	// TODO : optimize this with a single buffer and draw indices
 	/* intialises les triangles */
 	initTriangles() {
 		/* initialisation de la grille */
@@ -152,15 +152,12 @@ class Background {
 			vertices.push.apply(vertices, v3);
 	
 	/*
-			vertices.push.apply(vertices, v1);
-			vertices.push.apply(vertices, v2);
-
-			vertices.push.apply(vertices, v2);
-			vertices.push.apply(vertices, v3);
-
-			vertices.push.apply(vertices, v3);
-			vertices.push.apply(vertices, v1);
-			*/
+	 * vertices.push.apply(vertices, v1); vertices.push.apply(vertices, v2);
+	 * 
+	 * vertices.push.apply(vertices, v2); vertices.push.apply(vertices, v3);
+	 * 
+	 * vertices.push.apply(vertices, v3); vertices.push.apply(vertices, v1);
+	 */
 		}
 
 	    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
@@ -181,30 +178,23 @@ class Background {
 	}
 
 	/**
-	 *	Met à jour le fond d'écran
-	 *
-	 *	@param dt : temps entre le dernier appel de cette fonction et maintenant
+	 * Met à jour le fond d'écran
+	 * 
+	 * @param dt :
+	 *            temps entre le dernier appel de cette fonction et maintenant
 	 */
 	 update(dt) {
 	 	/*
-		for (var i = 0 ; i < this.origins.length ; i++) {
-			var x = this.origins[i][0];
-			var y = this.origins[i][1];
-			var dx = cursorX - x;
-			var dy = cursorY - y;
-			var d = dx * dx + dy * dy;
-			if (d < 200) {
-				d = 200;
-			}
-			var offx = -2000 * dx / d;
-			var offy = -2000 * dy / d;
-			this.positions[i][0] = x + offx;
-			this.positions[i][1] = y + offy;
-		}*/
+		 * for (var i = 0 ; i < this.origins.length ; i++) { var x =
+		 * this.origins[i][0]; var y = this.origins[i][1]; var dx = cursorX - x;
+		 * var dy = cursorY - y; var d = dx * dx + dy * dy; if (d < 200) { d =
+		 * 200; } var offx = -2000 * dx / d; var offy = -2000 * dy / d;
+		 * this.positions[i][0] = x + offx; this.positions[i][1] = y + offy; }
+		 */
 	}
 
 	/**
-	 *	Met à jour le canvas sur lequel le fond est dessiné
+	 * Met à jour le canvas sur lequel le fond est dessiné
 	 */
 	 draw() {
 		/* clear screen */
@@ -220,7 +210,7 @@ class Background {
 		var t = ms / 500.0 * 3.1418 * 2.0;
 		gl.uniform1f(this.u_time, t);
 
-	//	gl.drawArrays(gl.LINES, 0, this.vertexCount);
+	// gl.drawArrays(gl.LINES, 0, this.vertexCount);
 		gl.drawArrays(gl.TRIANGLES, 0, this.vertexCount);
 
 	    var err = gl.getError();
@@ -245,7 +235,7 @@ function initCanvas() {
 	onResize();
 	gl = canvas.getContext("experimental-webgl");
 
-	/*canvas.style.webkitFilter = "blur(3px)";*/
+	/* canvas.style.webkitFilter = "blur(3px)"; */
 }
 
 function onResize() {

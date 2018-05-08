@@ -302,7 +302,7 @@ class Background {
 			img.src = url;
 			return (textureInfo);
 		}
-		//this.lolbg = loadImage("./images/lolbg.png");
+		// this.lolbg = loadImage("./images/lolbg.png");
 		this.lolbg = loadImage("./images/lolbg.png");
 
 	   	/* bind texture */
@@ -311,7 +311,7 @@ class Background {
 	}
 
 
-	//TODO : when to call it?
+	// TODO : when to call it?
 	deinitGL() {
 		gl.deleteShader(this.fs);
 		gl.deleteShader(this.vs);
@@ -337,20 +337,21 @@ class Background {
 	}
 
 	/**
-	 *	Met à jour le fond d'écran
-	 *
-	 *	@param dt : temps entre le dernier appel de cette fonction et maintenant
+	 * Met à jour le fond d'écran
+	 * 
+	 * @param dt :
+	 *            temps entre le dernier appel de cette fonction et maintenant
 	 */
 	 update(dt) {
 	 	this.timer += dt;
 	}
 
 	/**
-	 *	Met à jour le canvas sur lequel le fond est dessiné
+	 * Met à jour le canvas sur lequel le fond est dessiné
 	 */
 	 draw() {
 		/* clear screen */
-		//gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		// gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 		/* uniforms */
 		gl.uniform1f(this.u_cursorX, 2.0 * cursorX / canvas.width - 1.0);
@@ -386,7 +387,7 @@ function initCanvas() {
 	gl = canvas.getContext("experimental-webgl");
 	onResize();
 
-	/*canvas.style.webkitFilter = "blur(3px)";*/
+	/* canvas.style.webkitFilter = "blur(3px)"; */
 }
 
 function onResize() {

@@ -64,7 +64,7 @@ class Background {
 		/* use the program */
 		gl.useProgram(this.program);
 
-		//create vao
+		// create vao
 		this.vao = gl.createVertexArray();
 		gl.bindVertexArray(this.vao);
 
@@ -97,7 +97,7 @@ class Background {
 	}
 
 
-	//TODO : when to call it?
+	// TODO : when to call it?
 	deinitGL() {
 		gl.deleteShader(this.fs);
 		gl.deleteShader(this.vs);
@@ -107,7 +107,7 @@ class Background {
 		gl.deleteBuffer(this.indexVbo);
 	}
 
-	//TODO : optimize this with a single buffer and draw indices
+	// TODO : optimize this with a single buffer and draw indices
 	/* intialises les triangles */
 	initTriangles() {
 		/* initialisation de la grille */
@@ -146,8 +146,9 @@ class Background {
 
 
 	   // gl.bindBuffer(gl.ARRAY_BUFFER, this.lineVbo);
-	    //gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(lineVertices), gl.STATIC_DRAW);
-		//this.linesVertexCount = lineVertices.length / 3;
+	    // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(lineVertices),
+		// gl.STATIC_DRAW);
+		// this.linesVertexCount = lineVertices.length / 3;
 	}
 
 	/* constructeur par défaut */
@@ -167,9 +168,10 @@ class Background {
 	}
 
 	/**
-	 *	Met à jour le fond d'écran
-	 *
-	 *	@param dt : temps entre le dernier appel de cette fonction et maintenant
+	 * Met à jour le fond d'écran
+	 * 
+	 * @param dt :
+	 *            temps entre le dernier appel de cette fonction et maintenant
 	 */
 	update(dt) {
 
@@ -196,7 +198,7 @@ class Background {
 	}
 
 	/**
-	 *	Met à jour le canvas sur lequel le fond est dessiné
+	 * Met à jour le canvas sur lequel le fond est dessiné
 	 */
 	 draw() {
 		/* clear screen */
@@ -210,8 +212,8 @@ class Background {
 		gl.bindVertexArray(this.vao);
 		gl.drawElements(gl.TRIANGLES, this.indexCount, gl.UNSIGNED_SHORT, 0);
 
-		//gl.bindBuffer(gl.ARRAY_BUFFER, this.lineVbo);
-		//gl.drawArrays(gl.LINES, 0, this.linesVertexCount);
+		// gl.bindBuffer(gl.ARRAY_BUFFER, this.lineVbo);
+		// gl.drawArrays(gl.LINES, 0, this.linesVertexCount);
 
 	    var err = gl.getError();
 	    if (err != gl.NO_ERROR) {
@@ -222,7 +224,7 @@ class Background {
 	    	errors[gl.INVALID_FRAMEBUFFER_OPERATION] 	= "gl.INVALID_FRAMEBUFFER_OPERATION";
 	    	errors[gl.OUT_OF_MEMORY] 					= "gl.OUT_OF_MEMORY";
 	    	errors[gl.CONTEXT_LOST_WEBGL] 				= "gl.CONTEXT_LOST_WEBGL";
-	        //console.log("GL error occured : " + errors[err]);
+	        // console.log("GL error occured : " + errors[err]);
 	    }
 	}
 }
@@ -242,7 +244,7 @@ function initCanvas() {
 	onResize();
 	gl = canvas.getContext("webgl2");
 
-	/*canvas.style.webkitFilter = "blur(3px)";*/
+	/* canvas.style.webkitFilter = "blur(3px)"; */
 }
 
 function onResize() {
