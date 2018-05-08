@@ -9,7 +9,7 @@
  * Version 2012-03-09
  *
  * This code was placed in the public domain by its original author,
- * Stefan Gustavson. You may use it as you see fit, but
+ * Stefan Gustavson. You may use it as you seeall fit, but
  * attribution is appreciated.
  *
  */

@@ -1,47 +1,55 @@
 <?php
 
 /**
- *  Réinitialise le mot de passe si le token est correct.
- *
- *	Requete GET
- *
- *  Paramètres:
- *      - mail  : l'adresse mail associé au compte
- *      - token : le token associé au compte
+ *  @file
+ *	@brief Modifie le mot de passe de l'utilisateur à partir d'un \a token généré au préalable.
+ *	@param :
+ *		- POST \a token : un token généré via \ref api/user/account/password/reset/index.php
+ *		- POST \a mail
+ *		- POST \a pass
+ *	@return
+ *		- code reponse:
+ *						- 200 : le mot de passe a été modifié avec succès
+ *						- 400 : erreur de la requête (paramètre(s) manquant(s) ou invalide(s))
+ *						- 401 : token incorrect
+ *						- 503 : erreur serveur (accès à la base de donnée)
  */
+
+///@cond INTERNAL
 
 /* include path */
 require '../../../../../../vendor/autoload.php'; 
 
 /* import */
 use Model\BDD;
+use Model\Utilisateur;
 use Model\Utils;
 
 //si le joueur n'est pas connecté
-if (!isset($_GET['mail']) || !isset($_GET['token'])) {
+if (!isset($_POST['mail']) || !isset($_POST['token']) || !isset($_POST['pass'])) {
     http_response_code(400);
     echo "Requete invalide";
 } else {
-	$bdd = BDD::instance();
+	$bdd   = BDD::instance();
+	$user  = Utilisateur::instance();
+	$mail  = $_POST['mail'];
+	$token = $_POST['token'];
+	$pass  = $_POST['pass'];
 	try {
-		$pdo = $bdd->getConnection("ulc");
-		$stmt = $pdo->prepare("
-								SELECT * FROM reset_token
-									JOIN joueur ON joueur_id=id
-										WHERE mail=:mail AND token=:token AND (NOW() BETWEEN date_generation AND date_generation +  '15 minutes'::interval)
-							");
-        $stmt->bindParam(':mail', $_GET['mail'], PDO::PARAM_STR);
-        $stmt->bindParam(':token', $_GET['token'], PDO::PARAM_STR);
-        $stmt->execute();
-        if ($stmt->rowCount() == 0) {
-    		http_response_code(400);
-    		echo "Token invalide";
+        if ($user->isTokenValid($bdd, $mail, $token)) {
+        	$user->modifyPassword($bdd, $mail, $pass);
+        	http_response_code(200);
+        	echo "OK";
         } else {
-        	$entry = $stmt->fetch();
-        	//TODO : input pour entrer le nouveau mot de passe
+    		http_response_code(401);
+    		echo "Token invalide";
         }
 	} catch (Exception $e) {
-		http_response_code(500);
-		echo "Erreur serveur : " . $e;
+		http_response_code(503);
+		echo "Erreur serveur";
 	}
 }
+
+///@endcond
+
+?>

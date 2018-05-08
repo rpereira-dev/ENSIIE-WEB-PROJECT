@@ -28,10 +28,10 @@ function afficher_champs() {
             <!-- formulaire d'enregistrement -->
             <div id="inscription_form" class="aside-login-form">
                 <!-- addresse mail -->
-                <div id="emailID" class="prompt">
+                <div id="mailID" class="prompt">
                     <i class="prompt-logo fa fa-envelope navbar-search-logo"></i>
-                    <input  id="input_emailID"
-                            name="email"
+                    <input  id="input_mailID"
+                            name="mail"
                             class="prompt-input"
                             type="text"
                             placeholder="Adresse mail..."
@@ -112,12 +112,12 @@ function afficher_champs() {
                 var elements  = {};
                 var validates = {};
 
-                /* email validation */
-                elements["input_emailID"]  = "emailID";
-                validates["input_emailID"] = function() {
-                    var email = document.getElementById("input_emailID").value;
+                /* mail validation */
+                elements["input_mailID"]  = "mailID";
+                validates["input_mailID"] = function() {
+                    var mail = document.getElementById("input_mailID").value;
                     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    return re.test(String(email).toLowerCase());
+                    return re.test(String(mail).toLowerCase());
                 };
 
                 /* pseudo validation */
@@ -169,7 +169,7 @@ function afficher_champs() {
 
                 /** enregistre l'utilisateur avec les informations actuellement entrées */
                 function register() {
-                    if (!validates["input_emailID"]()) {
+                    if (!validates["input_mailID"]()) {
                         toast("Veuillez entrer une adresse mail valide.", 0);
                         return ;
                     }
@@ -199,7 +199,7 @@ function afficher_champs() {
                         },
 
                         {
-                            "email"         : document.getElementById("input_emailID").value,
+                            "mail"          : document.getElementById("input_mailID").value,
                             "pseudo"        : document.getElementById("input_pseudoID").value,
                             "pass"          : document.getElementById("input_passID").value,
                             "g-recaptcha"   : catpchaResponse
@@ -209,9 +209,9 @@ function afficher_champs() {
 
                 /** connectes l'utilisateur avec les informations actuellement entrées dans les champs */
                 function connect() {
-                    var email = document.getElementById("input_emailID").value;
+                    var mail = document.getElementById("input_mailID").value;
                     var pass =  document.getElementById("input_passID").value;
-                    if (!validates["input_emailID"]() || !validates["input_passID"]()) {
+                    if (!validates["input_mailID"]() || !validates["input_passID"]()) {
                         toast("Les identifiants de connections sont invalides.", 0);
                         return ;
                     }
@@ -225,7 +225,7 @@ function afficher_champs() {
                         },
 
                         {
-                            "email": email,
+                            "mail": mail,
                             "pass" : pass
                         }
                     );

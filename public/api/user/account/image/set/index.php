@@ -1,18 +1,20 @@
 <?php
 
 /**
- *  Définit l'image de profil correspondant à l'utilisateur du stie
- *
- *  Paramètres:
- *      - image : l'image
- *
- *  Reponse:
- *      - 200 : si l'image a été upload
- *      - 400 : joueur non connecté
- *		- 401 : requete mal formatté  
+ *  @file
+ *  @brief Définit l'image de profil d'un joueur
+ *  @param :
+ *      - COOKIE \a PHPSESSID : le cookie de session
+ *      - FILES \a image      : l'image du joueur
+ *  @return
+ *      - code reponse:
+ *                      - 200 : l'image a été trouvé et renvoyé
+ *                      - 400 : erreur requête (paramètre(s) manquant(s), invalide(s))
+ *                      - 401 : utilisateur non identifié
  */
 
-/* include path */
+///@cond INTERNAL
+
 require '../../../../../../vendor/autoload.php'; 
 
 use Model\Utilisateur;
@@ -40,7 +42,7 @@ if (!isset($_FILES['image'])
 
 $info = getimagesize($_FILES['image']['tmp_name']);
 if (!$info || $info[2] != IMAGETYPE_PNG) {
-    http_response_code(401);
+    http_response_code(400);
     echo "Le fichier n'est pas une image valide. Le seul format supporté est '.png'";
     return ;
 }
@@ -49,5 +51,7 @@ http_response_code(200);
 $dst = "../get/" . $user->asJoueur()->getPseudo() . ".png";
 move_uploaded_file($_FILES["image"]["tmp_name"], $dst);
 
+
+///@endcond
 
 ?>

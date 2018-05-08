@@ -1,11 +1,20 @@
 <?php
-
 /**
- *  Génère un token de réinitialisation de mot de passe, et envoie un mail
- *
- *  Paramètres:
- *      - mail : l'adresse mail associé au compte
+ *  @file
+ *  @brief Génère un token de réinitialisation de mot de passe
+ *  @details Ce token pourra être utilisé pendant 15 minutes pour une requête de modification.
+ *           \ref api/user/account/password/modify/index.php
+ *  @param :
+ *      - POST \a mail : l'adresse mail lié au compte
+ *  @return
+ *      - un mail contenant le token est envoyé à l'adresse fournie.
+ *      - code reponse:
+ *                      - 200 : le token a été généré et envoyé
+ *                      - 400 : erreur de la requête (paramètre(s) manquant(s) ou invalide(s))
+ *                      - 503 : erreur serveur (accès à la base de donnée)
  */
+
+///@cond INTERNAL
 
 /* include path */
 require '../../../../../../vendor/autoload.php'; 
@@ -47,9 +56,11 @@ if (!isset($_GET['mail'])) {
         mail($mail, $subject, $content, $headers);
 
     } catch (Exception $e) {
-        http_response_code(500);
-        echo 'Erreur serveur ' . $e;
+        http_response_code(503);
+        echo 'Erreur serveur';
     }
 }
+
+///@endcond
 
 ?>

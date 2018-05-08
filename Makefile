@@ -12,6 +12,9 @@ help:
 	@echo "${bold}db.connect${normal}\n\t Connects to the database.\n"
 	@echo "${bold}phpunit.run${normal}\n\t Runs the unit tests.\n"
 
+doc:
+	cd doc ; doxygen .doxygen ; cd ..
+
 start:
 	docker-compose up --build -d
 	sleep 3
@@ -57,3 +60,5 @@ phpunit.run:
 
 composer.install:
 	docker-compose exec php composer install || exit 0
+
+.PHONY: doc

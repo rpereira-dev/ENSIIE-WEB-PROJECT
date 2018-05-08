@@ -1,14 +1,20 @@
 <?php
 
 /**
- *	Génère un 'third-party-code'
- *
- *  Arguments: -
-
- *  Code erreur:
- *      - 200: le code a été généré
- *      - 400: reqûete mal formatté. (paramètre manquant, utilisateur non connecté, ou sumonnerID inexistant)
+ *  @file
+ *  @brief Génère un \a third-party-code permettant de lié un compte League of Legend à un compte utilisateur du site.
+ *	@details \ref api/user/game/lol/third-party-code/link/index.php
+ *  @param :
+ *      - COOKIE \a PHPSESSID : le cookie de session PHP \ref api/user/account/connect/index.php
+ *  @return
+ *		- le code généré
+ *      - code reponse:
+ *                      - 200 : le code a été généré avec succès
+ *                      - 400 : erreur de la requête (paramètre(s) manquant(s) ou invalide(s))
  */
+
+///@cond INTERNAL
+
 
 /* include path */
 require '../../../../../../../vendor/autoload.php'; 
@@ -33,3 +39,7 @@ if (!$user->isConnected()) {
     $_SESSION['third-party-code'] = $code;
     echo $code;
 }
+
+///@endcond INTERNAL
+
+?>

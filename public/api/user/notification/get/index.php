@@ -1,11 +1,34 @@
 <?php
 
 /**
- *  Renvoie les notifications de l'utilisateur connecté à une session au format json
- *
- *  Arguments:
- *      - max : nombre maximum de notifications à afficher (les 'max' plus récentes)
+ *  @file
+ *  @brief Renvoie toutes les notifications de l'utilisateur du site
+ *  @param :
+ *      - COOKIE \a PHPSESSID : le cookie de session PHP \ref api/user/account/connect/index.php
+ *      - \a max (optionnel) : nombre maximum de notifications à afficher (les 'max' plus récentes)
+ *  @return
+ *      - JSON : les notifications
+ *      \code{.json}
+ *  {
+ *      "notifications": [
+ *        {
+ *              "id": "1",
+ *              "type": "bienvenue",
+ *              "content": "L'équipe d'ULC vous souhaite la bienvenue.",
+ *              "date": "2018-05-07 14:08:52.671358",
+ *              "status": "unseen",
+ *              "action": "equipe"
+ *          }
+ *      ]
+ *  }
+ *      \endcode
+ *      - code reponse:
+ *                      - 200 : les notifications ont été généré avec succès
+ *                      - 401 : non connecté(e)
  */
+
+///@cond INTERNAL
+
 
 /* include path */
 require '../../../../../vendor/autoload.php'; 
@@ -51,6 +74,8 @@ if ($stmt->rowCount() > 0) {
     $entry = $stmt->fetch();
     while ($entry != NULL) {
         echo '{';
+            echo '"id":"' . $entry['id'] . '"';
+            echo ',';
             echo '"type":"' . $entry['type'] . '"';
             echo ',';
             echo '"content":"';
@@ -89,4 +114,8 @@ if ($stmt->rowCount() > 0) {
     }
 }
 echo ']}';
+
+
+///@endcode
+
 ?>

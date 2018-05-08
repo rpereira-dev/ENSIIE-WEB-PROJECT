@@ -41,9 +41,9 @@
 
 				<script>
 					function seeNotifications() {
-						requestAPI("/user/notification/see/", {
+						requestAPI("/user/notification/seeall/", {
 							200: 	function(response) {
-		                      			console.log("seen");
+										toast("vu", 2, 500);
 									}
 						});
 					}
@@ -98,8 +98,26 @@
 		                        		node_notification.classList.add("notification");
 		                        		node_notification.id    = "notification_" + i;
 		                        		node_notification.onclick = function() {
-		                        			redirectToPage(notification.action);
+                                            node_notification.classList.remove("notification-unseen");
+                                            requestAPI("/user/notification/see/",
+                                            	{
+													200: 	function(response) {
+																toast("vu " + response, 2, 500);
+															}
+												},
+
+												{
+													'id': notification.id
+												}
+											);
+                                            //redirectToPage(notification.action);
 		                        		};
+                                        //si non lu...
+                                        if (notification.status == "unseen") {
+                                            ++unseen;
+                                            node_notification.classList.add("notification-unseen");
+                                        }
+
 
 										var node_notification_content = document.createElement("div");
 										node_notification_content.classList.add("notification-content");
@@ -114,12 +132,6 @@
 										node_notification.appendChild(node_notification_content);
 										node_notification.appendChild(node_notification_date);
 										node_notifications_list.appendChild(node_notification);
-
-										//si non lu...
-										if (notification.status == "unseen") {
-											++unseen;
-											node_notification.classList.add("notification-unseen");
-										}
 		                        	}
 
 		                        	//on met à jour le nombre de notifications non lues

@@ -1,45 +1,54 @@
 <?php
 
 /**
- *  Connectes un utilisateur
+ *  @file
+ *  @brief Crée une session utilisateur.
+ *	@details Si succès, génère une session PHP (renvoie un Cookie de session), et affiche
+ *			l'utilisateur au format JSON.
  *
- *  Arguments:
- *      - email
- *      - pass (en 'clair') (sera crypté par la suite)
+ *			Sinon, renvoie le code d'erreur correspondant.
+ *	@param :
+ *		- POST \a mail
+ *		- POST \a pass
+ *	@return
+ *      - COOKIE \a PHPSESSID : le cookie de session
+ *		- code reponse:
+ *						- 200 : l'utilisateur est connecté, affiche l'utilisateur au format JSON
+ *						- 400 : erreur de la requête : paramètre(s) manquant(s)
+ *						- 401 : identifiants incorrects
+ *						- 503 : erreur serveur : accès à la base de donnée
  */
 
-/* include path */
+///@cond INTERNAL
+
 require '../../../../../vendor/autoload.php'; 
 
-/* recupere la session */
 session_start();
 
-/* recupere l'utilisateur */
 $bdd = \Model\BDD::instance();
-
-/* recupere l'utilisateur */
 $user = \Model\Utilisateur::instance();
 
-/* vérifie que les entrées existent */
-if (isset($_POST['email']) && isset($_POST['pass'])) {
-    /* verifie la validité des entrées (injections sql ...) */
-    $mail = filter_input(INPUT_POST, 'email',   FILTER_SANITIZE_EMAIL);
+if (isset($_POST['mail']) && isset($_POST['pass'])) {
+    $mail = filter_input(INPUT_POST, 'mail',   FILTER_SANITIZE_EMAIL);
     $pass = filter_input(INPUT_POST, 'pass',    FILTER_SANITIZE_STRING);
 
-    /* on enregistre l'utilisateur */
     try {
-        http_response_code(200);
-        $user->connectAs($bdd, $mail, $pass);
-        echo $user->asJoueur()->toJSON();
+        if (!$user->connectAs($bdd, $mail, $pass)) {
+	        http_response_code(401);
+	        echo "identifiants incorrects.";
+        } else {
+        	http_response_code(200);
+        	echo $user->asJoueur()->toJSON();
+        }
     } catch (Exception $e) {
-        /** erreur base de donnée */
         http_response_code(503);
-        echo "identifiants incorrects.";
+        echo "Erreur serveur";
     }
 } else {
-    http_response_code(401);
+    http_response_code(400);
     echo "la requête est mal formattée";
 }
 
+///@endcond
 
 ?>

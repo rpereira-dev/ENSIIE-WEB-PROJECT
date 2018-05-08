@@ -38,8 +38,8 @@ CREATE TYPE t_ecole AS ENUM ('ingenieur', 'commerce', 'universite', 'bts', 'iut'
 
 /** les écoles */
 CREATE TABLE "ecole" (
-	id	SERIAL	PRIMARY KEY ,
-	nom	VARCHAR	NOT NULL ,
+	id		SERIAL	PRIMARY KEY ,
+	nom		VARCHAR	NOT NULL ,
 	type	t_ecole	NOT NULL
 );
 

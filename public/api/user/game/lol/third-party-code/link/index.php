@@ -15,6 +15,26 @@
  *      - 424: le code entré dans League of Legend n'est pas bon
  */
 
+/**
+ *  @file
+ *  @brief Lis un compte League of Legends à l'utilisateur connecté du site. \ref api/user/game/lol/third-party-code/generate/index.php
+ *  @param :
+ *      - COOKIE \a PHPSESSID : le cookie de session PHP \ref api/user/account/connect/index.php
+ *      - POST \a summonerName : le nom d'invocateur du compte League of Legends à associer. (e.x: 'PCF toss') 
+ *  @return
+ *      - le code généré
+ *      - code reponse:
+ *                      - 200 : le code a été généré avec succès
+ *                      - 400 : erreur de la requête (paramètre(s) manquant(s) ou invalide(s))
+ *                      - 408: aucun third-party-code n'est défini.
+ *                      - 409: le compte est déjà lié à un autre utilisateur du site.
+ *                      - 424: le code entré dans League of Legend n'est pas bon
+ */
+
+///@cond INTERNAL
+
+
+
 /* include path */
 require '../../../../../../../vendor/autoload.php'; 
 
@@ -63,6 +83,5 @@ if (!$user->isConnected()) {
         echo 'summonerName invalide';
     }
 }
-
-
+///@endcond INTERNAL
 ?>

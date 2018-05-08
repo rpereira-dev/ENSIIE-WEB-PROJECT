@@ -1,15 +1,18 @@
 <?php
 
 /**
- *  Liste les comptes League of Legends lié à l'utilisateur du site de la session courante.
- *
- *  Arguments: aucuns
- *
- *  Code erreur:
- *      - 200: le résultat a bien été envoyé
- *      - 400: reqûete mal formatté. (utilisateur non connecté)
-
+ *  @file
+ *  @brief Renvoie la liste des comptes League of Legend associé à un compte
+ *  @param :
+ *      - COOKIE \a PHPSESSID : le cookie de session PHP \ref api/user/account/connect/index.php
+ *  @return
+ *		- la liste des comptes League of Legend lié à l'utilisateur.
+ *      - code reponse:
+ *                      - 200 : l'utilisateur a été enregistré avec succès
+ *                      - 400 : erreur de la requête (paramètre(s) manquant(s) ou invalide(s))
  */
+
+///@cond INTERNAL
 
 /* include path */
 require '../../../../../vendor/autoload.php'; 
@@ -33,5 +36,6 @@ if (!$user->isConnected()) {
     var_dump($user->asJoueur()->listLolAccounts());
 }
 
+///@endcond INTERNAL
 
 ?>
