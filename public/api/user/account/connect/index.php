@@ -25,7 +25,6 @@ require '../../../../../vendor/autoload.php';
 
 session_start();
 
-$bdd = \Model\BDD::instance();
 $user = \Model\Utilisateur::instance();
 
 if (isset($_POST['mail']) && isset($_POST['pass'])) {
@@ -33,14 +32,13 @@ if (isset($_POST['mail']) && isset($_POST['pass'])) {
     $pass = filter_input(INPUT_POST, 'pass',    FILTER_SANITIZE_STRING);
 
     try {
-        if (!$user->connectAs($bdd, $mail, $pass)) {
-	        http_response_code(401);
-	        echo "identifiants incorrects.";
-        } else {
-        	http_response_code(200);
-        	echo $user->asJoueur()->toJSON();
-        }
-    } catch (Exception $e) {
+        $joueur = $user->connectAs($mail, $pass);
+    	http_response_code(200);
+    	echo $joueur->toJSON();
+    } catch (PDOException $e) {
+        http_response_code(401);
+        echo "Identifiants incorrects.";
+    } catch (\Model\BDDConnectionException $e) {
         http_response_code(503);
         echo "Erreur serveur";
     }

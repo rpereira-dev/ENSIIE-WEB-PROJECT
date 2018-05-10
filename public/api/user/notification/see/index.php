@@ -44,7 +44,7 @@ if ($pdo == NULL) {
 
 $stmt = $pdo->prepare("UPDATE notification SET status = 'seen' WHERE joueur_id = :joueur_id AND id = :id");
 
-$joueur_id = $user->asJoueur()->getUUID();
+$joueur_id = $user->asJoueur()->getID();
 $stmt->bindParam(':joueur_id', $joueur_id, PDO::PARAM_INT);
 
 $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING);

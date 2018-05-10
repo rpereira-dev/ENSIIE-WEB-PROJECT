@@ -12,17 +12,17 @@
 			function uploadProfilImage() {
 				var input = document.getElementById('input_image_profil');
 				if (input.files.length < 1) {
-					toast('Veuillez selectionner une image.', 0)
+					toast('Veuillez selectionner une image.', "error")
 					return ;
 				}
 
                 requestAPI('/user/account/image/set/',
                 	{
 	                    200: function(response) {
-	                        toast('Votre image a bien été uploadé :) ' + response, 2);
+	                        toast('Votre image a bien été uploadé :) ' + response, "fine");
 	                    },
 	                    400: function(response) {
-	                    	toast('Vous êtes deconnecté. Veuillez vous reconnecter au site...', 0)
+	                    	toast('Vous êtes deconnecté. Veuillez vous reconnecter au site...', "error")
                     	}
                 	},
 
@@ -49,11 +49,10 @@
 			function regenerateCode() {
                 requestAPI('/user/game/lol/third-party-code/generate/', {
 	                    200: function(response) {
-	                        toast('Code regénéré: ' + response, 2);
 	                        document.getElementById("code").value = response;
 	                    },
 	                    400: function(response) {
-	                    	toast('Vous êtes deconnecté. Veuillez vous reconnecter au site...', 0)
+	                    	toast('Vous êtes deconnecté. Veuillez vous reconnecter au site...', "error");
                     	}
                 	}
                 );
@@ -69,7 +68,7 @@
 	                    		},
 
 	                    400: 	function(response) {
-	                    			toast("Le nom d'invocateur '" + summonerName + "' ne semble pas exister: " + response, 0)
+	                    			toast("Le nom d'invocateur '" + summonerName + "' ne semble pas exister: " + response, "error")
 	                    		}
 	                },
 
@@ -83,8 +82,50 @@
 				var copyText = document.getElementById("code");
 				copyText.select();
 				document.execCommand("Copy");
-				toast("Code copié " + copyText.value, 2);
+				toast("Code copié " + copyText.value, "fine");
 			}
+
+			function updateAccountsList() {
+				requestAPI("/user/game/lol/accounts/get/",
+							{
+								200: 	function(response) {
+				                        	//supprimes les invocateurs précèdents
+											while (node_notifications_list.firstChild) {
+				    							node_notifications_list.removeChild(node_notifications_list.firstChild);
+											}
+
+											//ajoutes les nouveaux invocateurs
+											var summoners = JSON.parse(response);
+											var node_list = document.getElementById("lol_accounts");
+											console.log(summoners);
+											for (var i in summoners) {
+												var summoner = summoners[i];
+
+												var node_summoner = document.createElement("li");
+
+												var node_summoner_icon = document.createElement("img");
+												node_summoner_icon.style.maxWidth = "2rem";
+												node_summoner_icon.style.minWidth = "2rem";
+												node_summoner_icon.src = "http://ddragon.leagueoflegends.com/cdn/8.9.1/img/profileicon/" + summoner.profileIconId  + ".png";
+
+												var node_summoner_name = document.createElement("span");
+												node_summoner_name.innerHTML = summoner.name;
+
+												node_summoner.appendChild(node_summoner_icon);
+												node_summoner.appendChild(node_summoner_name);
+												node_list.appendChild(node_summoner);
+											}
+										},
+
+								400: 	function(response) {
+											toast("Impossible de récuperer la liste des comptes League of Legends liés...", "error");
+										}
+							}
+				);
+			}
+
+			updateAccountsList();
+
 		</script>
 
 		<style>
@@ -95,17 +136,7 @@
 
 		<h1>League of Legends</h1>
 		<h3>Liste des comptes liées:</h3>
-		<ul>
-<?php 		use Model\ULCRiot;
-    		$riot = ULCRiot::riot();
-			$accounts = $this->getUser()->asJoueur()->listLolAccounts($this->getBDD());
-			foreach ($accounts as $summonerID) {
-				$summoner = $riot->getSummoner($summonerID);
-				echo '<li>' . $summoner->name . '</li>';
-			}
-?>
-
-		</ul>
+		<ul id="lol_accounts"></ul>
 		<div>Veuillez entrer votre pseudo League of Legends, puis entrez le code dans votre client:</div>
 		<input id="summoner_name"></input>
 		<input type="text" id="code" class="code" onclick="copyCode();" readonly></input>

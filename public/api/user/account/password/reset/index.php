@@ -54,8 +54,10 @@ if (!isset($_GET['mail'])) {
                      'Reply-To: webmaster@example.com' . "\r\n" .
                      'X-Mailer: PHP/' . phpversion();
         mail($mail, $subject, $content, $headers);
-
-    } catch (Exception $e) {
+    } catch (PDOException $e) {
+        http_response_code(400);
+        echo 'Requete invalide';
+    } catch (BDDConnectionException $e) {
         http_response_code(503);
         echo 'Erreur serveur';
     }

@@ -15,16 +15,14 @@
 ///@cond INTERNAL
 
 /* include path */
-require '../../../../../vendor/autoload.php'; 
+require('../../../../../../../vendor/autoload.php');
 
-use Model\ULCRiot;
-use Model\BDD;
-use Model\Utilisateur;
+
 
 /* recupere la session */
 session_start();
 
-$user = Utilisateur::instance();
+$user = \Model\Utilisateur::instance();
 
 //si le joueur n'est pas connecté
 if (!$user->isConnected()) {
@@ -33,7 +31,13 @@ if (!$user->isConnected()) {
 //si la requete est invalide
 } else {
     http_response_code(200);
-    var_dump($user->asJoueur()->listLolAccounts());
+    $riot = \Model\ULCRiot::riot();
+    $summoners = array();
+    $summonersID = $user->asJoueur()->listLolAccounts();
+    foreach ($summonersID as $summonerID) {
+        array_push($summoners, $riot->getSummoner($summonerID));
+    }
+    echo json_encode($summoners);
 }
 
 ///@endcond INTERNAL

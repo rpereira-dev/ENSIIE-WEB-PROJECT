@@ -55,19 +55,16 @@ class Utilisateur {
 
     /**
      *  Enregistres l'utilisateur dans la base de donnée
-     * @param \BDD $bdd
      * @param string $mail
      * @param string $pseudo
      * @param string $pass
      * @return Le retour de la requete sql d'insertion
      * @throws PDOException : si une erreur a lieu
+     * @throws BDDConnectionException : si la connection à la base de donnée a echoué
      */
-    public function register($bdd, $mail, $pseudo, $pass) {
+    public function register($mail, $pseudo, $pass) {
         /* on recupere la connection à la pdo */
-        $pdo = $bdd->getConnection("ulc");
-        if ($pdo == NULL) {
-            throw new PDOException("Connection error");
-        }
+        $pdo = BDD::instance()->getConnection("ulc");
 
         /* prépares la base de données */
         $stmt = $pdo->prepare("INSERT INTO joueur (mail, pseudo, pass) VALUES (:mail, :pseudo, :pass)");
@@ -83,18 +80,15 @@ class Utilisateur {
     
     /**
      *  Modifie le mot de passe de l'utilisateur
-     * @param \BDD $bdd
      * @param string $mail
      * @param string $pass
      * @return Le retour de la requete sql d'update
-     * @throws PDOException : si une erreur a lieu
+     * @throws BDDConnectionException : si une erreur a lieu
      */
-    public function modifyPassword($bdd, $mail, $pass) {
+    public function modifyPassword($mail, $pass) {
         /* on recupere la connection à la pdo */
-        $pdo = $bdd->getConnection("ulc");
-        if ($pdo == NULL) {
-            throw new PDOException("Connection error");
-        }
+        $pdo = BDD::instance()->getConnection("ulc");
+
         $stmt = $pdo->prepare("UPDATE joueur SET pass=:pass WHERE mail=:mail");
 
         $stmt->bindParam(':mail', $mail, PDO::PARAM_STR);
@@ -107,18 +101,15 @@ class Utilisateur {
 
     /**
      *  Vérifie que le token passé en paramètre, pour l'adresse mail
-     * de l'utilisateur associé est valide.
-     * @param \BDD $bdd
-     * @param string $mail
-     * @param string $token
-     * @return TRUE si le token est valid, FALSE sinon
-     * @throws PDOException : si une erreur a lieu
+     *  de l'utilisateur associé est valide.
+     *  @param string $mail
+     *  @param string $token
+     *  @return TRUE si le token est valid, FALSE sinon
+     *  @throws BDDConnectionException : si la connection à la base de donnée a echoué
      */
-    public function isTokenValid($bdd, $mail, $token) {
-        $pdo  = $bdd->getConnection("ulc");
-        if ($pdo == NULL) {
-            throw new PDOException("Connection error");
-        }
+    public function isTokenValid($mail, $token) {
+        $pdo  = BDD::instance()->getConnection("ulc");
+
         $stmt = $pdo->prepare("SELECT * FROM reset_token
                                     JOIN joueur ON joueur_id=id
                                         WHERE mail=:mail AND token=:token
@@ -147,35 +138,32 @@ class Utilisateur {
      *  @param string $mail
      *  @param string $pass
      *  @return $this->joueur Si l'utilisateur a pu se connecter
-     *  @throws PDOException : si une erreur a lieu
+     *  @throws PDOException : si le mail est invalide
+     *  @throws Exception : si la connection à la base de donnée a échouée
      *  @seeall http://www.phptherightway.com/#databases_interacting
      *  @seeall http://php.net/manual/fr/filter.filters.sanitize.php
      *  @seeall http://php.net/manual/fr/pdostatement.bindparam.php
      */
-    public function connectAs($bdd, $mail, $pass) {
-        /* on recupere la connection à la pdo */
-        $pdo = $bdd->getConnection("ulc");
-        if ($pdo == NULL) {
-            throw new PDOException("Connection error");
-        }
+    public function connectAs($mail, $pass) {
+        $pdo = BDD::instance()->getConnection("ulc");
+
         $stmt = $pdo->prepare('SELECT * FROM joueur WHERE mail = :mail');
         $stmt->bindParam(':mail', $mail, PDO::PARAM_STR);
         
         $stmt->execute();
         if ($stmt->rowCount() == 0) {
-            /* pas d'utilisateur pour cette adresse mail */
-            throw new PDOException("Wrong mail");
+            throw new PDOException("Addresse mail erronée");
         }
         /* renvoie un tableau associatif de l'entrée dans la table */
         $entry = $stmt->fetch();
  
         /* si le mot de passe est juste */
         if (password_verify($pass, $entry['pass'])) {
-            $this->joueur = new Joueur($entry['id'], $entry['mail'], $entry['pseudo'], $entry['ecole']);
+            $this->joueur = new Joueur($entry);
             $this->saveSession();
             return ($this->joueur);
         }
-        return (NULL);
+        throw new PDOException("Mot de passe erroné");
     }
 
     /**

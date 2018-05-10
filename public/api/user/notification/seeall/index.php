@@ -38,7 +38,7 @@ if ($pdo == NULL) {
 /* prépares la base de données */
 $stmt = $pdo->prepare("UPDATE notification SET status = 'seen' WHERE joueur_id = :joueur_id");
 /* protège des injections sql */
-$id = $user->asJoueur()->getUUID();
+$id = $user->asJoueur()->getID();
 $stmt->bindParam(':joueur_id', $id, PDO::PARAM_INT);
 
 /* execute la requete sécurisé */

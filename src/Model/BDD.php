@@ -5,6 +5,14 @@ namespace Model;
 use PDO;
 use PDOException;
 
+
+/**
+ * Exception levé lorsqu'une connection n'a pas abouti
+ */
+class BDDConnectionException extends \Exception {
+}
+
+
 /**
  *  Représente la base de donnée
  */
@@ -14,7 +22,7 @@ class BDD {
     private static $instance = NULL;
     
     /**
-     * @return BDD l'instance correspondant à la bdd
+     * @return BDD l'instance correspondant à la bdd, toujours non NULL
      */
     public static function instance() {
         if (BDD::$instance == NULL) {
@@ -54,8 +62,10 @@ class BDD {
      *
      *  @param   string $user
      *  @return  \PDO : une connection à la base de données pour l'utilisateur demandé
+     *  @throws BDDConnectionException : la connection n'a pas abouti
      */
     public function getConnection($user) {
+
         /* si une connection est déjà ouverte ... */
         if (isset($this->pdos[$user])) {
             /* on la renvoie */
@@ -64,8 +74,7 @@ class BDD {
 
         /* sinon, si l'utilisateur n'existe pas */
         if (!isset($this->dbUsers[$user])) {
-            /* on renvoie NULL */
-            return (NULL);
+            throw new BDDConnectionException();
         }
 
         /* sinon, on essaye de se connecter */
@@ -76,7 +85,7 @@ class BDD {
             $this->pdos[$user] = $pdo;
             return ($pdo);
         } catch (PDOException $e) {
-            return (NULL);
+            throw new BDDConnectionException();
         }
     }
 }

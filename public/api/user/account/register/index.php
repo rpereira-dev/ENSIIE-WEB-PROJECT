@@ -69,12 +69,15 @@ if (isset($_POST['mail']) && isset($_POST['pseudo']) && isset($_POST['pass']) &&
             /* sinon, on enregistre l'utilisateur */
             try {
                 http_response_code(200);
-                $user->register($bdd, $mail, $pseudo, $pass);
+                $user->register($mail, $pseudo, $pass);
                 echo "OK";
-            } catch (Exception $e) {
+            } catch (PDOException $e) {
+                http_response_code(400);
+                echo "Identifiants déjà utilisés";
+            } catch (BDDConectionException $e) {
                 /** erreur base de donnée */
                 http_response_code(503);
-                echo "les identifiants sont déjà utilisés";
+                echo "Erreur serveur";
             }
         }
     }

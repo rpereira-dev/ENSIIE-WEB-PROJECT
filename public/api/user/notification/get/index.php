@@ -61,7 +61,7 @@ if ($rows < 0) {
 }
 $stmt = $pdo->prepare('SELECT * FROM notification WHERE joueur_id = :joueur_id ORDER BY date_envoie DESC, id DESC LIMIT :rows');
 /* protège des injections sql */
-$id = $user->asJoueur()->getUUID();
+$id = $user->asJoueur()->getID();
 $stmt->bindParam(':joueur_id', $id, PDO::PARAM_INT);
 $stmt->bindParam(':rows', $rows, PDO::PARAM_INT);
 

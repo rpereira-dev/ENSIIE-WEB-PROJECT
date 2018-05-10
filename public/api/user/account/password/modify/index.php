@@ -21,7 +21,6 @@
 require '../../../../../../vendor/autoload.php'; 
 
 /* import */
-use Model\BDD;
 use Model\Utilisateur;
 use Model\Utils;
 
@@ -30,14 +29,13 @@ if (!isset($_POST['mail']) || !isset($_POST['token']) || !isset($_POST['pass']))
     http_response_code(400);
     echo "Requete invalide";
 } else {
-	$bdd   = BDD::instance();
 	$user  = Utilisateur::instance();
 	$mail  = $_POST['mail'];
 	$token = $_POST['token'];
 	$pass  = $_POST['pass'];
 	try {
-        if ($user->isTokenValid($bdd, $mail, $token)) {
-        	$user->modifyPassword($bdd, $mail, $pass);
+        if ($user->isTokenValid($mail, $token)) {
+        	$user->modifyPassword($mail, $pass);
         	http_response_code(200);
         	echo "OK";
         } else {

@@ -10,7 +10,7 @@ function afficher_profil() {
                 requestAPI('/user/account/disconnect/',
                 {
                     200: function(response) {
-                        toast('Déconnecté(e). Vous allez être redirigé(e).', 2);
+                        toast('Déconnecté(e). Vous allez être redirigé(e).', 'fine');
                         setTimeout(function () { window.location.replace(window.location.href); }, 1000);
                     }
                 });
@@ -170,23 +170,23 @@ function afficher_champs() {
                 /** enregistre l'utilisateur avec les informations actuellement entrées */
                 function register() {
                     if (!validates["input_mailID"]()) {
-                        toast("Veuillez entrer une adresse mail valide.", 0);
+                        toast("Veuillez entrer une adresse mail valide.", "error");
                         return ;
                     }
 
                     if (!validates["input_pseudoID"]()) {
-                        toast("Veuillez entrer un pseudo valide.", 0);
+                        toast("Veuillez entrer un pseudo valide.", "error");
                         return ;
                     }
 
                     if (!validates["input_passID"]()) {
-                        toast("Veuillez entrer un mot de passe valide.", 0);
+                        toast("Veuillez entrer un mot de passe valide.", "error");
                         return ;
                     }
 
                     var catpchaResponse = grecaptcha.getResponse();
                     if (catpchaResponse == null || catpchaResponse.length == 0) {
-                        toast("Veuillez prouvez que vous n'êtes pas un robot.", 0);
+                        toast("Veuillez prouvez que vous n'êtes pas un robot.", "error");
                         return ;
                     }
 
@@ -212,14 +212,14 @@ function afficher_champs() {
                     var mail = document.getElementById("input_mailID").value;
                     var pass =  document.getElementById("input_passID").value;
                     if (!validates["input_mailID"]() || !validates["input_passID"]()) {
-                        toast("Les identifiants de connections sont invalides.", 0);
+                        toast("Les identifiants de connections sont invalides.", "error");
                         return ;
                     }
 
                     requestAPI('/user/account/connect/', 
                         {
                             200:    function(response) {
-                                        toast("Connecté(e). Vous allez être redirigé(e).", 2);
+                                        toast("Connecté(e). Vous allez être redirigé(e). " + response, "fine");
                                         setTimeout(function () { window.location.replace(window.location.href); }, 1000);
                                     }
                         },

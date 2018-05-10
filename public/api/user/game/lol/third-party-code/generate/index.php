@@ -19,7 +19,6 @@
 /* include path */
 require '../../../../../../../vendor/autoload.php'; 
 
-use Model\BDD;
 use Model\Utilisateur;
 use Model\Utils;
 

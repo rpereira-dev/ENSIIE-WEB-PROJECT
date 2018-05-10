@@ -70,7 +70,7 @@ if (!$user->isConnected()) {
             echo 'code entré invalide';
         } else {
             try {
-                $user->asJoueur()->linkLolAccount(BDD::instance(), $summoner->id);
+                $user->asJoueur()->linkLolAccount($summoner->id);
                 http_response_code(200);
                 echo 'OK';
             } catch (Exception $e) {
