@@ -12,34 +12,35 @@
  *                      - 400 : erreur de la requête (paramètre(s) manquant(s) ou invalide(s))
  */
 
-///@cond INTERNAL
+// /@cond INTERNAL
 
 /* include path */
-require('../../../../../../../vendor/autoload.php');
+use Model\ULC\ULCRiot;
+use Model\ULC\Utilisateur\Utilisateur;
 
-
+require ('../../../../../../../vendor/autoload.php');
 
 /* recupere la session */
-session_start();
+session_start ();
 
-$user = \Model\Utilisateur::instance();
+$user = Utilisateur::instance ();
 
-//si le joueur n'est pas connecté
-if (!$user->isConnected()) {
-    http_response_code(400);
-    echo 'Non connecté.';
-//si la requete est invalide
+// si le joueur n'est pas connecté
+if (! $user->isConnected ()) {
+	http_response_code ( 400 );
+	echo 'Non connecté.';
+	// si la requete est invalide
 } else {
-    http_response_code(200);
-    $riot = \Model\ULCRiot::riot();
-    $summoners = array();
-    $summonersID = $user->asJoueur()->listLolAccounts();
-    foreach ($summonersID as $summonerID) {
-        array_push($summoners, $riot->getSummoner($summonerID));
-    }
-    echo json_encode($summoners);
+	http_response_code ( 200 );
+	$riot = ULCRiot::riot ();
+	$summoners = array ();
+	$summonersID = $user->asJoueur ()->listLolAccounts ();
+	foreach ( $summonersID as $summonerID ) {
+		array_push ( $summoners, $riot->getSummoner ( $summonerID ) );
+	}
+	echo json_encode ( $summoners );
 }
 
-///@endcond INTERNAL
+// /@endcond INTERNAL
 
 ?>

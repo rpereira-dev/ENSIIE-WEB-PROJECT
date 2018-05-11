@@ -35,7 +35,7 @@
 				callback[xhr.status](xhr.response);
 			} else {
 				//TODO remove this
-				toast("Erreur " + xhr.status + " non gérée sur le service " + service + " : " + xhr.response, "error", 4.0);
+				toast("Erreur " + xhr.status + " non gérée sur le service " + service + " : " + xhr.response, "error");
 			}
 		}
 	}

@@ -19,34 +19,36 @@
  *						- 503 : erreur serveur : accès à la base de donnée
  */
 
-///@cond INTERNAL
+// /@cond INTERNAL
+use Model\ULC\BDD\ConnectionException;
+use Model\ULC\Utilisateur\Utilisateur;
 
-require '../../../../../vendor/autoload.php'; 
+require '../../../../../vendor/autoload.php';
 
-session_start();
+session_start ();
 
-$user = \Model\Utilisateur::instance();
+$user = Utilisateur::instance ();
 
-if (isset($_POST['mail']) && isset($_POST['pass'])) {
-    $mail = filter_input(INPUT_POST, 'mail',   FILTER_SANITIZE_EMAIL);
-    $pass = filter_input(INPUT_POST, 'pass',    FILTER_SANITIZE_STRING);
-
-    try {
-        $joueur = $user->connectAs($mail, $pass);
-    	http_response_code(200);
-    	echo $joueur->toJSON();
-    } catch (PDOException $e) {
-        http_response_code(401);
-        echo "Identifiants incorrects.";
-    } catch (\Model\BDDConnectionException $e) {
-        http_response_code(503);
-        echo "Erreur serveur";
-    }
+if (isset ( $_POST ['mail'] ) && isset ( $_POST ['pass'] )) {
+	$mail = filter_input ( INPUT_POST, 'mail', FILTER_SANITIZE_EMAIL );
+	$pass = filter_input ( INPUT_POST, 'pass', FILTER_SANITIZE_STRING );
+	
+	try {
+		$joueur = $user->connectAs ( $mail, $pass );
+		http_response_code ( 200 );
+		echo $joueur->toJSON ();
+	} catch ( PDOException $e ) {
+		http_response_code ( 401 );
+		echo "Identifiants incorrects.";
+	} catch ( ConnectionException $e ) {
+		http_response_code ( 503 );
+		echo "Erreur serveur";
+	}
 } else {
-    http_response_code(400);
-    echo "la requête est mal formattée";
+	http_response_code ( 400 );
+	echo "la requête est mal formattée";
 }
 
-///@endcond
+// /@endcond
 
 ?>

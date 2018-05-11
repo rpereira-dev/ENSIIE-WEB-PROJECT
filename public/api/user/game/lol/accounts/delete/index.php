@@ -18,8 +18,7 @@
 /* include path */
 require '../../../../../../../vendor/autoload.php'; 
 
-use Model\ULCRiot;
-use Model\Utilisateur;
+use Model\ULC\Utilisateur\Utilisateur;
 
 session_start();
 

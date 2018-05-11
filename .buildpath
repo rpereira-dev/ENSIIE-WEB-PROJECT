@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry kind="src" path="public"/>
+	<buildpathentry kind="src" path="src/Controller"/>
+	<buildpathentry kind="src" path="src/Model/ULC"/>
+	<buildpathentry kind="src" path="src/Model/ULCDiscord"/>
+	<buildpathentry kind="src" path="src/Model/ULCRiot"/>
+	<buildpathentry kind="src" path="src/View"/>
+	<buildpathentry kind="src" path="test/unit/User"/>
+	<buildpathentry kind="src" path="vendor"/>
+	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+</buildpath>

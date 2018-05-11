@@ -65,6 +65,7 @@
 	                {
 	                    200: 	function(response) {
 	                        		toast("Le nom d'invocateur '" + summonerName + "' est maintenant lié à votre compte!");
+	                        		updateAccountsList();
 	                    		},
 
 	                    400: 	function(response) {

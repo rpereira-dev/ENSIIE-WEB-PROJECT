@@ -15,39 +15,37 @@
  *						- 503 : erreur serveur (accès à la base de donnée)
  */
 
-///@cond INTERNAL
+// /@cond INTERNAL
 
 /* include path */
-require '../../../../../../vendor/autoload.php'; 
+use Model\ULC\Utilisateur\Utilisateur;
 
-/* import */
-use Model\Utilisateur;
-use Model\Utils;
+require '../../../../../../vendor/autoload.php';
 
-//si le joueur n'est pas connecté
-if (!isset($_POST['mail']) || !isset($_POST['token']) || !isset($_POST['pass'])) {
-    http_response_code(400);
-    echo "Requete invalide";
+// si le joueur n'est pas connecté
+if (! isset ( $_POST ['mail'] ) || ! isset ( $_POST ['token'] ) || ! isset ( $_POST ['pass'] )) {
+	http_response_code ( 400 );
+	echo "Requete invalide";
 } else {
-	$user  = Utilisateur::instance();
-	$mail  = $_POST['mail'];
-	$token = $_POST['token'];
-	$pass  = $_POST['pass'];
+	$user = Utilisateur::instance ();
+	$mail = $_POST ['mail'];
+	$token = $_POST ['token'];
+	$pass = $_POST ['pass'];
 	try {
-        if ($user->isTokenValid($mail, $token)) {
-        	$user->modifyPassword($mail, $pass);
-        	http_response_code(200);
-        	echo "OK";
-        } else {
-    		http_response_code(401);
-    		echo "Token invalide";
-        }
-	} catch (Exception $e) {
-		http_response_code(503);
+		if ($user->isTokenValid ( $mail, $token )) {
+			$user->modifyPassword ( $mail, $pass );
+			http_response_code ( 200 );
+			echo "OK";
+		} else {
+			http_response_code ( 401 );
+			echo "Token invalide";
+		}
+	} catch ( Exception $e ) {
+		http_response_code ( 503 );
 		echo "Erreur serveur";
 	}
 }
 
-///@endcond
+// /@endcond
 
 ?>

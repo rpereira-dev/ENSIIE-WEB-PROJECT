@@ -1,8 +1,8 @@
 <?php
+use Model\ULC\ULCDiscord;
+
 require('../vendor/autoload.php'); 
  
-use Model\ULCDiscord;
-
 $client = ULCDiscord::client();
 $members = $client->guild->listGuildMembers(['guild.id' => ULCDiscord::guildID(), 'limit' => 10]);
 $membersCount = count($members);
