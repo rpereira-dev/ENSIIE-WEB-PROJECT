@@ -41,11 +41,13 @@
 
 				<script>
 					function seeNotifications() {
-						requestAPI("/user/notification/seeall/", {
-							200: 	function(response) {
-										toast("vu", 2, 500);
-									}
-						});
+						requestAPI("/user/notification/seeall/",
+							{
+								200: 	function(response) {
+											toast("vu", 2, 500);
+										}
+							}
+						);
 					}
 				</script>
 
@@ -75,7 +77,7 @@
         	var node_counter 		    = document.getElementById("notifications-counter");
 
 			function loadNotifications() {
-                requestAPI("/user/notification/get/",
+                requestAPI("/user/notification/get",
                 	{
                 		200: 	function(response) {
 		                        	//supprimes le contenu précèdent
@@ -98,20 +100,20 @@
 		                        		node_notification.classList.add("notification");
 		                        		node_notification.id    = "notification_" + i;
 		                        		node_notification.onclick = function() {
-                                            node_notification.classList.remove("notification-unseen");
-                                            requestAPI("/user/notification/see/",
-                                            	{
-													200: 	function(response) {
-																toast("vu " + response, 2, 500);
-															}
-												},
+		                        										node_notification.classList.remove("notification-unseen");
+							                                            requestAPI("/user/notification/see/",
+							                                            	{
+																				200: 	function(response) {
+																							toast("vu " + response, 2, 500);
+																						}
+																			},
 
-												{
-													'id': notification.id
-												}
-											);
-                                            //redirectToPage(notification.action);
-		                        		};
+																			{
+																				'id': notification.id
+																			}
+																		);
+																		redirectToPage(notification.action);
+									                        		};
                                         //si non lu...
                                         if (notification.status == "unseen") {
                                             ++unseen;

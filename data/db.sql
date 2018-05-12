@@ -22,7 +22,6 @@ DROP TABLE "invitation" ;
 DROP TABLE "joueur_equipe" ;
 DROP TABLE "equipe" CASCADE ;
 DROP TABLE "tournoi" CASCADE ;
-DROP TYPE "t_mode";
 DROP TYPE "t_jeu";
 
 DROP TABLE "joueur_lol" CASCADE ;
@@ -96,34 +95,26 @@ CREATE TABLE "joueur_lol" (
 	summoner_id	BIGINT PRIMARY KEY
 );
 
-/**
- * les différents modes de tournois possibles :
- * libre (les ecoles peuvent se mélanger),
- * restreint (les ecoles ne peuvent pas se mélanger)
- */
-CREATE TYPE t_mode AS ENUM ('libre', 'restreint') ;
-
 /** un tournoi (peut être une ligue, ou un tournoi ponctuel) */
 CREATE TABLE "tournoi" (
-	id			SERIAL			PRIMARY KEY,
-	nom			VARCHAR			NOT NULL,
-	description	VARCHAR 		NOT NULL,
-	jeu			t_jeu			NOT NULL,
-	debut_inscriptions	date	NOT NULL,
-	fin_inscriptions	date	NOT NULL,
-	mode				t_mode	DEFAULT 'restreint' 
+	id					SERIAL		PRIMARY KEY,
+	nom					VARCHAR		NOT NULL,
+	description			VARCHAR 	NOT NULL,
+	jeu					t_jeu		NOT NULL,
+	debut_inscriptions	timestamp 	NOT NULL,
+	fin_inscriptions	timestamp	NOT NULL
 );
 
 /** équipe */
 CREATE TABLE "equipe" (
-	id		SERIAL	PRIMARY KEY,
+	id		SERIAL				PRIMARY KEY,
 
-	nom		VARCHAR	NOT NULL,
+	nom		VARCHAR				NOT NULL,
 
 	tournoi_id	INTEGER,
-	FOREIGN KEY (tournoi_id) REFERENCES tournoi(id),
+	FOREIGN KEY (tournoi_id) 	REFERENCES tournoi(id),
 
-	date_inscription date NOT NULL
+	date_inscription timestamp 	DEFAULT now()
 );
 
 /** association joueur/equipe */

@@ -12,9 +12,7 @@
 
 	"autoload": {
 		"psr-4": {
-			"Controller\\": "src/Controller/",
-			"Model\\": "src/Model/",
-			"View\\": "src/View/"
+			"": "src/"
 		}
 	},
 	"autoload-dev": {

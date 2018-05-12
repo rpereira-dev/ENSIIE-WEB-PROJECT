@@ -13,33 +13,31 @@
  *                      - 400 : erreur de la requête (paramètre(s) manquant(s) ou invalide(s))
  */
 
-///@cond INTERNAL
-
+// /@cond INTERNAL
 
 /* include path */
-require '../../../../../../../vendor/autoload.php'; 
+require '../../../../../../../vendor/autoload.php';
 
-use Model\BDD;
-use Model\Utilisateur;
-use Model\Utils;
+use Model\ULC\Utils;
+use Model\ULC\Utilisateur\Utilisateur;
 
 /* recupere la session */
-session_start();
+session_start ();
 
-$user = Utilisateur::instance();
+$user = Utilisateur::instance ();
 
-//si le joueur n'est pas connecté
-if (!$user->isConnected()) {
-    http_response_code(400);
-    echo 'Non connecté.';
-//si la requete est invalide
+// si le joueur n'est pas connecté
+if (! $user->isConnected ()) {
+	http_response_code ( 400 );
+	echo 'Non connecté.';
+	// si la requete est invalide
 } else {
-    http_response_code(200);
-    $code = Utils::random_str(32);
-    $_SESSION['third-party-code'] = $code;
-    echo $code;
+	http_response_code ( 200 );
+	$code = Utils::random_str ( 32 );
+	$_SESSION ['third-party-code'] = $code;
+	echo $code;
 }
 
-///@endcond INTERNAL
+// /@endcond INTERNAL
 
 ?>

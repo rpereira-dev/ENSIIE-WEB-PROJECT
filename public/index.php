@@ -1,33 +1,48 @@
 <?php
 
 /* include */
-require('../vendor/autoload.php'); 
-define('PROJECT_ROOT', realpath(dirname(__FILE__) . "/../"  ));
-define('VIEW_FOLDER', PROJECT_ROOT . "/src/View");
+use Controller\Aside;
+use Controller\Content;
+use Controller\Footer;
+use Controller\Header;
+use Controller\Navbar;
+use Controller\Sidebar;
+use Controller\Toastbar;
+use Model\ULC\BDD\BDD;
+use Model\ULC\Utilisateur\Utilisateur;
+use Model\ULC\ULCDiscord;
+
+require ('../vendor/autoload.php');
+define ( 'PROJECT_ROOT', realpath ( dirname ( __FILE__ ) . "/../" ) );
+define ( 'VIEW_FOLDER', PROJECT_ROOT . "/src/View" );
 
 /* recupere la session */
-session_start();
+session_start ();
 
-/*  */
-$bdd = \Model\BDD::instance();
-
-/* recupere l'utilisateur */
-$user = \Model\Utilisateur::instance();
-
-/** DEBUT : AFFICHAGE DE LA PAGE */
-$pageElementsClass = [
-	\Controller\Header::class,
-	\Controller\Toastbar::class,
-	\Controller\Navbar::class,
-	\Controller\Sidebar::class,
-	\Controller\Aside::class,
-	\Controller\Content::getContent(),
-	\Controller\Footer::class
+/**
+ * DEBUT : AFFICHAGE DE LA PAGE
+ */
+$pageElementsClass = [ 
+		Header::class,
+		Toastbar::class,
+		Navbar::class,
+		Sidebar::class,
+		Aside::class,
+		Content::getContent (),
+		Footer::class 
 ];
 
-foreach ($pageElementsClass as $pageElementClass) {
-	$pageElement = new $pageElementClass($bdd, $user);
-	$pageElement->afficher();
+
+/* recupere l'utilisateur */
+$bdd = BDD::instance ();
+
+
+/* recupere l'utilisateur */
+$user = Utilisateur::instance ();
+
+foreach ( $pageElementsClass as $pageElementClass ) {
+	$pageElement = new $pageElementClass ( $bdd, $user );
+	$pageElement->afficher ();
 }
 
 

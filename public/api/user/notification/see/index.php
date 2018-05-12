@@ -13,48 +13,51 @@
  *						- 401 : non connecté(e)
  */
 
-///@cond INTERNAL
+// /@cond INTERNAL
 
 /* include path */
-require '../../../../../vendor/autoload.php'; 
+use Model\ULC\BDD\BDD;
+use Model\ULC\Utilisateur\Utilisateur;
+
+require '../../../../../vendor/autoload.php';
 
 /* on charge la session */
-session_start();
+session_start ();
 
 /* on recupere le joueur */
-$user = \Model\Utilisateur::instance();
-if (!$user->isConnected()) {
-    http_response_code(401);
-    echo "Non connecté";
-    return ;
+$user = Utilisateur::instance ();
+if (! $user->isConnected ()) {
+	http_response_code ( 401 );
+	echo "Non connecté";
+	return;
 }
 
-if (!isset($_POST['id'])) {
-    http_response_code(400);
-    echo "Erreur requête";
-    return ;
+if (! isset ( $_POST ['id'] )) {
+	http_response_code ( 400 );
+	echo "Erreur requête";
+	return;
 }
 
 /* on recupere la connection à la pdo */
-$bdd = \Model\BDD::instance();
-$pdo = $bdd->getConnection("ulc");
+$bdd = BDD::instance ();
+$pdo = $bdd->getConnection ( "ulc" );
 if ($pdo == NULL) {
-    throw new PDOException("Connection error");
+	throw new PDOException ( "Connection error" );
 }
 
-$stmt = $pdo->prepare("UPDATE notification SET status = 'seen' WHERE joueur_id = :joueur_id AND id = :id");
+$stmt = $pdo->prepare ( "UPDATE notification SET status = 'seen' WHERE joueur_id = :joueur_id AND id = :id" );
 
-$joueur_id = $user->asJoueur()->getUUID();
-$stmt->bindParam(':joueur_id', $joueur_id, PDO::PARAM_INT);
+$joueur_id = $user->asJoueur ()->getID ();
+$stmt->bindParam ( ':joueur_id', $joueur_id, PDO::PARAM_INT );
 
-$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING);
-$stmt->bindParam(':id', $id, PDO::PARAM_STR);
+$id = filter_input ( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
+$stmt->bindParam ( ':id', $id, PDO::PARAM_STR );
 
-$stmt->execute();
+$stmt->execute ();
 
-http_response_code(200);
+http_response_code ( 200 );
 echo 'OK';
 
-///@endcond INTERNAL
+// /@endcond INTERNAL
 
 ?>

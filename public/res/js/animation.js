@@ -1,5 +1,21 @@
 /** une bibliothèque de fonctions pratiques pour rendre les pages plus dynamiques */
 
+function emptyFunction() {}
+
+function animate(element, fps, duration, onUpdate, onEnded=emptyFunction) {
+	var f  = 0.0;
+	var df = 1.0 / (fps * duration);
+	var timer = setInterval(function() {
+		if (f >= 1.0) {
+			f = 1.0;
+			clearInterval(timer);
+			onEnded();
+		}
+		onUpdate(f);
+		f += df;
+	}, 1000.0 / fps);
+}
+
 /**
  * rends un élément invisible progressivement - element : l'élément - fps : le
  * nombre de fps de l'animation - duration : la durée de la transition
@@ -11,19 +27,19 @@
  * @param la
  *            durée de l'animation
  */
-function fadeOut(element, fps, duration) {
-	var op = 1.0;
-	var d_op = 1.0 / (fps * duration);
-	var timer = setInterval(function() {
-		if (op <= 0.0) {
-			op = 0.0;
-			clearInterval(timer);
-			element.style.display = "none";
-		}
-		element.style.opacity = op;
-		element.style.filter = "alpha(opacity=" + op * 100.0 + ")";
-		op -= d_op;
-	}, 1000.0 / fps);
+function fadeOut(element, fps, duration, onUpdate=emptyFunction, onEnded=emptyFunction) {
+	animate(element, fps, duration,
+			function(f) {
+				element.style.opacity = 1.0 - f;
+				element.style.filter = "alpha(opacity=" + ((1.0 - f) * 100.0) + ")";
+				onUpdate(f);
+			},
+
+			function() {
+				element.style.display = "none";
+				onEnded();
+			}
+	);
 }
 
 /**
@@ -34,24 +50,55 @@ function fadeOut(element, fps, duration) {
  *            l'element html
  * @param fps :
  *            le nombre de fps pour l'animation
- * @param la
+ * @param duration :
  *            durée de l'animation
  */
-function fadeIn(element, fps, duration) {
+function fadeIn(element, fps, duration, onUpdate=emptyFunction, onEnded=emptyFunction) {
 	element.style.display = "";
 	element.style.opacity = 0.0;
 	element.style.filter = "alpha(opacity=0)";
 
-	var op = 0.0;
-	var d_op = 1.0 / (fps * duration);
-	var timer = setInterval(function() {
-		if (op >= 1.0) {
-			op = 1.0;
-			clearInterval(timer);
-			element.style.display = '';
-		}
-		element.style.opacity = op;
-		element.style.filter = "alpha(opacity=" + op * 100.0 + ")";
-		op += d_op;
-	}, 1000.0 / fps);
+	animate(element, fps, duration,
+			function(f) {
+				element.style.opacity = f;
+				element.style.filter = "alpha(opacity=" + (f * 100.0) + ")";
+				onUpdate(f);
+			},
+
+			function() {
+				element.style.display = "";
+				onEnded();
+			}
+	);
+}
+
+/**
+ * animation de translation d'un element
+ * 
+ * @param element :
+ *            l'element html
+ * @param fps :
+ *            le nombre de fps pour l'animation
+ * @param duration :
+ *            durée de l'animation
+ * @param offx :
+ *            translation x final
+ * @param offy :
+ *            translation y final
+ */
+function translate(element, fps, duration=0.5, offx=0.0, offy=2.0, onUpdate=emptyFunction, onEnded=emptyFunction) {
+
+	animate(element, fps, duration,
+			function(f) {
+				var tx = "translateX(" + ((offx > 0) ? (1.0 - f) * offx : -f * offx) + "rem)";
+				var ty = "translateY(" + ((offy > 0) ? (1.0 - f) * offy : -f * offy) + "rem)";
+				element.style.transform = tx + " " + ty;
+				onUpdate(f);
+			},
+
+			function() {
+				element.style.transform = "";
+				onEnded();
+			}
+	);
 }

@@ -1,22 +1,26 @@
 <?php
-require('../vendor/autoload.php'); 
- 
-use Model\ULCDiscord;
+use Model\ULC\ULCDiscord;
 
-$client = ULCDiscord::client();
-$members = $client->guild->listGuildMembers(['guild.id' => ULCDiscord::guildID(), 'limit' => 10]);
-$membersCount = count($members);
-var_dump($members);
+require ('../vendor/autoload.php');
+
+$client = ULCDiscord::client ();
+$members = $client->guild->listGuildMembers ( [ 
+		'guild.id' => ULCDiscord::guildID (),
+		'limit' => 10 
+] );
+$membersCount = count ( $members );
+var_dump ( $members );
 ?>
 
 
 <!-- discord component -->
 <div class="discord">
-	
+
 	<!-- header -->
 	<div class="discord-header">
 		<!-- logo -->
-		<div class="discord-header-img" onclick="window.open('https://discord.gg/BcsrE47', '_blank')">
+		<div class="discord-header-img"
+			onclick="window.open('https://discord.gg/BcsrE47', '_blank')">
 			<img src="./images/discord/header.png"></img>
 		</div>
 
@@ -33,23 +37,22 @@ var_dump($members);
 		<!-- liste des membres en ligne -->
 		<div>
 			<!-- titre -->
-			<div class="discord-body-title">
-				Membres
-			</div>
+			<div class="discord-body-title">Membres</div>
 
 			<!-- les membres -->
 <?php
-	for ($j = 0 ; $j < 4 ; $j++) {
-		for ($i = 0 ; $i < $membersCount ; $i++) {
-			$user = $members[$i]->user;
-?>
+for($j = 0; $j < 4; $j ++) {
+	for($i = 0; $i < $membersCount; $i ++) {
+		$user = $members [$i]->user;
+		?>
 			<div class="discord-body-member">
-				<img src="https://cdn.discordapp.com/avatars/<?php echo $user->id . '/' . $user->avatar ; ?>.png"></img>
+				<img
+					src="https://cdn.discordapp.com/avatars/<?php echo $user->id . '/' . $user->avatar ; ?>.png"></img>
 				<?php echo $user->username ; ?>
 			</div>
 <?php
-		}
 	}
+}
 ?>
 		</div>
 	</div>
