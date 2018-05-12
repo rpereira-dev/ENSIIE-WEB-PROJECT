@@ -21,18 +21,20 @@ session_start ();
 /**
  * DEBUT : AFFICHAGE DE LA PAGE
  */
-$pageElementsClass = [ 
+$pageElementsClass = [
 		Header::class,
 		Toastbar::class,
 		Navbar::class,
 		Sidebar::class,
 		Aside::class,
 		Content::getContent (),
-		Footer::class 
+		Footer::class
 ];
+
 
 /* recupere l'utilisateur */
 $bdd = BDD::instance ();
+
 
 /* recupere l'utilisateur */
 $user = Utilisateur::instance ();
