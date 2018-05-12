@@ -89,6 +89,39 @@
 				document.execCommand("Copy");
 				toast("Code copié " + copyText.value, 2);
 			}
+            function updateAccountsList() {
+                requestAPI("/user/game/lol/accounts/get/",
+                    {
+                        200: 	function(response) {
+                            //supprimes les invocateurs précèdents
+                            while (node_notifications_list.firstChild) {
+                                node_notifications_list.removeChild(node_notifications_list.firstChild);
+                            }
+                            //ajoutes les nouveaux invocateurs
+                            var summoners = JSON.parse(response);
+                            var node_list = document.getElementById("lol_accounts");
+                            console.log(summoners);
+                            for (var i in summoners) {
+                                var summoner = summoners[i];
+                                var node_summoner = document.createElement("li");
+                                var node_summoner_icon = document.createElement("img");
+                                node_summoner_icon.style.maxWidth = "2rem";
+                                node_summoner_icon.style.minWidth = "2rem";
+                                node_summoner_icon.src = "http://ddragon.leagueoflegends.com/cdn/8.9.1/img/profileicon/" + summoner.profileIconId  + ".png";
+                                var node_summoner_name = document.createElement("span");
+                                node_summoner_name.innerHTML = summoner.name;
+                                node_summoner.appendChild(node_summoner_icon);
+                                node_summoner.appendChild(node_summoner_name);
+                                node_list.appendChild(node_summoner);
+                            }
+                        },
+                        400: 	function(response) {
+                            toast("Impossible de récuperer la liste des comptes League of Legends liés...", "error");
+                        }
+                    }
+                );
+            }
+            updateAccountsList();
 		</script>
 
 		<style>
@@ -99,23 +132,14 @@
 
 		<h1> <img src="./res/images/lol.png" alt="LOL" width="35" height="35"/>  League of Legends</h1>
 
-		<h3>Liste des comptes liées:</h3>
-		<ul>
-<?php 		use Model\ULCRiot;
-    		$riot = ULCRiot::riot();
-			$accounts = $this->getUser()->asJoueur()->listLolAccounts($this->getBDD());
-			foreach ($accounts as $summonerID) {
-				$summoner = $riot->getSummoner($summonerID);
-				echo '<li>' . $summoner->name . '</li>';
-			}
-?>
-
-		</ul>
-		<div>Veuillez entrer votre pseudo League of Legends, puis entrez le code dans votre client:</div>
+<h3>Liste des comptes liées:</h3>
+<ul id="lol_accounts"></ul>
+<div>Veuillez entrer votre pseudo League of Legends, puis entrez le code
+    dans votre client:</div>
         <div class="prompt">
             <input id="summoner_name" ></input></div>
 		<input class="prompt" type="text" id="code" class="code" onclick="copyCode();" readonly></input>
-        <div class="prompt">
+        <div class="button">
             <button style="cursor: pointer;" onclick="verificateCode();">Lier les comptes</button>
         </div>
 
