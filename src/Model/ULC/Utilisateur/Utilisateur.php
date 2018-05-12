@@ -30,15 +30,22 @@ class Utilisateur {
 	}
 	
 	/**
-	 * le joueur qui correspond à l'utilisateur (NULL si non connecté)
+	 * clef primaire de l'utilisateur dans la base de données
+	 * (enregistré dans la variable de session, ou NULL si non connecté)
 	 */
-	private $joueur;
+	private $uuid;
+	
+	/**
+	 * l'entrée dans la base de données, NULL par défaut,
+	 * récupéré de la base de données quand necessaire
+	 */
+	private $entry;
 	
 	/**
 	 * constructeur
 	 */
 	private function __construct() {
-		$joueur = NULL;
+		$uuid = NULL;
 	}
 	
 	/**
@@ -46,10 +53,10 @@ class Utilisateur {
 	 * @internal : export l'utilisateur vers la variable session
 	 */
 	private function saveSession() {
-		if ($this->joueur == NULL) {
-			unset ( $_SESSION ['joueur'] );
+		if ($this->uuid == NULL) {
+			unset ( $_SESSION ['uuid'] );
 		} else {
-			$_SESSION ['joueur'] = serialize ( $this->joueur );
+			$_SESSION ['uuid'] = $this->uuid;
 		}
 	}
 	
@@ -58,7 +65,7 @@ class Utilisateur {
 	 * @internal : charges l'utilisateur à partir de sa session
 	 */
 	private function loadSession() {
-		$this->joueur = isset ( $_SESSION ['joueur'] ) ? unserialize ( $_SESSION ['joueur'] ) : NULL;
+		$this->uuid = isset ( $_SESSION ['uuid'] ) ? $_SESSION ['uuid'] : NULL;
 	}
 	
 	/**
@@ -76,7 +83,7 @@ class Utilisateur {
 		$pdo = BDD::instance ()->getConnection ( "ulc" );
 		
 		/* prépares la base de données */
-		$stmt = $pdo->prepare ( "INSERT INTO joueur (mail, pseudo, pass) VALUES (:mail, :pseudo, :pass)" );
+		$stmt = $pdo->prepare ( "INSERT INTO utilisateur (mail, pseudo, pass) VALUES (:mail, :pseudo, :pass)" );
 		/* protège des injections sql */
 		$hashedPass = password_hash ( $pass, PASSWORD_DEFAULT );
 		$stmt->bindParam ( ':mail', $mail, PDO::PARAM_STR );
@@ -99,7 +106,7 @@ class Utilisateur {
 		/* on recupere la connection à la pdo */
 		$pdo = BDD::instance ()->getConnection ( "ulc" );
 		
-		$stmt = $pdo->prepare ( "UPDATE joueur SET pass=:pass WHERE mail=:mail" );
+		$stmt = $pdo->prepare ( "UPDATE utilisateur SET pass=:pass WHERE mail=:mail" );
 		
 		$stmt->bindParam ( ':mail', $mail, PDO::PARAM_STR );
 		
@@ -122,7 +129,7 @@ class Utilisateur {
 		$pdo = BDD::instance ()->getConnection ( "ulc" );
 		
 		$stmt = $pdo->prepare ( "SELECT * FROM reset_token
-                                    JOIN joueur ON joueur_id=id
+                                    JOIN utilisateur ON utilisateur_id=id
                                         WHERE mail=:mail AND token=:token
                                             AND (NOW() BETWEEN date_generation AND date_generation + '15 minutes'::interval)
                             " );
@@ -148,8 +155,8 @@ class Utilisateur {
 	 * @param PDO $db
 	 * @param string $mail
 	 * @param string $pass
-	 * @return $this->joueur Si l'utilisateur a pu se connecter
-	 * @throws PDOException : si le mail est invalide
+	 * @return bool true si la connection a eu lieu avec succès
+	 * @throws NoSuchUtilisateurException : si les identifiants sont invalides
 	 * @throws ConnectionException : si la connection à la base de donnée a échouée
 	 *  @seeall http://www.phptherightway.com/#databases_interacting
 	 *  @seeall http://php.net/manual/fr/filter.filters.sanitize.php
@@ -158,31 +165,24 @@ class Utilisateur {
 	public function connectAs($mail, $pass) {
 		$pdo = BDD::instance ()->getConnection ( "ulc" );
 		
-		$stmt = $pdo->prepare ( 'SELECT * FROM joueur WHERE mail = :mail' );
+		$stmt = $pdo->prepare ( 'SELECT * FROM utilisateur WHERE mail = :mail' );
 		$stmt->bindParam ( ':mail', $mail, PDO::PARAM_STR );
 		
 		$stmt->execute ();
 		if ($stmt->rowCount () == 0) {
-			throw new PDOException ( "Addresse mail erronée" );
+			throw new NoSuchUtilisateurException ( "Addresse mail erronée" );
 		}
 		/* renvoie un tableau associatif de l'entrée dans la table */
 		$entry = $stmt->fetch ();
 		
 		/* si le mot de passe est juste */
 		if (password_verify ( $pass, $entry ['pass'] )) {
-			$this->joueur = new Joueur ( $entry );
+			$this->uuid = $entry ['id'];
+			$this->entry = $entry;
 			$this->saveSession ();
-			return ($this->joueur);
+			return ($this->uuid);
 		}
-		throw new PDOException ( "Mot de passe erroné" );
-	}
-	
-	/**
-	 *
-	 * @return Joueur le joueur correspondant à l'utilisateur (NULL si non connecté)
-	 */
-	public function asJoueur() {
-		return ($this->joueur);
+		throw new NoSuchUtilisateurException ( "Mot de passe erroné" );
 	}
 	
 	/**
@@ -190,7 +190,127 @@ class Utilisateur {
 	 * @return true si l'utilisateur est connecté, false sinon
 	 */
 	public function isConnected() {
-		return ($this->asJoueur () != NULL);
+		return ($this->uuid != NULL);
+	}
+	
+	/**
+	 *
+	 * @return string/int un champ de l'entrée dans la table
+	 *         fonction interne pour lire l'entrée de la table
+	 * @throws NotConnectedException : si l'utilisateur n'est pas connecté
+	 * @throws NoSuchUtilisateurException : si l'utilisateur n'existe pas (plus) dans la table
+	 * @throws ConnectionException : la connection à la BDD n'a pas abouti
+	 */
+	private function get($name) {
+		// l'utilisateur n'est pas connecté
+		if (! $this->isConnected ()) {
+			throw new NotConnectedException ();
+		}
+		
+		// on recupere l'entrée dans la table
+		if ($this->entry == NULL) {
+			$pdo = BDD::instance ()->getConnection ( "ulc" );
+			
+			$stmt = $pdo->prepare ( 'SELECT * FROM utilisateur WHERE id = :id' );
+			$stmt->bindParam ( ':id', $this->uuid, PDO::PARAM_INT );
+			
+			$stmt->execute ();
+			if ($stmt->rowCount () == 0) {
+				throw new NoSuchUtilisateurException ( "Addresse mail erronée" );
+			}
+			$this->entry = $stmt->fetch ();
+		}
+		
+		// renvoie l'entrée
+		return (isset ( $this->entry [$name] ) ? $this->entry [$name] : NULL);
+	}
+	
+	/**
+	 *
+	 * @return int la clef primaire du utilisateur dans la base de donnée
+	 */
+	public function getID() {
+		return ($this->uuid);
+	}
+	
+	/**
+	 *
+	 * @return string l'adresse mail du utilisateur
+	 */
+	public function getMail() {
+		return ($this->get ( 'mail' ));
+	}
+	
+	/**
+	 *
+	 * @return string le pseudo du utilisateur
+	 */
+	public function getPseudo() {
+		return ($this->get ( 'pseudo' ));
+	}
+	
+	/**
+	 *
+	 * @return string l'ecole à laquelle le utilisateur appartient
+	 */
+	public function getEcole() {
+		return ($this->get ( 'ecole' ));
+	}
+	
+	/**
+	 * renvoie le utilisateur sous une string au format JSON
+	 */
+	public function toJSON() {
+		return json_encode ( $this->entry );
+	}
+	
+	/**
+	 * Lie l'utilisateur du site au compte League of Legend
+	 *
+	 * @param integer $summonerID
+	 * @throws PDOException : si le summonerID est déjà lié à un autre utilisateur
+	 * @throws ConnectionException : connection echouée
+	 * @throws NotConnectedException : si l'utilisateur n'est pas connecté
+	 */
+	public function linkLolAccount($summonerID) {
+		if (! $this->isConnected ()) {
+			throw new NotConnectedException ();
+		}
+		
+		$pdo = BDD::instance ()->getConnection ( "ulc" );
+		
+		$stmt = $pdo->prepare ( "INSERT INTO utilisateur_lol (utilisateur_id, summoner_id) VALUES (:utilisateur_id, :summoner_id)" );
+		$stmt->bindParam ( ':utilisateur_id', $this->uuid, PDO::PARAM_INT );
+		$stmt->bindParam ( ':summoner_id', $summonerID, PDO::PARAM_INT );
+		$stmt->execute ();
+		return (true);
+	}
+	
+	/**
+	 * Liste les comptes League of Legends lié à ce utilisateur
+	 *
+	 * @throws ConnectionException : si la connection à la bdd échoue
+	 * @throws NotConnectedException : si l'utilisateur n'est pas connecté
+	 */
+	public function listLolAccounts() {
+		if (! $this->isConnected ()) {
+			throw new NotConnectedException ();
+		}
+		
+		$pdo = BDD::instance ()->getConnection ( "ulc" );
+		
+		$stmt = $pdo->prepare ( "SELECT * FROM utilisateur_lol WHERE utilisateur_id = :utilisateur_id" );
+		$stmt->bindParam ( ':utilisateur_id', $this->uuid, PDO::PARAM_INT );
+		$stmt->execute ();
+		
+		/* renvoie un tableau associatif de l'entrée dans la table */
+		$r = array ();
+		
+		while ( ($entry = $stmt->fetch ()) != NULL ) {
+			array_push ( $r, $entry ['summoner_id'] );
+		}
+		
+		return ($r);
 	}
 }
 

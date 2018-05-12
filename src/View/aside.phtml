@@ -7,17 +7,33 @@ namespace View;
  */
 function afficher_profil() {
 	?>
-<div class="button" style="margin-top: 1.5rem;">
-	<div class="button_text"
-		onclick="
-                requestAPI('/user/account/disconnect/',
-                {
-                    200: function(response) {
-                        toast('Déconnecté(e). Vous allez être redirigé(e).', 'fine');
-                        setTimeout(function () { window.location.replace(window.location.href); }, 1000);
-                    }
-                });
-            ">Se déconnecter</div>
+<script>
+	function disconnect() {
+		requestAPI(	"/user/account/disconnect/",
+					{
+					    200: function(response) {
+					        toast('Déconnecté(e). Vous allez être redirigé(e).', 'fine');
+					        setTimeout(	function () {
+						        			window.location.replace(window.location.href);
+						        		},
+						        		1000
+							);
+					    }
+					}
+		);
+	}
+</script>
+
+<div class="button" style="margin-top: 2.0rem; width: 8rem;" onclick="redirectToPage('profil');">
+	<div class="button_text">Mon profil</div>
+</div>
+
+<div class="button" style="width: 8rem;" onclick="redirectToPage('tournois');">
+	<div class="button_text" onclick="">Mes tournois</div>
+</div>
+
+<div class="button" style="width: 8rem;" onclick="disconnect();">
+	<div class="button_text">Se déconnecter</div>
 </div>
 
 <?php
@@ -310,7 +326,8 @@ function afficher_champs() {
 }
 function afficher_discord() {
 	?>
-<div style="width: 12rem; height: 12rem; margin-left: 1rem; margin-top:1rem;">
+<div
+	style="width: 12rem; height: 12rem; margin-left: 1rem; margin-top: 1rem;">
 <?php
 	include 'discord.phtml';
 	?>

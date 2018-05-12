@@ -45,7 +45,7 @@ session_start ();
 
 $user = Utilisateur::instance ();
 
-// si le joueur n'est pas connecté
+// si l'utilisateur n'est pas connecté
 if (! $user->isConnected ()) {
 	http_response_code ( 400 );
 	echo 'Non connecté.';
@@ -68,7 +68,7 @@ if (! $user->isConnected ()) {
 			echo 'code entré invalide';
 		} else {
 			try {
-				$user->asJoueur ()->linkLolAccount ( $summoner->id );
+				$user->linkLolAccount ( $summoner->id );
 				http_response_code ( 200 );
 				echo 'OK';
 			} catch ( Exception $e ) {

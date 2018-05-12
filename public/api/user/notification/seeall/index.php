@@ -23,7 +23,7 @@ require '../../../../../vendor/autoload.php';
 /* on charge la session */
 session_start ();
 
-/* on recupere le joueur */
+/* on recupere l'utilisateur */
 $user = Utilisateur::instance ();
 if (! $user->isConnected ()) {
 	http_response_code ( 401 );
@@ -39,10 +39,10 @@ if ($pdo == NULL) {
 }
 
 /* prépares la base de données */
-$stmt = $pdo->prepare ( "UPDATE notification SET status = 'seen' WHERE joueur_id = :joueur_id" );
+$stmt = $pdo->prepare ( "UPDATE notification SET status = 'seen' WHERE utilisateur_id = :utilisateur_id" );
 /* protège des injections sql */
-$id = $user->asJoueur ()->getID ();
-$stmt->bindParam ( ':joueur_id', $id, PDO::PARAM_INT );
+$id = $user->getID ();
+$stmt->bindParam ( ':utilisateur_id', $id, PDO::PARAM_INT );
 
 /* execute la requete sécurisé */
 $stmt->execute ();

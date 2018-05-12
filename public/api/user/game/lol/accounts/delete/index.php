@@ -28,7 +28,7 @@ if (!$user->isConnected() || !isset($_POST['summonerName'])) {
     http_response_code(400);
 } else {
 	try {
-		$user->asJoueur()->unlinkAccount($_POST['summonerName']);
+		$user->unlinkAccount($_POST['summonerName']);
 	} catch (Exception $e) {
 		http_response_code(404);
 	}

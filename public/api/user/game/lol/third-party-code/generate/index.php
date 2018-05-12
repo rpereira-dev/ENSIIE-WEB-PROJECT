@@ -26,7 +26,7 @@ session_start ();
 
 $user = Utilisateur::instance ();
 
-// si le joueur n'est pas connecté
+// si l'utilisateur n'est pas connecté
 if (! $user->isConnected ()) {
 	http_response_code ( 400 );
 	echo 'Non connecté.';

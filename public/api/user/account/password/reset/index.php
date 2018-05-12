@@ -23,7 +23,7 @@ use Model\ULC\BDD\ConnectionException;
 
 require '../../../../../../vendor/autoload.php';
 
-// si le joueur n'est pas connecté
+// si l'utilisateur n'est pas connecté
 if (! isset ( $_POST ['mail'] )) {
 	http_response_code ( 400 );
 	echo "Pas d'adresse mail";
@@ -37,7 +37,7 @@ if (! isset ( $_POST ['mail'] )) {
 		$pdo = $bdd->getConnection ( "ulc" );
 		
 		/* insert or update */
-		$stmt = $pdo->prepare ( "WITH updated AS (UPDATE reset_token SET token=:token FROM joueur WHERE joueur.mail=:mail AND reset_token.joueur_id=joueur.id returning *) INSERT INTO reset_token (joueur_id, token) SELECT joueur.id, :token FROM joueur WHERE NOT EXISTS (SELECT * FROM updated) AND joueur.mail=:mail ;" );
+		$stmt = $pdo->prepare ( "WITH updated AS (UPDATE reset_token SET token=:token FROM utilisateur WHERE mail=:mail AND reset_token.utilisateur_id=id returning *) INSERT INTO reset_token (utilisateur_id, token) SELECT id, :token FROM utilisateur WHERE NOT EXISTS (SELECT * FROM updated) AND mail=:mail ;" );
 		$stmt->bindParam ( ':token', $token, PDO::PARAM_STR );
 		$stmt->bindParam ( ':mail', $mail, PDO::PARAM_STR );
 		$stmt->execute ();

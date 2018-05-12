@@ -38,7 +38,7 @@ require '../../../../../vendor/autoload.php';
 /* on charge la session */
 session_start ();
 
-/* on recupere le joueur */
+/* on recupere l'utilisateur */
 $user = Utilisateur::instance ();
 if (! $user->isConnected ()) {
 	http_response_code ( 401 );
@@ -61,10 +61,10 @@ if ($rows < 0) {
 } else if ($rows > $max) {
 	$rows = $max;
 }
-$stmt = $pdo->prepare ( 'SELECT * FROM notification WHERE joueur_id = :joueur_id ORDER BY date_envoie DESC, id DESC LIMIT :rows' );
+$stmt = $pdo->prepare ( 'SELECT * FROM notification WHERE utilisateur_id = :utilisateur_id ORDER BY date_envoie DESC, id DESC LIMIT :rows' );
 /* protège des injections sql */
-$id = $user->asJoueur ()->getID ();
-$stmt->bindParam ( ':joueur_id', $id, PDO::PARAM_INT );
+$id = $user->getID ();
+$stmt->bindParam ( ':utilisateur_id', $id, PDO::PARAM_INT );
 $stmt->bindParam ( ':rows', $rows, PDO::PARAM_INT );
 
 /* execute la requete sécurisé */

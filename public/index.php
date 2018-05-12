@@ -10,7 +10,6 @@ use Controller\Sidebar;
 use Controller\Toastbar;
 use Model\ULC\BDD\BDD;
 use Model\ULC\Utilisateur\Utilisateur;
-use Model\ULC\ULCDiscord;
 
 require ('../vendor/autoload.php');
 define ( 'PROJECT_ROOT', realpath ( dirname ( __FILE__ ) . "/../" ) );

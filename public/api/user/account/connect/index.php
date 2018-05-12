@@ -3,8 +3,7 @@
 /**
  *  @file
  *  @brief Crée une session utilisateur.
- *	@details Si succès, génère une session PHP (renvoie un Cookie de session), et affiche
- *			l'utilisateur au format JSON.
+ *	@details Si succès, génère une session PHP (renvoie un Cookie de session)
  *
  *			Sinon, renvoie le code d'erreur correspondant.
  *	@param :
@@ -34,9 +33,8 @@ if (isset ( $_POST ['mail'] ) && isset ( $_POST ['pass'] )) {
 	$pass = filter_input ( INPUT_POST, 'pass', FILTER_SANITIZE_STRING );
 	
 	try {
-		$joueur = $user->connectAs ( $mail, $pass );
+		$user->connectAs ( $mail, $pass );
 		http_response_code ( 200 );
-		echo $joueur->toJSON ();
 	} catch ( PDOException $e ) {
 		http_response_code ( 401 );
 		echo "Identifiants incorrects.";

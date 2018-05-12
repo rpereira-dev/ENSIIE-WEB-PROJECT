@@ -17,7 +17,7 @@
 require '../../../../../../vendor/autoload.php'; 
 
 if (!isset($_GET['joueur'])) {
-    http_response_code(404);
+	http_response_code(400);
     echo 'Erreur requete';
 } else {
     http_response_code(200);

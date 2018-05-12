@@ -1,14 +1,11 @@
 <?php
 if (! $this->getUser ()->isConnected ()) {
 	echo 'Non connecté';
-	return;
-}
+} else {
 ?>
 
-
-
 <!-- DEBUT: Profil -->
-<script>
+	<script>
 			function uploadProfilImage() {
 				var input = document.getElementById('input_image_profil');
 				if (input.files.length < 1) {
@@ -33,7 +30,7 @@ if (! $this->getUser ()->isConnected ()) {
 			}
 
 			function sendResetToken() {
-				var mail = "<?php echo $this->getUser()->asJoueur()->getMail() ?>";
+				var mail = "<?php echo $this->getUser()->getMail() ?>";
                 requestAPI('/user/account/password/reset/',
                     	{
     	                    200: function(response) {
@@ -171,3 +168,7 @@ if (! $this->getUser ()->isConnected ()) {
 	comptes</button>
 
 <!-- FIN : League of Legends -->
+
+<?php
+}	//If connected
+?>

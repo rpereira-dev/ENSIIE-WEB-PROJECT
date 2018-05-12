@@ -2,10 +2,10 @@
 
 /**
  *  @file
- *  @brief Définit l'image de profil d'un joueur
+ *  @brief Définit l'image de profil d'un utilisateur
  *  @param :
  *      - COOKIE \a PHPSESSID : le cookie de session
- *      - FILES \a image      : l'image du joueur
+ *      - FILES \a image      : l'image du profil utilisateur
  *  @return
  *      - code reponse:
  *                      - 200 : l'image a été trouvé et renvoyé
@@ -44,7 +44,7 @@ if (! $info || $info [2] != IMAGETYPE_PNG) {
 }
 
 http_response_code ( 200 );
-$dst = "../get/" . $user->asJoueur ()->getPseudo () . ".png";
+$dst = "../get/" . $user->getPseudo () . ".png";
 move_uploaded_file ( $_FILES ["image"] ["tmp_name"], $dst );
 
 // /@endcond

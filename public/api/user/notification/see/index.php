@@ -24,7 +24,7 @@ require '../../../../../vendor/autoload.php';
 /* on charge la session */
 session_start ();
 
-/* on recupere le joueur */
+/* on recupere l'utilisateur */
 $user = Utilisateur::instance ();
 if (! $user->isConnected ()) {
 	http_response_code ( 401 );
@@ -45,10 +45,10 @@ if ($pdo == NULL) {
 	throw new PDOException ( "Connection error" );
 }
 
-$stmt = $pdo->prepare ( "UPDATE notification SET status = 'seen' WHERE joueur_id = :joueur_id AND id = :id" );
+$stmt = $pdo->prepare ( "UPDATE notification SET status = 'seen' WHERE utilisateur_id = :utilisateur_id AND id = :id" );
 
-$joueur_id = $user->asJoueur ()->getID ();
-$stmt->bindParam ( ':joueur_id', $joueur_id, PDO::PARAM_INT );
+$utilisateur_id = $user->getID ();
+$stmt->bindParam ( ':utilisateur_id', $utilisateur_id, PDO::PARAM_INT );
 
 $id = filter_input ( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
 $stmt->bindParam ( ':id', $id, PDO::PARAM_STR );

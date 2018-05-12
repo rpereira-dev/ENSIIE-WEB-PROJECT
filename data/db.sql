@@ -1,6 +1,6 @@
 
 /**
- *	JOUEURS / EQUIPES / TOURNOIS DEBUT
+ *	utilisateurS / EQUIPES / TOURNOIS DEBUT
  */
 
 /** suppression des données précèdentes dans la table */
@@ -8,7 +8,7 @@ DROP TABLE "notification" CASCADE;
 DROP TYPE "t_notification";
 DROP TYPE "t_notification_status";
 
-DROP TRIGGER "notifieur_enregistrement" ON joueur ;
+DROP TRIGGER "notifieur_enregistrement" ON utilisateur ;
 DROP FUNCTION "notifier_bienvenue" ;
 
 DROP TRIGGER "notifieur_invitation" ON invitation;
@@ -19,16 +19,16 @@ DROP TABLE "match" CASCADE ;
 
 DROP TYPE "t_invitation_status" ;
 DROP TABLE "invitation" ;
-DROP TABLE "joueur_equipe" ;
+DROP TABLE "utilisateur_equipe" ;
 DROP TABLE "equipe" CASCADE ;
 DROP TABLE "tournoi" CASCADE ;
 DROP TYPE "t_jeu";
 
-DROP TABLE "joueur_lol" CASCADE ;
+DROP TABLE "utilisateur_lol" CASCADE ;
 DROP TRIGGER "updater_reset_token" ON reset_token;
 DROP FUNCTION "update_reset_token" ;
 DROP TABLE "reset_token" CASCADE ;
-DROP TABLE "joueur" CASCADE ;
+DROP TABLE "utilisateur" CASCADE ;
 DROP TABLE "ecole" CASCADE ;
 DROP TYPE "t_ecole";
 
@@ -42,8 +42,8 @@ CREATE TABLE "ecole" (
 	type	t_ecole	NOT NULL
 );
 
-/** joueur */
-CREATE TABLE "joueur" (
+/** utilisateur */
+CREATE TABLE "utilisateur" (
 	id			SERIAL		PRIMARY KEY,
 
 	mail		VARCHAR		NOT NULL UNIQUE,
@@ -56,9 +56,9 @@ CREATE TABLE "joueur" (
 
 /** token de reinitialisation */
 CREATE TABLE "reset_token" (
-	/* le joueur */
-	joueur_id		INTEGER 	PRIMARY KEY,
-	FOREIGN KEY (joueur_id) 	REFERENCES joueur(id),
+	/* le utilisateur */
+	utilisateur_id		INTEGER 	PRIMARY KEY,
+	FOREIGN KEY (utilisateur_id) 	REFERENCES utilisateur(id),
 	
 	/* le token */
 	token 			VARCHAR(32)	NOT NULL,
@@ -72,7 +72,7 @@ CREATE FUNCTION update_reset_token() RETURNS TRIGGER AS
 $$
 	BEGIN
 		IF NEW IS NOT NULL THEN
-			UPDATE reset_token SET date_generation=NOW() WHERE joueur_id=NEW.joueur_id ;
+			UPDATE reset_token SET date_generation=NOW() WHERE utilisateur_id=NEW.utilisateur_id ;
 		END IF ;
 		RETURN NULL ;
 	END
@@ -86,10 +86,10 @@ CREATE TRIGGER "updater_reset_token" AFTER UPDATE OF token ON reset_token FOR EA
 /** les différents jeux possibles */
 CREATE TYPE t_jeu AS ENUM ('lol', 'fortnite', 'csgo', 'minecraft', 'hearthstone') ;
 
-/** les identifiants permettant de relier un joueur à un compte League of Legend */
-CREATE TABLE "joueur_lol" (
-	joueur_id	INTEGER,
-	FOREIGN KEY (joueur_id) REFERENCES joueur(id),
+/** les identifiants permettant de relier un utilisateur à un compte League of Legend */
+CREATE TABLE "utilisateur_lol" (
+	utilisateur_id	INTEGER,
+	FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id),
 
 	/** riot summoner id (long <=> BIGINT) */
 	summoner_id	BIGINT PRIMARY KEY
@@ -117,15 +117,15 @@ CREATE TABLE "equipe" (
 	date_inscription timestamp 	DEFAULT now()
 );
 
-/** association joueur/equipe */
-CREATE TABLE "joueur_equipe" (
+/** association utilisateur/equipe */
+CREATE TABLE "utilisateur_equipe" (
 	equipe_id	INTEGER,
 	FOREIGN KEY (equipe_id) REFERENCES equipe(id),
 	
-	joueur_id	INTEGER,
-	FOREIGN KEY (joueur_id) REFERENCES joueur(id),
+	utilisateur_id	INTEGER,
+	FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id),
 
-	PRIMARY KEY (equipe_id, joueur_id)
+	PRIMARY KEY (equipe_id, utilisateur_id)
 );
 
 /** invitations à rejoindre des équipes */
@@ -138,7 +138,7 @@ CREATE TABLE "invitation" (
 	FOREIGN KEY (equipe_id) REFERENCES equipe(id),
 		
 	invited_id	INTEGER,
-	FOREIGN KEY (invited_id) REFERENCES joueur(id)
+	FOREIGN KEY (invited_id) REFERENCES utilisateur(id)
 );
 
 /** un match */
@@ -163,7 +163,7 @@ CREATE TABLE "inscription_match" (
 );
 
 /**
- *	JOUEURS / EQUIPES / TOURNOIS FIN
+ *	utilisateurS / EQUIPES / TOURNOIS FIN
  */
 
 
@@ -176,8 +176,8 @@ CREATE TABLE "inscription_match" (
  *
  *	bienvenue : l'utilisateur vient de rejoindre le site
  *	message: un message brute d'information
- *	invitation : notification qu'un joueur a été invité dans une équipe
- *	join : notification qu'un joueur à rejoinds une équipe
+ *	invitation : notification qu'un utilisateur a été invité dans une équipe
+ *	join : notification qu'un utilisateur à rejoinds une équipe
  */
 
 CREATE TYPE t_notification_status AS ENUM ('unseen', 'seen');
@@ -195,34 +195,34 @@ CREATE TABLE "notification" (
 	/* date ou la notification a été envoyé */
 	date_envoie	timestamp 		DEFAULT now(),
 
-	/* joueur auquelle la notification a été envoyé */
-	joueur_id	INTEGER		NOT NULL,
-	FOREIGN KEY (joueur_id) REFERENCES joueur(id)
+	/* utilisateur auquelle la notification a été envoyé */
+	utilisateur_id	INTEGER		NOT NULL,
+	FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id)
 );
 
 
 
-/* envoie une notification de bienvenue au joueur donné */
+/* envoie une notification de bienvenue au utilisateur donné */
 CREATE FUNCTION notifier_bienvenue() RETURNS TRIGGER AS
 $$
 	BEGIN
-		INSERT INTO notification (type, joueur_id) VALUES ('bienvenue', NEW.id) ;
+		INSERT INTO notification (type, utilisateur_id) VALUES ('bienvenue', NEW.id) ;
 		RETURN NULL ;
 	END
 $$
 LANGUAGE 'plpgsql';
 
-/** trigger lorsqu'un joueur s'enregistre */
-CREATE TRIGGER "notifieur_enregistrement" AFTER INSERT ON joueur FOR EACH ROW EXECUTE PROCEDURE notifier_bienvenue() ;
+/** trigger lorsqu'un utilisateur s'enregistre */
+CREATE TRIGGER "notifieur_enregistrement" AFTER INSERT ON utilisateur FOR EACH ROW EXECUTE PROCEDURE notifier_bienvenue() ;
 
 
 
 
-/* envoie une notification quand un joueur est invité dans une équipe */
+/* envoie une notification quand un utilisateur est invité dans une équipe */
 CREATE FUNCTION notifier_invite() RETURNS TRIGGER AS
 $$
 	BEGIN
-		INSERT INTO notification (type, joueur_id) VALUES ('invitation', NEW.invited_id) ;
+		INSERT INTO notification (type, utilisateur_id) VALUES ('invitation', NEW.invited_id) ;
 		RETURN NULL ;
 	END
 $$
@@ -234,4 +234,4 @@ CREATE TRIGGER "notifieur_invitation" AFTER INSERT ON invitation FOR EACH ROW EX
 
 
 /** TESTS : pass: '123456' */
-INSERT INTO joueur (mail, pseudo, pass) VALUES ('a@a.fr', 'toss', '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');
+INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('a@a.fr', 'toss', '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');

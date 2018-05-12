@@ -22,7 +22,7 @@ use Model\ULC\Utilisateur\Utilisateur;
 
 require '../../../../../../vendor/autoload.php';
 
-// si le joueur n'est pas connecté
+// si l'utilisateur n'est pas connecté
 if (! isset ( $_POST ['mail'] ) || ! isset ( $_POST ['token'] ) || ! isset ( $_POST ['pass'] )) {
 	http_response_code ( 400 );
 	echo "Requete invalide";
