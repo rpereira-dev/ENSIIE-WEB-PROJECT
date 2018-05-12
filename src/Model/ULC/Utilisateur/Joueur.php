@@ -108,7 +108,7 @@ class Joueur {
 		while ( ($entry = $stmt->fetch ()) != NULL ) {
 			array_push ( $r, $entry ['summoner_id'] );
 		}
-		
+
 		return ($r);
 	}
 }

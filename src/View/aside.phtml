@@ -2,11 +2,14 @@
 
 namespace View;
 
-/** affiche les informations sur le profil du joueur */
+/**
+ * affiche les informations sur le profil du joueur
+ */
 function afficher_profil() {
-?>
-        <div class="button" style="margin-top: 1.5rem;">
-            <div class="button_text" onclick="
+	?>
+<div class="button" style="margin-top: 1.5rem;">
+	<div class="button_text"
+		onclick="
                 requestAPI('/user/account/disconnect/',
                 {
                     200: function(response) {
@@ -14,73 +17,54 @@ function afficher_profil() {
                         setTimeout(function () { window.location.replace(window.location.href); }, 1000);
                     }
                 });
-            ">
-                Se déconnecter
-            </div>
-        </div>
+            ">Se déconnecter</div>
+</div>
 
 <?php
 }
 
-/** affiche les formulaires de connections / enregistrement */
+/**
+ * affiche les formulaires de connections / enregistrement
+ */
 function afficher_champs() {
-?>
-            <!-- formulaire d'enregistrement -->
-            <div id="inscription_form" class="aside-login-form">
-                <!-- addresse mail -->
-                <div id="mailID" class="prompt">
-                    <i class="prompt-logo fa fa-envelope navbar-search-logo"></i>
-                    <input  id="input_mailID"
-                            name="mail"
-                            class="prompt-input"
-                            type="text"
-                            placeholder="Adresse mail..."
-                            oninput="return onInput(event);"
-                            onkeypress="return onPressed(event);"
-                    />
-                </div>
-                
-                <!-- champ pseudo -->
-                <div id="pseudoID" class="prompt">
-                    <i class="prompt-logo fa fa-user navbar-search-logo"></i>
-                    <input  id="input_pseudoID"
-                            name="pseudo"
-                            class="prompt-input"
-                            type="text"
-                            placeholder="Pseudo..."
-                            oninput="return onInput(event);"
-                    />
-                </div>
+	?>
+<!-- formulaire d'enregistrement -->
+<div id="inscription_form" class="aside-login-form">
+	<!-- addresse mail -->
+	<div id="mailID" class="prompt">
+		<i class="prompt-logo fa fa-envelope navbar-search-logo"></i> <input
+			id="input_mailID" name="mail" class="prompt-input" type="text"
+			placeholder="Adresse mail..." oninput="return onInput(event);"
+			onkeypress="return onPressed(event);" />
+	</div>
 
-                <!-- champ mot de passe -->
-                <div id="passID" class="prompt">
-                    <i class="prompt-logo fa fa-lock navbar-search-logo"></i>
-                    <input  id="input_passID"
-                            name="pass"
-                            class="prompt-input"
-                            type="password"
-                            placeholder="Mot de passe..."
-                            onkeypress="return onPressed(event);"
-                            oninput="return onInput(event);"
-                    />
-                </div>
+	<!-- champ pseudo -->
+	<div id="pseudoID" class="prompt">
+		<i class="prompt-logo fa fa-user navbar-search-logo"></i> <input
+			id="input_pseudoID" name="pseudo" class="prompt-input" type="text"
+			placeholder="Pseudo..." oninput="return onInput(event);" />
+	</div>
 
-                <!-- champ confirmation de mot de passe -->
-                <div id="confirmPassID" class="prompt">
-                    <i class="prompt-logo fa fa-lock navbar-search-logo"></i>
-                    <input  id="input_confirmPassID"
-                            class="prompt-input"
-                            type="password"
-                            placeholder="Confirmer..."
-                            onkeypress="return onPressed(event);"
-                            oninput="return onInput(event);"
-                    />
-                </div>
+	<!-- champ mot de passe -->
+	<div id="passID" class="prompt">
+		<i class="prompt-logo fa fa-lock navbar-search-logo"></i> <input
+			id="input_passID" name="pass" class="prompt-input" type="password"
+			placeholder="Mot de passe..." onkeypress="return onPressed(event);"
+			oninput="return onInput(event);" />
+	</div>
 
-                <!-- le captcha -->
-                <!--<div id="captchaID" class="g-recaptcha aside-captcha" data-sitekey="6LfSvVEUAAAAAI2FQTEC8rBUcm3DybzVmf8g44t_"></div>-->
-                <div id="captchaID" class="g-recaptcha aside-captcha"></div>
-                <script type="text/javascript">
+	<!-- champ confirmation de mot de passe -->
+	<div id="confirmPassID" class="prompt">
+		<i class="prompt-logo fa fa-lock navbar-search-logo"></i> <input
+			id="input_confirmPassID" class="prompt-input" type="password"
+			placeholder="Confirmer..." onkeypress="return onPressed(event);"
+			oninput="return onInput(event);" />
+	</div>
+
+	<!-- le captcha -->
+	<!--<div id="captchaID" class="g-recaptcha aside-captcha" data-sitekey="6LfSvVEUAAAAAI2FQTEC8rBUcm3DybzVmf8g44t_"></div>-->
+	<div id="captchaID" class="g-recaptcha aside-captcha"></div>
+	<script type="text/javascript">
                     var onloadCallback = function() {
                         grecaptcha.render('captchaID', {
                           'sitekey' : '6LfSvVEUAAAAAI2FQTEC8rBUcm3DybzVmf8g44t_'
@@ -88,26 +72,173 @@ function afficher_champs() {
                     };
                 </script>
 
-                <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+	<script
+		src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+		async defer></script>
 
 
-                <!-- se connecter / s'enregistrer -->
-                <div class="aside-login-labels">
-                    <a class="label label-button" onclick="onConnectClick();">Se connecter</a>
-                    <span class="label"> | </span>
-                    <a class="label label-button" onclick="onRegisterClick();">S'enregistrer</a>
-                </div>
-            </div>
+	<!-- se connecter / s'enregistrer -->
+	<div class="aside-labels" style="margin-top: 0.5rem;">
+		<a class="label label-button" onclick="setState(STATE.CONNECT);">Se connecter</a>
+		<span class="label"> | </span>
+		<a class="label label-button" onclick="setState(STATE.REGISTER);">S'enregistrer</a>
+		</br>
+		<a class="label label-button" onclick="setState(STATE.RESET)">Mot de passe oublié</a>
+	</div>
 
-        
-            <!-- script de coulissement -->
-            <script>
+</div>
 
-                /** renvoie vrai si la vue d'enregistrement est affiché */
-                function isRegistering() {
-                    return (document.getElementById("pseudoID").style.display == "");
-                }
 
+<!-- script de coulissement -->
+<script>
+            	var STATE = {
+                    	"CONNECT": {
+                        	"set":		function() {
+			                                for (var elementID in elements) {
+				                                var divElement = document.getElementById(elements[elementID]);
+				                                divElement.style.borderColor = "";
+				                            }
+	                            
+			                    			document.getElementById("mailID").style.display  = "";
+			                    			document.getElementById("pseudoID").style.display  = "none";
+			                                document.getElementById("passID").style.display = "";
+			                                document.getElementById("confirmPassID").style.display = "none";
+			                                document.getElementById("captchaID").style.display = "none";
+            							},
+            				
+               				"unset":	function() {
+            							},
+            				
+                        	"action":	function () {
+			                                var mail = document.getElementById("input_mailID").value;
+			                                var pass =  document.getElementById("input_passID").value;
+			                                if (!validates["input_mailID"]() || !validates["input_passID"]()) {
+			                                    toast("Les identifiants de connections sont invalides.", "error");
+			                                    return ;
+			                                }
+			
+			                                requestAPI('/user/account/connect/', 
+			                                    {
+			                                        200:    function(response) {
+			                                                    toast("Connecté(e). Vous allez être redirigé(e). " + response, "fine");
+			                                                    setTimeout(function () { window.location.replace(window.location.href); }, 1000);
+			                                                }
+			                                    },
+			
+			                                    {
+			                                        "mail": mail,
+			                                        "pass" : pass
+			                                    }
+			                                );
+			                         	}
+                        },
+                        
+                    	"REGISTER": {
+                        	"set":		function() {
+			                    			document.getElementById("mailID").style.display  = "";
+			                    			document.getElementById("pseudoID").style.display  = "";
+			                                document.getElementById("passID").style.display = "";
+			                                document.getElementById("confirmPassID").style.display = "";
+			                                document.getElementById("captchaID").style.display = "";
+			                                validateInputs();
+                        				},
+                        				
+                            "unset":	function() {
+                        				},
+                        				
+                        	"action":	function() {
+			                                if (!validates["input_mailID"]()) {
+			                                    toast("Veuillez entrer une adresse mail valide.", "error");
+			                                    return ;
+			                                }
+			
+			                                if (!validates["input_pseudoID"]()) {
+			                                    toast("Veuillez entrer un pseudo valide.", "error");
+			                                    return ;
+			                                }
+			
+			                                if (!validates["input_passID"]()) {
+			                                    toast("Veuillez entrer un mot de passe valide.", "error");
+			                                    return ;
+			                                }
+			
+			                                var catpchaResponse = grecaptcha.getResponse();
+			                                if (catpchaResponse == null || catpchaResponse.length == 0) {
+			                                    toast("Veuillez prouvez que vous n'êtes pas un robot.", "error");
+			                                    return ;
+			                                }
+			
+			                                requestAPI('/user/account/register/', 
+			                                    {
+			                                        200:    function(response) {
+			                                                    toast("Enregistré(e). Vous pouvez maintenant vous connecter.", 2);
+			                                                    setRegistrationVisibility(false);
+			                                                }
+			                                    },
+			
+			                                    {
+			                                        "mail"          : document.getElementById("input_mailID").value,
+			                                        "pseudo"        : document.getElementById("input_pseudoID").value,
+			                                        "pass"          : document.getElementById("input_passID").value,
+			                                        "g-recaptcha"   : catpchaResponse
+			                                    }
+			                                );
+			                        	}     	
+                       	},
+                       	
+                    	"RESET": {
+                        	"set":		function() {
+			                    			document.getElementById("mailID").style.display  = "";
+			                    			document.getElementById("pseudoID").style.display  = "none";
+			                                document.getElementById("passID").style.display = "none";
+			                                document.getElementById("confirmPassID").style.display = "none";
+			                                document.getElementById("captchaID").style.display = "none";
+			            				},
+            				
+                			"unset":	function() {
+		            					},
+            				
+            				"action":	function() {
+			            					var mail = document.getElementById("input_mailID").value;
+			                                if (!validates["input_mailID"]()) {
+			                                    toast("Veuillez entrer une adresse mail valide.", "error");
+			                                    return ;
+			                                }
+			            	                requestAPI('/user/account/password/reset/',
+			            	                    	{
+			            	    	                    200: function(response) {
+			            	    	                        toast("Le token a été généré et envoyé par mail à l'adresse <strong>" + mail + "</strong>", "fine");
+			            	    	                    },
+			            	    	                    400: function(response) {
+			            	    	                    	toast("Erreur dans la requete", "error")
+			            	                        	},
+			            	                        	503: function(response) {
+			            	                            	toast("Erreur serveur. Veuillez contacter un administrateur.", "error");
+			            	                        	}
+			            	                    	},
+			
+			            	                    	{
+			            	                    		'mail': mail
+			            	                    	}
+			            	          		);
+                						}
+                    	}
+            	};
+            	
+            	var currentState = STATE.CONNECT;
+            	currentState.set();
+
+            	/** definit la vue qui doit être utilisée */
+            	function setState(state) {
+                	if (currentState == state) {
+                    	currentState.action();
+                	} else {
+                		currentState.unset();
+                		currentState = state;
+                		currentState.set();
+                	}
+            	}
+           
                 /** les tests d'entrées */
                 var elements  = {};
                 var validates = {};
@@ -162,150 +293,42 @@ function afficher_champs() {
 
                 /** lorsqu'un touche est appuyé */
                 function onInput(event) {
-                    if (isRegistering()) {
+                    if (this.currentState != STATE.CONNECT) {
                         validateInputs();
                     }
-                }
-
-                /** enregistre l'utilisateur avec les informations actuellement entrées */
-                function register() {
-                    if (!validates["input_mailID"]()) {
-                        toast("Veuillez entrer une adresse mail valide.", "error");
-                        return ;
-                    }
-
-                    if (!validates["input_pseudoID"]()) {
-                        toast("Veuillez entrer un pseudo valide.", "error");
-                        return ;
-                    }
-
-                    if (!validates["input_passID"]()) {
-                        toast("Veuillez entrer un mot de passe valide.", "error");
-                        return ;
-                    }
-
-                    var catpchaResponse = grecaptcha.getResponse();
-                    if (catpchaResponse == null || catpchaResponse.length == 0) {
-                        toast("Veuillez prouvez que vous n'êtes pas un robot.", "error");
-                        return ;
-                    }
-
-                    requestAPI('/user/account/register/', 
-                        {
-                            200:    function(response) {
-                                        toast("Enregistré(e). Vous pouvez maintenant vous connecter.", 2);
-                                        setRegistrationVisibility(false);
-                                    }
-                        },
-
-                        {
-                            "mail"          : document.getElementById("input_mailID").value,
-                            "pseudo"        : document.getElementById("input_pseudoID").value,
-                            "pass"          : document.getElementById("input_passID").value,
-                            "g-recaptcha"   : catpchaResponse
-                        }
-                    );
-                }
-
-                /** connectes l'utilisateur avec les informations actuellement entrées dans les champs */
-                function connect() {
-                    var mail = document.getElementById("input_mailID").value;
-                    var pass =  document.getElementById("input_passID").value;
-                    if (!validates["input_mailID"]() || !validates["input_passID"]()) {
-                        toast("Les identifiants de connections sont invalides.", "error");
-                        return ;
-                    }
-
-                    requestAPI('/user/account/connect/', 
-                        {
-                            200:    function(response) {
-                                        toast("Connecté(e). Vous allez être redirigé(e). " + response, "fine");
-                                        setTimeout(function () { window.location.replace(window.location.href); }, 1000);
-                                    }
-                        },
-
-                        {
-                            "mail": mail,
-                            "pass" : pass
-                        }
-                    );
                 }
 
                 /** lorsque l'utilisateur appuie sur une touche */
                 function onPressed(event) {
                     /* si la touche entrée */
                     if (event.keyCode == 13) {
-                        /* si l'utilisateur s'enregistre */
-                        if (isRegistering()) {
-                            register();
-                        } else {
-                            connect();
-                        }
+                        currentState.action();
                     }
                 }
-
-                /** rends visible ou non les champs d'inscriptions */
-                function setRegistrationVisibility(visible) {
-                    if (visible) {
-                        document.getElementById("pseudoID").style.display  = "";
-                        document.getElementById("confirmPassID").style.display = "";
-                        document.getElementById("captchaID").style.display = "";
-                        validateInputs();
-                    } else {
-                        document.getElementById("pseudoID").style.display  = "none";
-                        document.getElementById("confirmPassID").style.display = "none";
-                        document.getElementById("captchaID").style.display = "none";
-                        for (var elementID in elements) {
-                        var divElement = document.getElementById(elements[elementID]);
-                            divElement.style.borderColor = "";
-                        }
-                    }
-                }
-
-                /** quand on appuie sur le label 'se connecter' */
-                function onConnectClick() {
-                    if (isRegistering()) {
-                        setRegistrationVisibility(false);
-                    } else {
-                        connect();
-                    }
-                }
-
-                /** quand on appuie sur le label 'se connecter' */
-                function onRegisterClick() {
-                    if (!isRegistering()) {
-                        setRegistrationVisibility(true);
-                    } else {
-                        register();
-                    }
-                }
-
-                setRegistrationVisibility(false);
             </script>
 <?php
 }
-
 function afficher_discord() {
-?>
-    <div style="width: 12rem; height: 12rem; margin-left: 1rem; ">
+	?>
+<div style="width: 12rem; height: 12rem; margin-left: 1rem; margin-top:1rem;">
 <?php
-        include 'discord.phtml';
-?>
+	include 'discord.phtml';
+	?>
     </div>
 <?php
 }
 ?>
-        <!-- barre de navigation à droite -->
-        <section class="aside">
+<!-- barre de navigation à droite -->
+<section class="aside">
 
 
 <?php
-    if (!$this->getUser()->isConnected()) {
-        afficher_champs();
-    } else {
-        afficher_profil();
-    }
-    afficher_discord();
+if (! $this->getUser ()->isConnected ()) {
+	afficher_champs ();
+} else {
+	afficher_profil ();
+}
+afficher_discord ();
 ?>
 
 

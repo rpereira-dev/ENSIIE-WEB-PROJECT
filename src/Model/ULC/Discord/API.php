@@ -1,18 +1,18 @@
 <?php
 
 /**
- *  Pour ouvrir la Gateway, lancer ULCDiscord::discord() à partir de la ligne de commande
+ *  Pour ouvrir la Gateway, lancer API::discord() à partir de la ligne de commande
  *
  *  exemple d'utilisation:
  *      require('../vendor/autoload.php'); 
  *
- *      use Model\ULCDiscord;
+ *      use Model\Discord\API;
  *
- *      $client = ULCDiscord::client();
- *      var_dump($client->guild->getGuild(['guild.id' => ULCDiscord::guildID()]));
+ *      $client = API::client();
+ *      var_dump($client->guild->getGuild(['guild.id' => API::guildID()]));
  *      var_dump($client->channel->createMessage(['channel.id' => 440662985997025280, 'content' => '<@172798956823248896> est une tâche']));
  */
-namespace Model\ULC;
+namespace Model\ULC\Discord;
 
 use Discord\Discord;
 use RestCord\DiscordClient;
@@ -21,7 +21,7 @@ use RestCord\DiscordClient;
  * Représente l'API de Discord.
  * Cet objet facilite les transactions avec le serveur discord
  */
-class ULCDiscord {
+class API {
 	
 	/**
 	 * Discord
@@ -38,22 +38,22 @@ class ULCDiscord {
 	 * @return l'instance de discord
 	 */
 	public static function discord() {
-		if (ULCDiscord::$discord == NULL) {
-			ULCDiscord::$discord = new Discord ( [ 
-					'token' => ULCDiscord::botToken () 
+		if (API::$discord == NULL) {
+			API::$discord = new Discord ( [ 
+					'token' => API::botToken () 
 			] );
-			ULCDiscord::$discord->on ( 'ready', function ($discord) {
+			API::$discord->on ( 'ready', function ($discord) {
 				echo "Bot is ready!", PHP_EOL;
 				
 				// Listen for messages.
-				ULCDiscord::$discord->on ( 'message', function ($message, $discord) {
+				API::$discord->on ( 'message', function ($message, $discord) {
 					echo "{$message->author->username}: {$message->content}", PHP_EOL;
 				} );
 			} );
 			
-			ULCDiscord::$discord->run ();
+			API::$discord->run ();
 		}
-		return (ULCDiscord::$discord);
+		return (API::$discord);
 	}
 	
 	/**
@@ -61,12 +61,12 @@ class ULCDiscord {
 	 * @return DiscordClient : l'instance du client discord
 	 */
 	public static function client() {
-		if (ULCDiscord::$client == NULL) {
-			ULCDiscord::$client = new DiscordClient ( [ 
-					'token' => ULCDiscord::botToken () 
+		if (API::$client == NULL) {
+			API::$client = new DiscordClient ( [ 
+					'token' => API::botToken () 
 			] );
 		}
-		return (ULCDiscord::$client);
+		return (API::$client);
 	}
 	
 	/**

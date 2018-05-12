@@ -1,14 +1,14 @@
 <?php
-		if (!$this->getUser()->isConnected()) {
-			echo 'Non connecté';
-			return ;
-		}
+if (! $this->getUser ()->isConnected ()) {
+	echo 'Non connecté';
+	return;
+}
 ?>
 
 
 
-		<!-- DEBUT: Profil -->
-		<script>
+<!-- DEBUT: Profil -->
+<script>
 			function uploadProfilImage() {
 				var input = document.getElementById('input_image_profil');
 				if (input.files.length < 1) {
@@ -31,21 +31,46 @@
                 	}
                 );
 			}
+
+			function sendResetToken() {
+				var mail = "<?php echo $this->getUser()->asJoueur()->getMail() ?>";
+                requestAPI('/user/account/password/reset/',
+                    	{
+    	                    200: function(response) {
+    	                        toast("Le token a été généré et envoyé par mail à l'adresse <strong>" + mail + "</strong>", "fine");
+    	                    },
+    	                    400: function(response) {
+    	                    	toast("Erreur dans la requete", "error")
+                        	},
+                        	503: function(response) {
+                            	toast("Erreur serveur. Veuillez contacter un administrateur.", "error");
+                        	}
+                    	},
+
+                    	{
+                    		'mail': mail
+                    	}
+                    );
+			}
 		</script>
 
-		<h1>Votre profil</h1>
-    	<div>Modifier votre image de profil:</div>
-    	<input type="file" accept="image/*" id="input_image_profil"> 
-	    <input type="submit" value="Envoyer" name="submit" onclick="uploadProfilImage();">
+<h1>Votre profil</h1>
+<div>Modifier votre image de profil:</div>
+<input type="file" accept="image/*" id="input_image_profil">
+<input type="submit" value="Envoyer" name="submit"
+	onclick="uploadProfilImage();">
 
-		<br></br>
-		<div>Changer mon mot de passe: <button>Envoyer mail de réintialisation</button></div>
+<br></br>
+<div>
+	Changer mon mot de passe:
+	<button onclick="sendResetToken();">Envoyer mail de réintialisation</button>
+</div>
 
-		<!-- FIN: Profil -->
+<!-- FIN: Profil -->
 
 
-		<!-- DEBUT : League of Legends -->
-		<script>
+<!-- DEBUT : League of Legends -->
+<script>
 			function regenerateCode() {
                 requestAPI('/user/game/lol/third-party-code/generate/', {
 	                    200: function(response) {
@@ -129,18 +154,20 @@
 
 		</script>
 
-		<style>
-			.code {
-				cursor: pointer;
-			}
-		</style>
+<style>
+.code {
+	cursor: pointer;
+}
+</style>
 
-		<h1>League of Legends</h1>
-		<h3>Liste des comptes liées:</h3>
-		<ul id="lol_accounts"></ul>
-		<div>Veuillez entrer votre pseudo League of Legends, puis entrez le code dans votre client:</div>
-		<input id="summoner_name"></input>
-		<input type="text" id="code" class="code" onclick="copyCode();" readonly></input>
-		<button style="cursor: pointer;" onclick="verificateCode();">Lier les comptes</button>
+<h1>League of Legends</h1>
+<h3>Liste des comptes liées:</h3>
+<ul id="lol_accounts"></ul>
+<div>Veuillez entrer votre pseudo League of Legends, puis entrez le code
+	dans votre client:</div>
+<input id="summoner_name"></input>
+<input type="text" id="code" class="code" onclick="copyCode();" readonly></input>
+<button style="cursor: pointer;" onclick="verificateCode();">Lier les
+	comptes</button>
 
-		<!-- FIN : League of Legends -->
+<!-- FIN : League of Legends -->

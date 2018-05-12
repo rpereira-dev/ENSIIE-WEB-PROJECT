@@ -37,7 +37,7 @@
 /* include path */
 require '../../../../../../../vendor/autoload.php';
 
-use Model\ULC\ULCRiot;
+use Model\ULC\LOL\API;
 use Model\ULC\Utilisateur\Utilisateur;
 
 /* recupere la session */
@@ -59,7 +59,7 @@ if (! $user->isConnected ()) {
 	echo 'code expiré.';
 	// sinon tout est bien formatté
 } else {
-	$riot = ULCRiot::riot ();
+	$riot = API::riot ();
 	try {
 		$summoner = $riot->getSummonerByName ( $_POST ['summonerName'] );
 		$code = $riot->getThirdPartyCodeBySummonerId ( $summoner->id );

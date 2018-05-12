@@ -15,7 +15,7 @@
 // /@cond INTERNAL
 
 /* include path */
-use Model\ULC\ULCRiot;
+use Model\ULC\LOL\API;
 use Model\ULC\Utilisateur\Utilisateur;
 
 require ('../../../../../../../vendor/autoload.php');
@@ -32,7 +32,7 @@ if (! $user->isConnected ()) {
 	// si la requete est invalide
 } else {
 	http_response_code ( 200 );
-	$riot = ULCRiot::riot ();
+	$riot = API::riot ();
 	$summoners = array ();
 	$summonersID = $user->asJoueur ()->listLolAccounts ();
 	foreach ( $summonersID as $summonerID ) {

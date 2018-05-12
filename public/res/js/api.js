@@ -80,7 +80,7 @@ var REQUEST = {
  	"/user/account/register/" 					: REQUEST.POST,
  	"/user/account/image/get/" 					: REQUEST.GET,
  	"/user/account/image/set/" 					: REQUEST.POST,
- 	"/user/account/password/modify" 			: REQUEST.POST,
+ 	"/user/account/password/modify/"			: REQUEST.POST,
  	"/user/account/password/reset/"				: REQUEST.POST,
  	"/user/game/lol/accounts/delete/"			: REQUEST.POST,
  	"/user/game/lol/accounts/get/"				: REQUEST.GET,
