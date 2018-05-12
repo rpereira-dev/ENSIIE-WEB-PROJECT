@@ -8,7 +8,7 @@ define('VIEW_FOLDER', PROJECT_ROOT . "/src/View");
 /* recupere la session */
 session_start();
 
-/* recupere l'utilisateur */
+/*  */
 $bdd = \Model\BDD::instance();
 
 /* recupere l'utilisateur */

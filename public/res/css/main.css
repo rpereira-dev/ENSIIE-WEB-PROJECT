@@ -14,7 +14,21 @@ body {
 	background-image: url("../images/background.png");
 	background-attachment: fixed;
 	*/
+	color:  	#888888;
+	background-color:  #2B2E35;
 	font-family: Arial, Helvetica, sans-serif
+}
+h1{
+	color: #FFFFFF;
+}
+.valide-button{
+	display: inline-block;
+	background: #7289DA;
+	border: 0.3rem solid transparent;
+	border-radius: 0.2rem;
+	cursor: pointer;
+	color: #FFFFFF;
+	font-size: 0.9em;
 }
 
 /** un bouton */
@@ -57,6 +71,7 @@ body {
 /** prompt: un icone et une entrée texte:; */
 .prompt {
 	display: flex;
+	width:12rem;
 	align-items: center; /* align vertical */
 	color: #656A72;
 	background-color: #17191F;
