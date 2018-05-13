@@ -167,15 +167,15 @@ if (! $this->getUser ()->isConnected ()) {
     <script>
 
         function getFullStats() {
-            var summonerName = document.getElementById('summoner_name').value;
+            var nickname = document.getElementById('"pubg_name"').value;
             var regions = document.getElementById('Regions').value;
             var mode = document.getElementById('Modes').value;
-           print("Le nom "+summonerName+"  "+regions+"  "+mode );
+           print("Le nom "+nickname+"  "+regions+"  "+mode );
         }
         function getProfileByNickname() {
-            var nickname=document.getElementById('summoner_name').value;
+            var nickname=document.getElementById('"pubg_name"').value;
             const playerName = encodeURIComponent(String(nickname).toLowerCase().replace(/\s/g, ''));
-            const uri = `https://pubgtracker.com/api/profile/pc/${playerName}`;
+            const uri = "https://pubgtracker.com/api/profile/pc/${playerName}";
 
             return this.handleCache(uri).then((content) => new Profile(content));
         }
@@ -196,7 +196,7 @@ if (! $this->getUser ()->isConnected ()) {
     <ul id="pubg_accounts"></ul>
     <div>Veuillez entrer votre pseudo PLAYERUNKNOWN'S BATTLEGROUNDS :</div>
     <form>
-        Pseudo: <input id="summoner_name"></input>
+        Pseudo: <input id="pubg_name"></input>
         Mode: <input id="Modes"  list="Modes_list" name="link1" />
         <datalist id="Modes_list">
             <option label="SOLO" value="solo" />
