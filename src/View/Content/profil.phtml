@@ -161,6 +161,67 @@ if (! $this->getUser ()->isConnected ()) {
 
 <!-- FIN : League of Legends -->
 
+
+
+    <!-- DEBUT : PUBG -->
+    <script>
+
+        function getFullStats() {
+            var summonerName = document.getElementById('summoner_name').value;
+            var regions = document.getElementById('Regions').value;
+            var mode = document.getElementById('Modes').value;
+           print("Le nom "+summonerName+"  "+regions+"  "+mode );
+        }
+        function getProfileByNickname() {
+            var nickname=document.getElementById('summoner_name').value;
+            const playerName = encodeURIComponent(String(nickname).toLowerCase().replace(/\s/g, ''));
+            const uri = `https://pubgtracker.com/api/profile/pc/${playerName}`;
+
+            return this.handleCache(uri).then((content) => new Profile(content));
+        }
+    </script>
+
+    <style>
+        .code {
+            cursor: pointer;
+        }
+    </style>
+
+    <h1>
+        <img src="./res/images/pubg.png" alt="PUBG" width="40" height="40" />
+        PLAYERUNKNOWN'S BATTLEGROUNDS
+    </h1>
+
+    <h3>Liste des comptes liées:</h3>
+    <ul id="pubg_accounts"></ul>
+    <div>Veuillez entrer votre pseudo PLAYERUNKNOWN'S BATTLEGROUNDS :</div>
+    <form>
+        Pseudo: <input id="summoner_name"></input>
+        Mode: <input id="Modes"  list="Modes_list" name="link1" />
+        <datalist id="Modes_list">
+            <option label="SOLO" value="solo" />
+            <option label="DUO" value="duo" />
+            <option label="SQUAD" value="squad" />
+            <option label="SOLO-FPP" value="solo-fpp" />
+            <option label="DUO-FPP" value="duo-fpp" />
+            <option label="SQUAD-FPP" value="squad-fpp" />
+        </datalist>
+        Regions: <input id="Regions"  list="Regions_list" name="link2" />
+    <datalist id="Regions_list">
+        <option label="North America" value="na" />
+        <option label="Europe" value="eu" />
+        <option label="Asia" value="as" />
+        <option label="Southeast Asia" value="sea" />
+        <option label="South America" value="sa" />
+        <option label="Oceania" value="oc" />
+    </datalist>
+    <button style="cursor: pointer;" onclick="getProfileByNickname();">Submit</button>
+    </form>
+
+    <!-- FIN : PUBG -->
+
+
+
 <?php
 } // If connected
 ?>
