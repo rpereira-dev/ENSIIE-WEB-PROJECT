@@ -8,10 +8,10 @@ DROP TABLE "notification" CASCADE;
 DROP TYPE "t_notification";
 DROP TYPE "t_notification_status";
 
-DROP TRIGGER "notifieur_enregistrement" ON utilisateur ;
+DROP TRIGGER "t_insert_utilisateur" ON utilisateur ;
 DROP FUNCTION "notifier_bienvenue" ;
 
-DROP TRIGGER "notifieur_invitation" ON invitation;
+DROP TRIGGER "t_insert_invitation" ON invitation;
 DROP FUNCTION "notifier_invite" ;
 
 DROP TABLE "inscription_match" ;
@@ -28,19 +28,13 @@ DROP TABLE "utilisateur_lol" CASCADE ;
 DROP TRIGGER "updater_reset_token" ON reset_token;
 DROP FUNCTION "update_reset_token" ;
 DROP TABLE "reset_token" CASCADE ;
+DROP TABLE "utilisateur_ecole" CASCADE ;
 DROP TABLE "utilisateur" CASCADE ;
 DROP TABLE "ecole" CASCADE ;
 DROP TYPE "t_ecole";
 
 /** les différents types d'écoles possibles */
 CREATE TYPE t_ecole AS ENUM ('ingenieur', 'commerce', 'universite', 'bts', 'iut', 'lycee', 'autre');
-
-/** les écoles */
-CREATE TABLE "ecole" (
-	id		SERIAL	PRIMARY KEY ,
-	nom		VARCHAR	NOT NULL ,
-	type	t_ecole	NOT NULL
-);
 
 /** utilisateur */
 CREATE TABLE "utilisateur" (
@@ -49,19 +43,17 @@ CREATE TABLE "utilisateur" (
 	mail		VARCHAR		NOT NULL UNIQUE,
 	pseudo		VARCHAR		NOT NULL UNIQUE,
 	pass		VARCHAR		NOT NULL,
-
-	ecole_id	INTEGER,
-	FOREIGN KEY (ecole_id) REFERENCES ecole(id)
+	permission	INTEGER		DEFAULT	0
 );
 
 /** token de reinitialisation */
 CREATE TABLE "reset_token" (
-	/* le utilisateur */
+	/* l'utilisateur */
 	utilisateur_id		INTEGER 	PRIMARY KEY,
 	FOREIGN KEY (utilisateur_id) 	REFERENCES utilisateur(id),
 	
 	/* le token */
-	token 			VARCHAR(32)	NOT NULL,
+	token 				VARCHAR(32)	NOT NULL,
 	
 	/* date de création du token */
 	date_generation	TIMESTAMP 	DEFAULT now()
@@ -81,7 +73,23 @@ LANGUAGE 'plpgsql';
 
 CREATE TRIGGER "updater_reset_token" AFTER UPDATE OF token ON reset_token FOR EACH ROW EXECUTE PROCEDURE update_reset_token() ;
 
+/** les écoles */
+CREATE TABLE "ecole" (
+	id		SERIAL	PRIMARY KEY ,
+	nom		VARCHAR	NOT NULL ,
+	type	t_ecole	NOT NULL
+);
 
+/** un utilisateur est lié à une ou plusieurs écoles */
+CREATE TABLE "utilisateur_ecole" (
+	utilisateur_id	INTEGER	NOT NULL,
+	FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id),
+	
+	ecole_id		INTEGER	NOT NULL,
+	FOREIGN KEY (ecole_id) REFERENCES ecole(id),
+	
+	PRIMARY KEY (utilisateur_id, ecole_id)
+);
 
 /** les différents jeux possibles */
 CREATE TYPE t_jeu AS ENUM ('lol', 'fortnite', 'csgo', 'minecraft', 'hearthstone') ;
@@ -143,7 +151,7 @@ CREATE TABLE "invitation" (
 
 /** un match */
 CREATE TABLE "match" (
-	id		SERIAL	PRIMARY KEY,
+	id			SERIAL	PRIMARY KEY,
 
 	tournoi_id	INTEGER,
 	FOREIGN KEY (tournoi_id) REFERENCES tournoi(id),
@@ -213,10 +221,7 @@ $$
 LANGUAGE 'plpgsql';
 
 /** trigger lorsqu'un utilisateur s'enregistre */
-CREATE TRIGGER "notifieur_enregistrement" AFTER INSERT ON utilisateur FOR EACH ROW EXECUTE PROCEDURE notifier_bienvenue() ;
-
-
-
+CREATE TRIGGER "t_insert_utilisateur" AFTER INSERT ON utilisateur FOR EACH ROW EXECUTE PROCEDURE notifier_bienvenue() ;
 
 /* envoie une notification quand un utilisateur est invité dans une équipe */
 CREATE FUNCTION notifier_invite() RETURNS TRIGGER AS
@@ -228,10 +233,12 @@ $$
 $$
 LANGUAGE 'plpgsql';
 
-CREATE TRIGGER "notifieur_invitation" AFTER INSERT ON invitation FOR EACH ROW EXECUTE PROCEDURE notifier_invite() ;
-
-
+CREATE TRIGGER "t_insert_invitation" AFTER INSERT ON invitation FOR EACH ROW EXECUTE PROCEDURE notifier_invite() ;
 
 
 /** TESTS : pass: '123456' */
-INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('a@a.fr', 'toss', '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');
+INSERT INTO utilisateur (mail, pseudo, pass, permission) VALUES ('a@a.fr', 'toss', '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y', 2);
+
+INSERT INTO utilisateur (mail, pseudo, pass, permission) VALUES ('b@b.fr', 'Spingz', '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y', 1);
+
+INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('c@c.fr', 'lousticos', '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');

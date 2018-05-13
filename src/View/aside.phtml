@@ -7,35 +7,34 @@ namespace View;
  */
 function afficher_profil() {
 	?>
-<script>
-	function disconnect() {
-		requestAPI(	"/user/account/disconnect/",
-					{
-					    200: function(response) {
-					        toast('Déconnecté(e). Vous allez être redirigé(e).', 'fine');
-					        setTimeout(	function () {
-						        			window.location.replace(window.location.href);
-						        		},
-						        		1000
-							);
-					    }
-					}
-		);
-	}
-</script>
-
-<div class="button" style="margin-top: 2.0rem; width: 8rem;" onclick="redirectToPage('profil');">
-	<div class="button_text">Mon profil</div>
-</div>
-
-<div class="button" style="width: 8rem;" onclick="redirectToPage('tournois');">
-	<div class="button_text" onclick="">Mes tournois</div>
-</div>
-
-<div class="button" style="width: 8rem;" onclick="disconnect();">
-	<div class="button_text">Se déconnecter</div>
-</div>
-
+	<script>
+		function disconnect() {
+			requestAPI(	"/user/account/disconnect/",
+						{
+						    200: function(response) {
+						        toast('Déconnecté(e). Vous allez être redirigé(e).', 'fine');
+						        setTimeout(	function () {
+							        			window.location.replace(window.location.href);
+							        		},
+							        		1000
+								);
+						    }
+						}
+			);
+		}
+	</script>
+	
+	<div class="button" style="margin-top: 2.0rem; width: 8rem;" onclick="redirectToPage('profil');">
+		<div class="button_text">Mon profil</div>
+	</div>
+	
+	<div class="button" style="width: 8rem;" onclick="redirectToPage('tournois');">
+		<div class="button_text" onclick="">Mes tournois</div>
+	</div>
+	
+	<div class="button" style="width: 8rem;" onclick="disconnect();">
+		<div class="button_text">Se déconnecter</div>
+	</div>
 <?php
 }
 
@@ -109,7 +108,7 @@ function afficher_champs() {
 <script>
             	var STATE = {
                     	"CONNECT": {
-                        	"set":		function() {
+                        	"set":		function(prevState) {
 			                                for (var elementID in elements) {
 				                                var divElement = document.getElementById(elements[elementID]);
 				                                divElement.style.borderColor = "";
@@ -122,7 +121,7 @@ function afficher_champs() {
 			                                document.getElementById("captchaID").style.display = "none";
             							},
             				
-               				"unset":	function() {
+               				"unset":	function(nextState) {
             							},
             				
                         	"action":	function () {
@@ -150,16 +149,19 @@ function afficher_champs() {
                         },
                         
                     	"REGISTER": {
-                        	"set":		function() {
-			                    			document.getElementById("mailID").style.display  = "";
+                        	"set":		function(prevState) {
+
+                            				document.getElementById("mailID").style.display  = "";
 			                    			document.getElementById("pseudoID").style.display  = "";
 			                                document.getElementById("passID").style.display = "";
 			                                document.getElementById("confirmPassID").style.display = "";
 			                                document.getElementById("captchaID").style.display = "";
+                                								
+
 			                                validateInputs();
                         				},
                         				
-                            "unset":	function() {
+                            "unset":	function(nextState) {
                         				},
                         				
                         	"action":	function() {
@@ -203,7 +205,7 @@ function afficher_champs() {
                        	},
                        	
                     	"RESET": {
-                        	"set":		function() {
+                        	"set":		function(prevState) {
 			                    			document.getElementById("mailID").style.display  = "";
 			                    			document.getElementById("pseudoID").style.display  = "none";
 			                                document.getElementById("passID").style.display = "none";
@@ -211,7 +213,7 @@ function afficher_champs() {
 			                                document.getElementById("captchaID").style.display = "none";
 			            				},
             				
-                			"unset":	function() {
+                			"unset":	function(nextState) {
 		            					},
             				
             				"action":	function() {
@@ -245,13 +247,13 @@ function afficher_champs() {
             	currentState.set();
 
             	/** definit la vue qui doit être utilisée */
-            	function setState(state) {
-                	if (currentState == state) {
+            	function setState(nextState) {
+                	if (currentState == nextState) {
                     	currentState.action();
-                	} else {
-                		currentState.unset();
-                		currentState = state;
-                		currentState.set();
+                	} else {                    	
+                		currentState.unset(nextState);
+                		nextState.set(currentState);
+                		currentState = nextState;
                 	}
             	}
            

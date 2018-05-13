@@ -6,10 +6,10 @@ use Model\ULC\Utilisateur\Utilisateur;
 if (isset ( $_GET ['mail'] ) && isset ( $_GET ['token'] )) {
 	$mail = filter_input ( INPUT_GET, 'mail', FILTER_SANITIZE_EMAIL );
 	$token = filter_input ( INPUT_GET, 'token', FILTER_SANITIZE_STRING );
-	$user = Utilisateur::instance();
-	if ($user->isTokenValid($mail, $token)) {
-?>
-		<script>
+	$user = Utilisateur::instance ();
+	if ($user->isTokenValid ( $mail, $token )) {
+		?>
+<script>
 			function changePassword() {
 				var pass = document.getElementById("resetPassID").value;
 				if (pass.length < 6) {
@@ -23,8 +23,14 @@ if (isset ( $_GET ['mail'] ) && isset ( $_GET ['token'] )) {
 								{
 									200:	function() {
 												toast("Mot de passe modifié.</br>Vous pouvez maintenant vous connecter.");
-												document.getElementById("input_mailID").value = mail;
-												document.getElementById("input_passID").value = pass;
+<?php
+												if (! $this->getUser ()->isConnected ()) {
+?>
+													document.getElementById("input_mailID").value = mail;
+													document.getElementById("input_passID").value = pass;
+<?php
+												}
+?>
 											},
 									400:	function() {
 												toast("La requête est invalide.</br>Veuillez contacter un administrateur.", "error");
@@ -46,20 +52,19 @@ if (isset ( $_GET ['mail'] ) && isset ( $_GET ['token'] )) {
 				}
 			}
 		</script>
-		
-		<input id="resetPassID"/>
-		<input id="confirmResetPassID"/>
-		<button onclick=changePassword();>Valider</button>
+
+<input id="resetPassID" />
+<input id="confirmResetPassID" />
+<button onclick=changePassword();>Valider</button>
 <?php
 	} else {
-?>
-		<h3>Token invalide (erroné ou expiré)</h3>
-		<h4>Veuillez ré-itérer la manipulation de réinitialisation.</h4>
+		?>
+<h3>Token invalide (erroné ou expiré)</h3>
+<h4>Veuillez ré-itérer la manipulation de réinitialisation.</h4>
 <?php
 	}
-
 } else {
-?>
+	?>
 
 <h3>Adresse mail ou token manquant</h3>
 <?php

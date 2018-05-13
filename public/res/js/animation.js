@@ -2,6 +2,20 @@
 
 function emptyFunction() {}
 
+/**
+ * crée une animation sur un élément
+ * 
+ * @param element :
+ *            l'element html
+ * @param fps :
+ *            le nombre de fps pour l'animation
+ * @param duration :
+ *            durée de l'animation
+ * @param onUpdate :
+ *            une fonction appelé à chaque frame de l'animation
+ * @param onEnded :
+ *            une fonction appelé à la fin de l'animation
+ */
 function animate(element, fps, duration, onUpdate, onEnded=emptyFunction) {
 	var f  = 0.0;
 	var df = 1.0 / (fps * duration);

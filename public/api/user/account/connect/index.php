@@ -20,6 +20,7 @@
 
 // /@cond INTERNAL
 use Model\ULC\BDD\ConnectionException;
+use Model\ULC\Utilisateur\NoSuchUtilisateurException;
 use Model\ULC\Utilisateur\Utilisateur;
 
 require '../../../../../vendor/autoload.php';
@@ -35,7 +36,7 @@ if (isset ( $_POST ['mail'] ) && isset ( $_POST ['pass'] )) {
 	try {
 		$user->connectAs ( $mail, $pass );
 		http_response_code ( 200 );
-	} catch ( PDOException $e ) {
+	} catch ( NoSuchUtilisateurException $e ) {
 		http_response_code ( 401 );
 		echo "Identifiants incorrects.";
 	} catch ( ConnectionException $e ) {

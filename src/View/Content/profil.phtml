@@ -1,3 +1,4 @@
+
 <?php
 if (! $this->getUser ()->isConnected ()) {
 	echo 'Non connecté';
@@ -8,18 +9,15 @@ if (! $this->getUser ()->isConnected ()) {
 			function uploadProfilImage() {
 				var input = document.getElementById('input_image_profil');
 				if (input.files.length < 1) {
-					toast('Veuillez selectionner une image.', 0)
+					toast('Veuillez selectionner une image.', "erreur")
 					return ;
 				}
 
                 requestAPI('/user/account/image/set/',
                 	{
 	                    200: function(response) {
-	                        toast('Votre image a bien été uploadé :) ' + response, 2);
-	                    },
-	                    400: function(response) {
-	                    	toast('Vous êtes deconnecté. Veuillez vous reconnecter au site...', 0)
-                    	}
+	                        toast('Votre image a bien été uploadé :) ' + response, "fine");
+	                    }
                 	},
 
                 	{
@@ -51,15 +49,24 @@ if (! $this->getUser ()->isConnected ()) {
 		</script>
 
 <h1>Salut <?php echo $this->getUser()->getPseudo();?></h1>
-<div class="text-capitalize">Modifier votre image de profil:</div>
-<div class="button" style="margin-top: 1.5rem;">
-<input type="file" accept="image/*" id="input_image_profil">
+
+<div>
+	<div class="text-capitalize">Modifier votre image de profil:</div>
+	<div class="button" style="margin-top: 1.5rem;">
+		<input type="file" accept="image/*" id="input_image_profil">
+	</div>
+	<div class="button" onclick="uploadProfilImage();">
+		<div class="button_text">Envoyer</div>
+	</div>
 </div>
-<input class="valide-button" type="submit" value="Envoyer" name="submit" onclick="uploadProfilImage();">
+
 <br></br>
+
 <div>
 	Changer mon mot de passe:
-	<button class="valide-button">Envoyer mail de réintialisation</button>
+	<div class="button" onclick="sendResetToken()">
+		<div class="button_text">Envoyer mail de réintialisation</div>
+	</div>
 </div>
 
 <!-- FIN: Profil -->
@@ -70,12 +77,8 @@ if (! $this->getUser ()->isConnected ()) {
 			function regenerateCode() {
                 requestAPI('/user/game/lol/third-party-code/generate/', {
 	                    200: function(response) {
-	                        toast('Code regénéré: ' + response, 2);
 	                        document.getElementById("code").value = response;
-	                    },
-	                    400: function(response) {
-	                    	toast('Vous êtes deconnecté. Veuillez vous reconnecter au site...', 0)
-                    	}
+	                    }
                 	}
                 );
 			}
@@ -86,11 +89,11 @@ if (! $this->getUser ()->isConnected ()) {
 				requestAPI('/user/game/lol/third-party-code/link/',
 	                {
 	                    200: 	function(response) {
-	                        		toast("Le nom d'invocateur '" + summonerName + "' est maintenant lié à votre compte!");
+	                        		toast("Le nom d'invocateur '" + summonerName + "' est maintenant lié à votre compte!", "fine");
 	                    		},
 
 	                    400: 	function(response) {
-	                    			toast("Le nom d'invocateur '" + summonerName + "' ne semble pas exister: " + response, 0)
+	                    			toast("Le nom d'invocateur '" + summonerName + "' ne semble pas exister: " + response, "error")
 	                    		}
 	                },
 
@@ -104,64 +107,60 @@ if (! $this->getUser ()->isConnected ()) {
 				var copyText = document.getElementById("code");
 				copyText.select();
 				document.execCommand("Copy");
-				toast("Code copié " + copyText.value, 2);
+				toast("Code copié " + copyText.value, "fine");
 			}
+			
             function updateAccountsList() {
                 requestAPI("/user/game/lol/accounts/get/",
                     {
                         200: 	function(response) {
-                            //supprimes les invocateurs précèdents
-                            while (node_notifications_list.firstChild) {
-                                node_notifications_list.removeChild(node_notifications_list.firstChild);
-                            }
-                            //ajoutes les nouveaux invocateurs
-                            var summoners = JSON.parse(response);
-                            var node_list = document.getElementById("lol_accounts");
-                            console.log(summoners);
-                            for (var i in summoners) {
-                                var summoner = summoners[i];
-                                var node_summoner = document.createElement("li");
-                                var node_summoner_icon = document.createElement("img");
-                                node_summoner_icon.style.maxWidth = "2rem";
-                                node_summoner_icon.style.minWidth = "2rem";
-                                node_summoner_icon.src = "http://ddragon.leagueoflegends.com/cdn/8.9.1/img/profileicon/" + summoner.profileIconId  + ".png";
-                                var node_summoner_name = document.createElement("span");
-                                node_summoner_name.innerHTML = summoner.name;
-                                node_summoner.appendChild(node_summoner_icon);
-                                node_summoner.appendChild(node_summoner_name);
-                                node_list.appendChild(node_summoner);
-                            }
+		                            //supprimes les invocateurs précèdents
+		                            while (node_notifications_list.firstChild) {
+		                                node_notifications_list.removeChild(node_notifications_list.firstChild);
+		                            }
+		                            //ajoutes les nouveaux invocateurs
+		                            var summoners = JSON.parse(response);
+		                            var node_list = document.getElementById("lol_accounts");
+		                            for (var i in summoners) {
+		                                var summoner = summoners[i];
+		                                var node_summoner = document.createElement("li");
+		                                var node_summoner_icon = document.createElement("img");
+		                                node_summoner_icon.style.maxWidth = "2rem";
+		                                node_summoner_icon.style.minWidth = "2rem";
+		                                node_summoner_icon.src = "http://ddragon.leagueoflegends.com/cdn/8.9.1/img/profileicon/" + summoner.profileIconId  + ".png";
+		                                var node_summoner_name = document.createElement("span");
+		                                node_summoner_name.innerHTML = summoner.name;
+		                                node_summoner.appendChild(node_summoner_icon);
+		                                node_summoner.appendChild(node_summoner_name);
+		                                node_list.appendChild(node_summoner);
+		                            }
                         },
                         400: 	function(response) {
-                            toast("Impossible de récuperer la liste des comptes League of Legends liés...", "error");
-                        }
+                            		toast("Impossible de récuperer la liste des comptes League of Legends liés...", "error");
+                        		}
                     }
                 );
             }
             updateAccountsList();
 		</script>
 
-<style>
-.code {
-	cursor: pointer;
-}
-</style>
-
 <h1>
-	<img src="./res/images/lol.png" alt="LOL" width="35" height="35" />
-	League of Legends
+	<img src="./res/images/lol.png" alt="LOL" width="35" height="35"/> League of Legends
 </h1>
 
 <h3>Liste des comptes liées:</h3>
 <ul id="lol_accounts"></ul>
-<div>Veuillez entrer votre pseudo League of Legends, puis entrez le code dans votre client:</div>
-<input id="summoner_name"></input>
-<input type="text" id="code" class="code" onclick="copyCode();" readonly></input>
-<button style="cursor: pointer;" onclick="verificateCode();">Lier les comptes</button>
+<div>
+	<h4>Veuillez entrer votre pseudo League of Legends, puis entrez le code dans votre client:</h4>
+	<input id="summoner_name"></input>
+	<input type="text" id="code" style="cursor: pointer;" onclick="copyCode();" readonly></input>
+	<div class="button" onclick="verificateCode()">
+		<div class="button_text">Lier les comptes</div>
+	</div>
+</div>
 
 <!-- FIN : League of Legends -->
 
 <?php
 } // If connected
 ?>
-

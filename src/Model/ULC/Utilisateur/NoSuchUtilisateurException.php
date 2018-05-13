@@ -7,7 +7,6 @@ namespace Model\ULC\Utilisateur;
  */
 class NoSuchUtilisateurException extends \Exception {
 	
-	public function __construct($s) {
-		super($s);
+	public function __construct() {
 	}
 }

@@ -195,6 +195,14 @@ class Utilisateur {
 	
 	/**
 	 *
+	 * @return int la clef primaire du utilisateur dans la base de donnée
+	 */
+	public function getID() {
+		return ($this->uuid);
+	}
+	
+	/**
+	 *
 	 * @return string/int un champ de l'entrée dans la table
 	 *         fonction interne pour lire l'entrée de la table
 	 * @throws NotConnectedException : si l'utilisateur n'est pas connecté
@@ -227,10 +235,18 @@ class Utilisateur {
 	
 	/**
 	 *
-	 * @return int la clef primaire du utilisateur dans la base de donnée
+	 * @return true si l'utilisateur est modérateur
 	 */
-	public function getID() {
-		return ($this->uuid);
+	public function isModerator() {
+		return ($this->get ( 'permission' ) == 1);
+	}
+	
+	/**
+	 *
+	 * @return true si l'utilisateur est administrateur
+	 */
+	public function isAdministrator() {
+		return ($this->get ( 'permission' ) == 2);
 	}
 	
 	/**

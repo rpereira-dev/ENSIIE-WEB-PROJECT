@@ -12,39 +12,41 @@
  *            une map avec les paramètres de la requête
  */
  function requestAPI(service, callback, parameters={}) {
- 	//on s'assure que le service est bien formatté
+ 	// on s'assure que le service est bien formatté
  	if ((!service.endsWith("/"))) {
  		service = service + "/";
  	}
 
- 	//on s'assure que le service existe
+ 	// on s'assure que le service existe
  	if (!(service in API)) {
  		toast("Le service demandé est invalide: " + service);
  		return (false);
  	}
 
- 	//type de la requete
+ 	// type de la requete
  	var method = API[service];
 
- 	//création de la requete
+ 	// création de la requete
 	var xhr = new XMLHttpRequest();
 	xhr.open(method.name, './api' + service, true);
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			if (xhr.status in callback) {
 				callback[xhr.status](xhr.response);
+			} else if (xhr.status in DEFAULT_CALLBACK) {
+				DEFAULT_CALLBACK[xhr.status](xhr.response);
 			} else {
-				//TODO remove this
+				// TODO remove this
 				toast("Erreur " + xhr.status + " non gérée sur le service " + service + " : " + xhr.response, "error");
 			}
 		}
 	}
-	//envoie de la requete avec les arguments formattés
+	// envoie de la requete avec les arguments formattés
 	xhr.send(method.format(parameters));
  }
 
 /**
- *	constantes pratiques pour distinguer les types de requêtes
+ * constantes pratiques pour distinguer les types de requêtes
  */
 var REQUEST = {
 	POST: {
@@ -72,7 +74,24 @@ var REQUEST = {
 }
 
 /**
- *	Relis un service au type de la requête à envoyer
+ * Les callback par défaut sur les retours serveurs
+ */
+var DEFAULT_CALLBACK = {
+		400:	function() {
+					toast("La requête est invalide.</br>Veuillez contacter un administrateur.", "error");
+				},
+				
+        401: function(response) {
+                	toast('Vous êtes deconnecté. Veuillez vous reconnecter au site...', "error")
+            	},
+				
+		503:	function() {
+					toast("La base de données est innacessible pour le moment.", "error");
+				}
+};
+
+/**
+ * Relis un service au type de la requête à envoyer
  */
  var API = {
  	"/user/account/connect/" 					: REQUEST.POST,

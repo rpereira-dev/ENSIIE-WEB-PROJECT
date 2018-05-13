@@ -16,7 +16,16 @@
 ?>
 		<li class="navbar-item navbar-item-hoverable" style="float:right" onclick="redirectToPage('profil');">
 			<div class="navbar-item-profil">
-				<span><?php echo $this->getUser()->getPseudo(); ?></span>
+				<span>
+				<?php
+					echo $this->getUser()->getPseudo();
+					if ($this->getUser()->isAdministrator()) {
+						echo " (admin)";
+					} else if ($this->getUser()->isModerator()) {
+						echo " (modérateur)";
+					}
+					?>
+				</span>
 				<img src="./api/user/account/image/get/<?php echo $this->getUser()->getPseudo(); ?>.png"></img>
 			</div>
 		</li>
