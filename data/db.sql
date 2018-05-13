@@ -14,18 +14,19 @@ DROP FUNCTION "notifier_bienvenue" ;
 DROP TRIGGER "t_insert_invitation" ON invitation;
 DROP FUNCTION "notifier_invite" ;
 
-DROP TABLE "inscription_match" ;
+DROP TABLE "match_equipe" ;
 DROP TABLE "match" CASCADE ;
 
 DROP TYPE "t_invitation_status" ;
 DROP TABLE "invitation" ;
 DROP TABLE "utilisateur_equipe" ;
+DROP TABLE "equipe_tournoi" CASCADE;
 DROP TABLE "equipe" CASCADE ;
 DROP TABLE "tournoi" CASCADE ;
 DROP TYPE "t_jeu";
 
 DROP TABLE "utilisateur_lol" CASCADE ;
-DROP TRIGGER "updater_reset_token" ON reset_token;
+DROP TRIGGER "t_update_reset_token" ON reset_token;
 DROP FUNCTION "update_reset_token" ;
 DROP TABLE "reset_token" CASCADE ;
 DROP TABLE "utilisateur_ecole" CASCADE ;
@@ -71,7 +72,7 @@ $$
 $$
 LANGUAGE 'plpgsql';
 
-CREATE TRIGGER "updater_reset_token" AFTER UPDATE OF token ON reset_token FOR EACH ROW EXECUTE PROCEDURE update_reset_token() ;
+CREATE TRIGGER "t_update_reset_token" AFTER UPDATE OF token ON reset_token FOR EACH ROW EXECUTE PROCEDURE update_reset_token() ;
 
 /** les écoles */
 CREATE TABLE "ecole" (
@@ -94,13 +95,14 @@ CREATE TABLE "utilisateur_ecole" (
 /** les différents jeux possibles */
 CREATE TYPE t_jeu AS ENUM ('lol', 'fortnite', 'csgo', 'minecraft', 'hearthstone') ;
 
-/** les identifiants permettant de relier un utilisateur à un compte League of Legend */
+/** les identifiants permettant de relier un utilisateur à un compte League of Legend (le compte ne peut être lié qu'une fois)*/
 CREATE TABLE "utilisateur_lol" (
-	utilisateur_id	INTEGER,
-	FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id),
-
 	/** riot summoner id (long <=> BIGINT) */
-	summoner_id	BIGINT PRIMARY KEY
+	summoner_id	BIGINT PRIMARY KEY,
+	
+	/** l'id de l'utilisateur */
+	utilisateur_id	INTEGER	NOT NULL,
+	FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id)
 );
 
 /** un tournoi (peut être une ligue, ou un tournoi ponctuel) */
@@ -110,19 +112,27 @@ CREATE TABLE "tournoi" (
 	description			VARCHAR 	NOT NULL,
 	jeu					t_jeu		NOT NULL,
 	debut_inscriptions	timestamp 	NOT NULL,
-	fin_inscriptions	timestamp	NOT NULL
+	fin_inscriptions	timestamp	NOT NULL,
+	createur_id			INTEGER		NOT NULL
 );
 
 /** équipe */
 CREATE TABLE "equipe" (
-	id		SERIAL				PRIMARY KEY,
+	id		SERIAL		PRIMARY KEY,
+	nom		VARCHAR		NOT NULL UNIQUE
+);
 
-	nom		VARCHAR				NOT NULL,
-
-	tournoi_id	INTEGER,
+/** association tournoi/equipe (inscription d'une equipe à un tournoi) */
+CREATE TABLE "equipe_tournoi" (
+	tournoi_id	INTEGER	NOT NULL,
 	FOREIGN KEY (tournoi_id) 	REFERENCES tournoi(id),
 
-	date_inscription timestamp 	DEFAULT now()
+	equipe_id	INTEGER	NOT NULL,
+	FOREIGN KEY (tournoi_id) 	REFERENCES tournoi(id),
+	
+	date_inscription timestamp 	DEFAULT now(),
+
+	PRIMARY KEY (tournoi_id, equipe_id)
 );
 
 /** association utilisateur/equipe */
@@ -156,11 +166,11 @@ CREATE TABLE "match" (
 	tournoi_id	INTEGER,
 	FOREIGN KEY (tournoi_id) REFERENCES tournoi(id),
 
-	date_debut	date NOT NULL
+	date_debut	timestamp	NOT NULL
 );
 
-/** l'inscription d'équipe à un match */
-CREATE TABLE "inscription_match" (
+/** association match/equipe : l'inscription d'une équipe à un match */
+CREATE TABLE "match_equipe" (
 	equipe_id	INTEGER,
 	FOREIGN KEY (equipe_id) REFERENCES equipe(id),
 

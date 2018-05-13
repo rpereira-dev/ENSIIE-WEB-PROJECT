@@ -13,7 +13,7 @@ help:
 	@echo "${bold}phpunit.run${normal}\n\t Runs the unit tests.\n"
 
 doc:
-	cd doc ; doxygen .doxygen ; cd ..
+	cd public/doc ; doxygen .doxygen
 
 start:
 	docker-compose up --build -d
