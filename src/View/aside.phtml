@@ -135,8 +135,9 @@ function afficher_champs() {
 			                                requestAPI('/user/account/connect/', 
 			                                    {
 			                                        200:    function(response) {
-			                                                    toast("Connecté(e). Vous allez être redirigé(e). " + response, "fine");
-			                                                    setTimeout(function () { window.location.replace(window.location.href); }, 1000);
+				                                        		var timeout = 4000;
+			                                                    toast("Connecté(e). Vous allez être redirigé(e). " + response, "fine", timeout);
+			                                                    setTimeout(function () { window.location.replace(window.location.href); }, timeout);
 			                                                }
 			                                    },
 			

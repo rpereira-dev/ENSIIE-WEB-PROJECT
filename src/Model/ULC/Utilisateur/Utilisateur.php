@@ -32,20 +32,30 @@ class Utilisateur {
 	/**
 	 * clef primaire de l'utilisateur dans la base de données
 	 * (enregistré dans la variable de session, ou NULL si non connecté)
+	 * @var number id dans la bdd
 	 */
 	private $uuid;
 	
 	/**
-	 * l'entrée dans la base de données, NULL par défaut,
-	 * récupéré de la base de données quand necessaire
+	 * @var string pseudo du joueur
 	 */
-	private $entry;
+	private $pseudo;
+	
+	/**
+	 * @var string mail du joueur
+	 */
+	private $mail;
+	
+	/**
+	 * @var array roles du joueur
+	 */
+	private $roles;
 	
 	/**
 	 * constructeur
 	 */
 	private function __construct() {
-		$uuid = NULL;
+		$this->uuid = NULL;
 	}
 	
 	/**
@@ -54,7 +64,7 @@ class Utilisateur {
 	 */
 	private function saveSession() {
 		if ($this->uuid == NULL) {
-			unset ( $_SESSION ['uuid'] );
+			unset ( $_SESSION ['uuid'] );			
 		} else {
 			$_SESSION ['uuid'] = $this->uuid;
 		}
@@ -66,6 +76,7 @@ class Utilisateur {
 	 */
 	private function loadSession() {
 		$this->uuid = isset ( $_SESSION ['uuid'] ) ? $_SESSION ['uuid'] : NULL;
+		$this->update();
 	}
 	
 	/**
@@ -165,7 +176,7 @@ class Utilisateur {
 	public function connectAs($mail, $pass) {
 		$pdo = BDD::instance ()->getConnection ( "ulc" );
 		
-		$stmt = $pdo->prepare ( 'SELECT * FROM utilisateur WHERE mail = :mail' );
+		$stmt = $pdo->prepare ( 'SELECT id, pass FROM utilisateur WHERE mail = :mail' );
 		$stmt->bindParam ( ':mail', $mail, PDO::PARAM_STR );
 		
 		$stmt->execute ();
@@ -174,17 +185,16 @@ class Utilisateur {
 		}
 		/* renvoie un tableau associatif de l'entrée dans la table */
 		$entry = $stmt->fetch ();
-		
 		/* si le mot de passe est juste */
 		if (password_verify ( $pass, $entry ['pass'] )) {
 			$this->uuid = $entry ['id'];
-			$this->entry = $entry;
+			echo $this->uuid;
 			$this->saveSession ();
-			return ($this->uuid);
+			return (true);
 		}
 		throw new NoSuchUtilisateurException ( "Mot de passe erroné" );
 	}
-	
+
 	/**
 	 *
 	 * @return true si l'utilisateur est connecté, false sinon
@@ -202,67 +212,60 @@ class Utilisateur {
 	}
 	
 	/**
+	 * Recuperes l'entrée dans la base de données pour cette utilisateur, et met à jour les attributs
 	 *
-	 * @return string/int un champ de l'entrée dans la table
-	 *         fonction interne pour lire l'entrée de la table
-	 * @throws NotConnectedException : si l'utilisateur n'est pas connecté
-	 * @throws NoSuchUtilisateurException : si l'utilisateur n'existe pas (plus) dans la table
 	 * @throws ConnectionException : la connection à la BDD n'a pas abouti
 	 */
-	private function get($name) {
-		// l'utilisateur n'est pas connecté
-		if (! $this->isConnected ()) {
-			throw new NotConnectedException ();
-		}
+	public function update() {
+		$pdo = BDD::instance ()->getConnection ( "ulc" );
 		
-		// on recupere l'entrée dans la table
-		if ($this->entry == NULL) {
-			$pdo = BDD::instance ()->getConnection ( "ulc" );
-			
-			$stmt = $pdo->prepare ( 'SELECT * FROM utilisateur WHERE id = :id' );
-			$stmt->bindParam ( ':id', $this->uuid, PDO::PARAM_INT );
-			
-			$stmt->execute ();
-			if ($stmt->rowCount () == 0) {
-				throw new NoSuchUtilisateurException ( "Addresse mail erronée" );
-			}
-			$this->entry = $stmt->fetch ();
-		}
+		$stmt = $pdo->prepare ( 'SELECT mail, pseudo, role_id FROM utilisateur JOIN utilisateur_role ON utilisateur_id = id WHERE id = :id' );
+		$stmt->bindParam ( ':id', $this->uuid, PDO::PARAM_INT );
 		
-		// renvoie l'entrée
-		return (isset ( $this->entry [$name] ) ? $this->entry [$name] : NULL);
+		$stmt->execute ();
+		if ($stmt->rowCount () == 0) {
+			throw new NoSuchUtilisateurException ( "L'utilisateur a été supprimé de la base de donnée" );
+		}
+		$entry = $stmt->fetch ();
+		$this->mail = $entry['mail'];
+		$this->pseudo = $entry['pseudo'];
+		$this->roles = array();
+		do {
+			array_push($this->roles, Role::getRoleByID($entry['role_id']));
+		} while (($entry = $stmt->fetch()) != NULL);
 	}
 	
 	/**
-	 *
-	 * @return true si l'utilisateur est modérateur
+	 * @param Role le role
+	 * @return true si l'utilisateur possède le role
 	 */
-	public function isModerator() {
-		return ($this->get ( 'permission' ) == 1);
+	public function hasRole($role) {
+		return (in_array($this->roles, $role));
 	}
-	
-	/**
-	 *
-	 * @return true si l'utilisateur est administrateur
-	 */
-	public function isAdministrator() {
-		return ($this->get ( 'permission' ) == 2);
-	}
-	
+
 	/**
 	 *
 	 * @return string l'adresse mail du utilisateur
 	 */
 	public function getMail() {
-		return ($this->get ( 'mail' ));
+		// l'utilisateur n'est pas connecté
+		if (! $this->isConnected ()) {
+			throw new NotConnectedException ();
+		}
+		return ($this->mail);
 	}
+	
 	
 	/**
 	 *
 	 * @return string le pseudo du utilisateur
 	 */
 	public function getPseudo() {
-		return ($this->get ( 'pseudo' ));
+		// l'utilisateur n'est pas connecté
+		if (! $this->isConnected ()) {
+			throw new NotConnectedException ();
+		}
+		return ($this->pseudo);
 	}
 	
 	/**

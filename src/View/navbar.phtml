@@ -12,16 +12,18 @@
 
 
 <?php
-	if ($this->getUser()->isConnected()) {
+use Model\ULC\Utilisateur\Role;
+
+if ($this->getUser()->isConnected()) {
 ?>
 		<li class="navbar-item navbar-item-hoverable" style="float:right" onclick="redirectToPage('profil');">
 			<div class="navbar-item-profil">
 				<span>
 				<?php
 					echo $this->getUser()->getPseudo();
-					if ($this->getUser()->isAdministrator()) {
+					if ($this->getUser()->hasRole(Role::$ADMINISTRATEUR)) {
 						echo " (admin)";
-					} else if ($this->getUser()->isModerator()) {
+					} else if ($this->getUser()->hasRole(Role::$MODERATEUR)) {
 						echo " (modérateur)";
 					}
 					?>

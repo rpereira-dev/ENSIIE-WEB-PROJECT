@@ -4,8 +4,7 @@
  *  @file
  *  @brief Crée une session utilisateur.
  *	@details Si succès, génère une session PHP (renvoie un Cookie de session)
- *
- *			Sinon, renvoie le code d'erreur correspondant.
+ *				Sinon, renvoie le code d'erreur correspondant.
  *	@param :
  *		- POST \a mail
  *		- POST \a pass
