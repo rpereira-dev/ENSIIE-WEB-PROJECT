@@ -22,6 +22,7 @@ abstract class Content extends PageElement {
 				"erreur" => Content\Erreur::class,
 				"joueurs" => Content\Joueurs::class,
 				"live" => Content\Live::class,
+				"nous" => Content\Nous::class,
 				"profil" => Content\Profil::class,
 				"reset" => Content\Reset::class,
 				"tournois" => Content\Tournois::class 
