@@ -113,5 +113,6 @@ var DEFAULT_CALLBACK = {
  	"/user/game/lol/third-party-code/link/"		: REQUEST.POST,
  	"/user/notification/get/"					: REQUEST.GET,
  	"/user/notification/see/"					: REQUEST.POST,
- 	"/user/notification/seeall/"				: REQUEST.POST
+ 	"/user/notification/seeall/"				: REQUEST.POST,
+ 	"/user/list/"				                : REQUEST.GET
  };
