@@ -1,1 +1,70 @@
-		les joueurs
+<div id="Liste">
+</div>
+<script type="text/javascript">
+function loadplayers() {
+                requestAPI("/user/list/",
+                	{
+                		200: 	function(response) {
+                		
+									// la liste des joueurs au format json
+		                        	var players = JSON.parse(response).liste_joueurs;
+
+		                        	//pour chaque joueur
+		                        	var tab = document.createElement("table");                       // Create a <table> element
+		                        	var line = document.createElement("tr");
+		                        	var cell1 = document.createElement("th");
+		                        	var cell2 = document.createElement("th");
+		                        	var cell3 = document.createElement("th");
+		                        	var cell4 = document.createElement("th");
+		                        	cell1.appendChild(document.createTextNode("Image"));
+		                        	cell2.appendChild(document.createTextNode("Pseudo"));
+		                        	cell3.appendChild(document.createTextNode("Mail"));
+		                        	cell4.appendChild(document.createTextNode("Source"));
+		                        	line.appendChild(cell1);
+									line.appendChild(cell2);
+									line.appendChild(cell3);
+									line.appendChild(cell4);
+									tab.appendChild(line);
+		                        	for (var i = 0 ; i < players.length ; i++) {
+		                        		//le joueur
+		                        		var joueur = players[i];
+		                        		var line = document.createElement("tr");
+		                        		var cell1 = document.createElement("td");
+		                        		var src = null;
+			                        	requestAPI("/user/account/image/get/",
+			                        		{
+			                        			200: function(response) {
+			                        				src = response;
+			                        			}
+			                        		},
+			                        		{
+			                        			'joueur':joueur.pseudo
+			                        		}
+			                        	);
+			                        	var img = document.createElement("img");
+			                        	img.setAttribute('src', src);
+		                        		var cell2 = document.createElement("td"); 
+										var pseudo = document.createTextNode(joueur.pseudo);
+										var cell3 = document.createElement("td");
+										var mail = document.createTextNode(joueur.mail);
+										var cell4 = document.createElement("td");
+										var source = document.createTextNode(src);										
+										cell1.appendChild(img);
+										cell2.appendChild(pseudo);
+										cell3.appendChild(mail);
+										cell4.appendChild(source);
+										line.appendChild(cell1);
+										line.appendChild(cell2);
+										line.appendChild(cell3);
+										line.appendChild(cell4);
+										tab.appendChild(line);
+
+		                        	}
+		                        	document.getElementById("Liste").appendChild(tab);
+
+                				}
+                	}
+                );
+            }
+            loadplayers();
+</script>

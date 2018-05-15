@@ -21,7 +21,7 @@ if (!isset($_GET['joueur'])) {
     echo 'Erreur requete';
 } else {
     http_response_code(200);
-    echo "<img src=http://localhost:8080/api/user/account/image/get/" . $_GET['joueur'] . ".png></img>";
+    echo "http://localhost:8080/api/user/account/image/get/" . $_GET['joueur'] . ".png";
 }
 
 ///@cond INTERNAL
