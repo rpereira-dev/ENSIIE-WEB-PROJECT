@@ -1,19 +1,23 @@
 \select@language {french}
 \contentsline {section}{\numberline {1}La probl\IeC {\'e}matique}{2}{section.1}
 \contentsline {section}{\numberline {2}Solution technique}{3}{section.2}
-\contentsline {subsection}{\numberline {2.1}R\IeC {\'e}partition des r\IeC {\^o}les}{3}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.1}Organisation du travail}{3}{subsection.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}Organisation g\IeC {\'e}n\IeC {\'e}ral}{3}{subsubsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.2}R\IeC {\'e}partition des r\IeC {\^o}les}{3}{subsubsection.2.1.2}
 \contentsline {subsection}{\numberline {2.2}Back-end}{3}{subsection.2.2}
-\contentsline {subsubsection}{\numberline {2.2.1}Utilisateur}{3}{subsubsection.2.2.1}
-\contentsline {paragraph}{Permission}{3}{section*.3}
-\contentsline {paragraph}{Utilisateur}{3}{section*.4}
-\contentsline {paragraph}{Notification}{3}{section*.5}
-\contentsline {paragraph}{Jeton de r\IeC {\'e}initialisation}{3}{section*.6}
+\contentsline {subsubsection}{\numberline {2.2.1}Utilisateur}{4}{subsubsection.2.2.1}
+\contentsline {paragraph}{Permission}{4}{section*.3}
+\contentsline {paragraph}{R\IeC {\^o}le}{4}{section*.4}
+\contentsline {paragraph}{Utilisateur}{4}{section*.5}
+\contentsline {paragraph}{Notification}{4}{section*.6}
+\contentsline {paragraph}{Jeton de r\IeC {\'e}initialisation}{4}{section*.7}
 \contentsline {subsubsection}{\numberline {2.2.2}Ecoles}{4}{subsubsection.2.2.2}
 \contentsline {subsubsection}{\numberline {2.2.3}Equipes}{4}{subsubsection.2.2.3}
-\contentsline {paragraph}{Equipe}{4}{section*.7}
-\contentsline {paragraph}{Tournoi}{4}{section*.8}
-\contentsline {paragraph}{Match}{4}{section*.9}
-\contentsline {paragraph}{Invitation}{4}{section*.10}
-\contentsline {subsection}{\numberline {2.3}Front-end}{4}{subsection.2.3}
-\contentsline {section}{\numberline {3}Conclusion}{5}{section.3}
-\contentsline {section}{\numberline {4}R\IeC {\'e}f\IeC {\'e}rences}{6}{section.4}
+\contentsline {paragraph}{Equipe}{4}{section*.8}
+\contentsline {paragraph}{Tournoi}{4}{section*.9}
+\contentsline {paragraph}{Match}{4}{section*.10}
+\contentsline {paragraph}{Invitation}{4}{section*.11}
+\contentsline {subsubsection}{\numberline {2.2.4}API 'REST'}{5}{subsubsection.2.2.4}
+\contentsline {subsection}{\numberline {2.3}Front-end}{6}{subsection.2.3}
+\contentsline {section}{\numberline {3}Conclusion}{7}{section.3}
+\contentsline {section}{\numberline {4}R\IeC {\'e}f\IeC {\'e}rences}{8}{section.4}
