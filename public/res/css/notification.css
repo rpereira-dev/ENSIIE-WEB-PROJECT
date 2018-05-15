@@ -19,7 +19,7 @@
 }
 
 .notifications-title {
-	text-decoration: underline;
+	font-weight: bold;
 	padding-top: 0.5rem;
 	padding-bottom: 0.5rem;
 	padding-left: 1rem;
@@ -51,7 +51,7 @@
 }
 
 .notification-unseen {
-	background: linear-gradient(to right, #DDDDFF, #EEEEFF, #DDDDFF);
+	background: red
 }
 
 .notification-content {
