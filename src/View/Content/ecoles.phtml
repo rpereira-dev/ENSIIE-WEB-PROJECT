@@ -1,0 +1,63 @@
+<div id="Liste">
+</div>
+<script type="text/javascript">
+function loadschools() {
+                requestAPI("/school/list/",
+                	{
+                		200: 	function(response) {
+                		
+									// la liste des écoles au format json
+		                        	var schools = JSON.parse(response).liste_ecoles;
+
+		                        	//pour chaque école
+		                        	var tab = document.createElement("table");                       // Create a <table> element
+		                        	var line = document.createElement("tr");
+		                        	var cell1 = document.createElement("th");
+		                        	var cell2 = document.createElement("th");
+		                        	var cell3 = document.createElement("th");
+		                        	var cell4 = document.createElement("th");
+		                        	var cell5 = document.createElement("th");
+		                        	cell1.appendChild(document.createTextNode("Académie"));
+		                        	cell2.appendChild(document.createTextNode("Nom"));
+		                        	cell3.appendChild(document.createTextNode("Sigle"));
+		                        	cell4.appendChild(document.createTextNode("Domaine"));
+		                        	cell5.appendChild(document.createTextNode("Ville"));
+		                        	line.appendChild(cell1);
+									line.appendChild(cell2);
+									line.appendChild(cell3);
+									line.appendChild(cell4);
+									line.appendChild(cell5);
+									tab.appendChild(line);
+		                        	for (var i = 0 ; i < schools.length ; i++) {
+		                        		//l'école
+		                        		var ecole = schools[i];
+		                        		var line = document.createElement("tr");
+		                        		var cell1 = document.createElement("td");
+		                        		var academie = document.createElement(ecole.academie);
+		                        		var cell2 = document.createElement("td"); 
+										var nom = document.createTextNode(ecole.nom);
+										var cell3 = document.createElement("td");
+										var sigle = document.createTextNode(ecole.sigle);
+										var cell4 = document.createElement("td");
+										var domaine = document.createTextNode(ecole.domaine);
+										var cell5 = document.createElement("td");
+										var ville = document.createTextNode(ecole.ville);
+										cell1.appendChild(academie);
+										cell2.appendChild(nom);
+										cell3.appendChild(sigle);
+										cell4.appendChild(domaine);
+										cell5.appendChild(ville);
+										line.appendChild(cell1);
+										line.appendChild(cell2);
+										line.appendChild(cell3);
+										line.appendChild(cell4);
+										line.appendChild(cell5);
+										tab.appendChild(line);
+		                        	}
+		                        	document.getElementById("Liste").appendChild(tab);
+                				}
+                	}
+                );
+            }
+            loadschools();
+</script>

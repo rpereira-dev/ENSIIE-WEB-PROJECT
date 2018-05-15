@@ -2,7 +2,7 @@
 
 /**
  *  @file
- *  @brief Recuperes la liste des tournois
+ *  @brief Recuperes la liste des écoles
  *	@return
  *		- code reponse:
  *						- 200 : la liste a bien été générée
@@ -25,26 +25,26 @@ if ($pdo == NULL) {
 }
 
 /* prépares la base de données */
-$stmt = $pdo->prepare ( 'SELECT nom,description,jeu,debut_inscriptions,fin_inscriptions FROM tournoi');
+$stmt = $pdo->prepare ( 'SELECT academie,nom,sigle,domaine,ville FROM ecole');
 $stmt->execute();
 
 http_response_code ( 200 );
 
-/* on enregistre la liste des tournois */
-echo '{"liste_tournois":[';
+/* on enregistre la liste des écoles */
+echo '{"liste_ecoles":[';
 if ($stmt->rowCount () > 0) {
 	$entry = $stmt->fetch ();
 	while ( $entry != NULL ) {
 		echo '{';
+		echo '"academie":"' . $entry ['academie'] . '"';
+		echo ',';
 		echo '"nom":"' . $entry ['nom'] . '"';
 		echo ',';
-		echo '"description":"' . $entry ['description'] . '"';
+		echo '"sigle":"' . $entry ['sigle'] . '"';
 		echo ',';
-		echo '"jeu":"' . $entry ['jeu'] . '"';
+		echo '"domaine":"' . $entry ['domaine'] . '"';
 		echo ',';
-		echo '"debut_inscriptions":"' . $entry ['debut_inscriptions'] . '"';
-		echo ',';
-		echo '"fin_inscriptions":"' . $entry ['fin_inscriptions'] . '"';
+		echo '"ville":"' . $entry ['ville'] . '"';
 		echo '}';
 		$entry = $stmt->fetch ();
 		if ($entry != NULL) {
