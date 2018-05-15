@@ -114,5 +114,8 @@ var DEFAULT_CALLBACK = {
  	"/user/notification/get/"					: REQUEST.GET,
  	"/user/notification/see/"					: REQUEST.POST,
  	"/user/notification/seeall/"				: REQUEST.POST,
- 	"/user/list/"				                : REQUEST.GET
+ 	"/user/list/"				                : REQUEST.GET,
+ 	"/tournament/list/"							: REQUEST.GET,
+ 	"/school/list/" 							: REQUEST.GET,
+ 	"/team/list/"								: REQUEST.GET
  };

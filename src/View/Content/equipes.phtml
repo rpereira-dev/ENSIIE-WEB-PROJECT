@@ -1,0 +1,35 @@
+<div id="Liste">
+</div>
+<script type="text/javascript">
+function loadteams() {
+                requestAPI("/team/list/",
+                	{
+                		200: 	function(response) {
+                		
+									// la liste des équipes au format json
+		                        	var teams = JSON.parse(response).liste_equipes;
+
+		                        	//pour chaque équipe
+		                        	var tab = document.createElement("table");                       // Create a <table> element
+		                        	var line = document.createElement("tr");
+		                        	var cell1 = document.createElement("th");
+		                        	cell1.appendChild(document.createTextNode("Nom"));
+		                        	line.appendChild(cell1);
+									tab.appendChild(line);
+		                        	for (var i = 0 ; i < teams.length ; i++) {
+		                        		//l'équipe
+		                        		var equipe = teams[i];
+		                        		var line = document.createElement("tr");
+		                        		var cell1 = document.createElement("td");
+		                        		var nom = document.createElement(equipe.nom);
+										cell1.appendChild(nom);
+										line.appendChild(cell1);
+										tab.appendChild(line);
+		                        	}
+		                        	document.getElementById("Liste").appendChild(tab);
+                				}
+                	}
+                );
+            }
+            loadteams();
+</script>

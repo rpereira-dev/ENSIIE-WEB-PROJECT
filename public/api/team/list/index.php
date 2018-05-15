@@ -2,7 +2,7 @@
 
 /**
  *  @file
- *  @brief Recuperes la liste des tournois
+ *  @brief Recuperes la liste des équipes
  *	@return
  *		- code reponse:
  *						- 200 : la liste a bien été générée
@@ -21,30 +21,23 @@ require '../../../../vendor/autoload.php';
 $bdd = BDD::instance ();
 $pdo = $bdd->getConnection ( "ulc" );
 if ($pdo == NULL) {
+	http_response_code ( 500 );
 	throw new PDOException ( "Connection error" );
 }
 
 /* prépares la base de données */
-$stmt = $pdo->prepare ( 'SELECT nom,description,jeu,debut_inscriptions,fin_inscriptions FROM tournoi');
+$stmt = $pdo->prepare ( 'SELECT nom FROM equipe');
 $stmt->execute();
 
 http_response_code ( 200 );
 
-/* on enregistre la liste des tournois */
-echo '{"liste_tournois":[';
+/* on enregistre la liste des équipes */
+echo '{"liste_equipe":[';
 if ($stmt->rowCount () > 0) {
 	$entry = $stmt->fetch ();
 	while ( $entry != NULL ) {
 		echo '{';
 		echo '"nom":"' . $entry ['nom'] . '"';
-		echo ',';
-		echo '"description":"' . $entry ['description'] . '"';
-		echo ',';
-		echo '"jeu":"' . $entry ['jeu'] . '"';
-		echo ',';
-		echo '"debut_inscriptions":"' . $entry ['debut_inscriptions'] . '"';
-		echo ',';
-		echo '"fin_inscriptions":"' . $entry ['fin_inscriptions'] . '"';
 		echo '}';
 		$entry = $stmt->fetch ();
 		if ($entry != NULL) {

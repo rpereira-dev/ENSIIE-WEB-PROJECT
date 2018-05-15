@@ -15,14 +15,12 @@ function loadplayers() {
 		                        	var cell1 = document.createElement("th");
 		                        	var cell2 = document.createElement("th");
 		                        	var cell3 = document.createElement("th");
-		                        	var cell4 = document.createElement("th");
 		                        	cell1.appendChild(document.createTextNode("Image"));
 		                        	cell2.appendChild(document.createTextNode("Pseudo"));
 		                        	cell3.appendChild(document.createTextNode("Mail"));
 		                        	line.appendChild(cell1);
 									line.appendChild(cell2);
 									line.appendChild(cell3);
-									line.appendChild(cell4);
 									tab.appendChild(line);
 		                        	for (var i = 0 ; i < players.length ; i++) {
 		                        		//le joueur
@@ -44,14 +42,12 @@ function loadplayers() {
 										var pseudo = document.createTextNode(joueur.pseudo);
 										var cell3 = document.createElement("td");
 										var mail = document.createTextNode(joueur.mail);
-										var cell4 = document.createElement("td");
 										cell1.appendChild(img);
 										cell2.appendChild(pseudo);
 										cell3.appendChild(mail);
 										line.appendChild(cell1);
 										line.appendChild(cell2);
 										line.appendChild(cell3);
-										line.appendChild(cell4);
 										tab.appendChild(line);
 
 		                        	}
