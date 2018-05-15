@@ -7,19 +7,18 @@ html {
 }
 
 body {
-	
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 	background-image: url("../images/background.png");
 	background-attachment: fixed;
-	
 	/**
 	color:  	#888888;
 	background-color:  #2B2E35;*/
 	font-family: Arial, Helvetica, sans-serif
 }
-h1{
+
+h1 {
 	color: #FFFFFF;
 }
 
@@ -64,7 +63,7 @@ h1{
 /** prompt: un icone et une entrée texte:; */
 .prompt {
 	display: flex;
-	width:12rem;
+	width: 12rem;
 	align-items: center; /* align vertical */
 	color: #656A72;
 	background-color: #17191F;
@@ -102,38 +101,6 @@ h1{
 	height: 4rem;
 	-webkit-animation: spin 2s linear infinite; /* Safari */
 	animation: spin 2s linear infinite;
-}
-
-/* Safari */
-@
--webkit-keyframes spin { 0% {
-	-webkit-transform: rotate(0deg);
-}
-
-100%
-{
--webkit-transform
-:
- 
-rotate
-(360deg);
- 
-}
-}
-@
-keyframes spin { 0% {
-	transform: rotate(0deg);
-}
-
-100%
-{
-transform
-:
- 
-rotate
-(360deg);
- 
-}
 }
 
 /** tooltip */

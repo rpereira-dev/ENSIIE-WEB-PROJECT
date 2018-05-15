@@ -7,7 +7,7 @@ namespace View;
  */
 function afficher_profil() {
 	?>
-	<script>
+<script>
 		function disconnect() {
 			requestAPI(	"/user/account/disconnect/",
 						{
@@ -23,18 +23,20 @@ function afficher_profil() {
 			);
 		}
 	</script>
-	
-	<div class="button" style="margin-top: 2.0rem; width: 8rem;" onclick="redirectToPage('profil');">
-		<div class="button_text">Mon profil</div>
-	</div>
-	
-	<div class="button" style="width: 8rem;" onclick="redirectToPage('tournois');">
-		<div class="button_text" onclick="">Mes tournois</div>
-	</div>
-	
-	<div class="button" style="width: 8rem;" onclick="disconnect();">
-		<div class="button_text">Se déconnecter</div>
-	</div>
+
+<div class="button" style="margin-top: 2.0rem; width: 8rem;"
+	onclick="redirectToPage('profil');">
+	<div class="button_text">Mon profil</div>
+</div>
+
+<div class="button" style="width: 8rem;"
+	onclick="redirectToPage('tournois');">
+	<div class="button_text" onclick="">Mes tournois</div>
+</div>
+
+<div class="button" style="width: 8rem;" onclick="disconnect();">
+	<div class="button_text">Se déconnecter</div>
+</div>
 <?php
 }
 
@@ -43,6 +45,56 @@ function afficher_profil() {
  */
 function afficher_champs() {
 	?>
+<!--  style -->
+<style>
+.shake-animation {
+	animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@
+keyframes shake { 10%, 90% {
+	transform: translate3d(-1px, 0, 0);
+}
+20%,
+80%
+{
+transform
+:
+ 
+translate3d
+(2px
+,
+0,
+0);
+}
+30%,
+50%,
+70%
+{
+transform
+:
+ 
+translate3d
+(-4px
+,
+0,
+0);
+}
+40%,
+60%
+{
+transform
+:
+ 
+translate3d
+(4px
+,
+0,
+0);
+}
+}
+</style>
+
 <!-- formulaire d'enregistrement -->
 <div id="inscription_form" class="aside-login-form">
 	<!-- addresse mail -->
@@ -94,11 +146,11 @@ function afficher_champs() {
 
 	<!-- se connecter / s'enregistrer -->
 	<div class="aside-labels" style="margin-top: 0.5rem;">
-		<a class="label label-button" onclick="setState(STATE.CONNECT);">Se connecter</a>
-		<span class="label"> | </span>
-		<a class="label label-button" onclick="setState(STATE.REGISTER);">S'enregistrer</a>
-		</br>
-		<a class="label label-button" onclick="setState(STATE.RESET)">Mot de passe oublié</a>
+		<a class="label label-button" onclick="setState(STATE.CONNECT);">Se
+			connecter</a> <span class="label"> | </span> <a
+			class="label label-button" onclick="setState(STATE.REGISTER);">S'enregistrer</a>
+		</br> <a class="label label-button" onclick="setState(STATE.RESET)">Mot
+			de passe oublié</a>
 	</div>
 
 </div>
@@ -106,13 +158,81 @@ function afficher_champs() {
 
 <!-- script de coulissement -->
 <script>
+
+
+/** tableau contenant les différents champs et leur tests de validité */
+				var form = [
+				        		{
+				            		"id"		:	"mailID",
+				        			"inputID"	:	"input_mailID", 
+				        			"error"		: 	"Veuillez entrer une adresse mail valide.",
+				            		"validate" 	:	function() {
+				                						var mail = document.getElementById("input_mailID").value;
+				                						var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				                						return re.test(String(mail).toLowerCase());
+				                					}
+									},
+				
+				        		{
+				            		"id"		:	"pseudoID",
+									"inputID"	:	"input_pseudoID",
+									"error"		:	"Veuillez entrer un pseudo valide.",
+				            		"validate" 	:	function() {
+				                    					var pseudo = document.getElementById("input_pseudoID").value;
+				                    					return (pseudo.length > 0);
+				                    				}
+									},
+				
+				        		{
+				            		"id"		:	"passID",
+									"inputID"	:	"input_passID",
+									"error"		:	"Veuillez entrer un mot de passe d'au moins 6 caractères.", 
+				            		"validate" 	:	function() {
+				    									var pass = document.getElementById("input_passID").value;
+				    									return (pass.length >= 6);
+				                    				}
+									},
+				     
+				        		{
+				            		"id"		:	"confirmPassID",
+									"inputID"	:	"input_confirmPassID", 
+									"error"		:	"Veuillez entrer 2 fois le même mot de passe.", 
+				            		"validate" 	:	function() {
+				    									var pass = document.getElementById("input_passID").value;
+				    									var pass        = document.getElementById("input_passID").value;
+									                    var confirmPass = document.getElementById("input_confirmPassID").value;
+									                    var confirmPassDiv = document.getElementById("confirmPassID");
+									                    return (pass == confirmPass);
+				            						}
+				        		}
+				];
+				
+				/**
+				 *  met à jour le style des éléments en fonction des entrées
+				 *  (met en vert quand les mots de passes sont égaux...)
+				 */
+				 function validateInputs() {
+					 form.forEach(	function(element) {
+				                        var htmlElement = document.getElementById(element.id);
+				                        if (document.getElementById(element.inputID).value.length == 0) {
+				                        	htmlElement.style.borderColor = "";
+				                        } else if (element.validate()) {
+				                        	htmlElement.style.borderColor = "#22FF22";
+				                        } else {
+				                        	htmlElement.style.borderColor = "#FF2222";             
+				                        }
+					 });
+				 }
+
+
             	var STATE = {
                     	"CONNECT": {
                         	"set":		function(prevState) {
-			                                for (var elementID in elements) {
-				                                var divElement = document.getElementById(elements[elementID]);
-				                                divElement.style.borderColor = "";
-				                            }
+			                                form.forEach(	function(element) {
+				                                				var htmlElement = document.getElementById(element.id);
+				                                				htmlElement.style.borderColor = "";
+			                                				}
+                            				);
 	                            
 			                    			document.getElementById("mailID").style.display  = "";
 			                    			document.getElementById("pseudoID").style.display  = "none";
@@ -127,10 +247,6 @@ function afficher_champs() {
                         	"action":	function () {
 			                                var mail = document.getElementById("input_mailID").value;
 			                                var pass =  document.getElementById("input_passID").value;
-			                                if (!validates["input_mailID"]() || !validates["input_passID"]()) {
-			                                    toast("Les identifiants de connections sont invalides.", "error");
-			                                    return ;
-			                                }
 			
 			                                requestAPI('/user/account/connect/', 
 			                                    {
@@ -161,7 +277,6 @@ function afficher_champs() {
 			                                document.getElementById("passID").style.display = "";
 			                                document.getElementById("confirmPassID").style.display = "";
 			                                document.getElementById("captchaID").style.display = "";
-                                								
 
 			                                validateInputs();
                         				},
@@ -170,21 +285,18 @@ function afficher_champs() {
                         				},
                         				
                         	"action":	function() {
-			                                if (!validates["input_mailID"]()) {
-			                                    toast("Veuillez entrer une adresse mail valide.", "error");
-			                                    return ;
+
+                        		for (var index in form) {
+			                                    var element = form[index];
+			                                    var htmlElement = document.getElementById(element.id);
+			                                    if (!element.validate()) {
+			                                    	toast(element.error, "error");
+			                                    	htmlElement.classList.add('shake-animation');
+				                                    setTimeout(function() { htmlElement.classList.remove('shake-animation'); }, 1000);
+				                                    return ;
+			                                    }
 			                                }
-			
-			                                if (!validates["input_pseudoID"]()) {
-			                                    toast("Veuillez entrer un pseudo valide.", "error");
-			                                    return ;
-			                                }
-			
-			                                if (!validates["input_passID"]()) {
-			                                    toast("Veuillez entrer un mot de passe valide.", "error");
-			                                    return ;
-			                                }
-			
+                                
 			                                var catpchaResponse = grecaptcha.getResponse();
 			                                if (catpchaResponse == null || catpchaResponse.length == 0) {
 			                                    toast("Veuillez prouvez que vous n'êtes pas un robot.", "error");
@@ -228,7 +340,7 @@ function afficher_champs() {
             				
             				"action":	function() {
 			            					var mail = document.getElementById("input_mailID").value;
-			                                if (!validates["input_mailID"]()) {
+			                                if (!form[0].validate()) {
 			                                    toast("Veuillez entrer une adresse mail valide.", "error");
 			                                    return ;
 			                                }
@@ -260,58 +372,6 @@ function afficher_champs() {
                 		currentState = nextState;
                 	}
             	}
-           
-                /** les tests d'entrées */
-                var elements  = {};
-                var validates = {};
-
-                /* mail validation */
-                elements["input_mailID"]  = "mailID";
-                validates["input_mailID"] = function() {
-                    var mail = document.getElementById("input_mailID").value;
-                    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    return re.test(String(mail).toLowerCase());
-                };
-
-                /* pseudo validation */
-                elements["input_pseudoID"]  = "pseudoID";
-                validates["input_pseudoID"] = function() {
-                    var pseudo = document.getElementById("input_pseudoID").value;
-                    return (pseudo.length > 0);
-                };
-
-                /* pass validation */
-                elements["input_passID"]  = "passID";
-                validates["input_passID"] = function() {
-                    var pass = document.getElementById("input_passID").value;
-                    return (pass.length >= 6);
-                };
-
-                /* confirm pass validation */
-                elements["input_confirmPassID"]  = "confirmPassID";
-                validates["input_confirmPassID"] = function() {
-                    var pass        = document.getElementById("input_passID").value;
-                    var confirmPass = document.getElementById("input_confirmPassID").value;
-                    var confirmPassDiv = document.getElementById("confirmPassID");
-                    return (pass == confirmPass && validates["input_passID"]());
-                };
-
-                /**
-                 *  met à jour le style des éléments en fonction des entrées
-                 *  (met en vert quand les mots de passes sont égaux...)
-                 */
-                 function validateInputs() {
-                    for (var elementID in elements) {
-                        var divElement = document.getElementById(elements[elementID]);
-                        if (validates[elementID]()) {
-                            divElement.style.borderColor = "#22FF22";
-                        } else if (document.getElementById(elementID).value.length > 0) {
-                            divElement.style.borderColor = "#FF2222";
-                        } else {
-                            divElement.style.borderColor = "";
-                        }
-                    }
-                 }
 
                 /** lorsqu'un touche est appuyé */
                 function onInput(event) {

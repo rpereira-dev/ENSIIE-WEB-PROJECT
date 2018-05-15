@@ -5,14 +5,15 @@
 	display: block;
 	width: 14rem;
 	height: calc(100% - 4rem);
+	position: absolute;
+	z-index: 1;
+	top: 4rem;
+	right: 0;
+	
 	background-color: #1B1C23F7;
 	box-shadow: -0.5vh 1vh 0.5vh 0.5vh rgba(0, 0, 0, 0.5);
 	transition: 0.25s;
 	overflow-x: hidden;
-	position: fixed;
-	z-index: 1;
-	top: 4rem;
-	right: 0;
 	overflow-x: hidden;
 	text-align: center;
 }

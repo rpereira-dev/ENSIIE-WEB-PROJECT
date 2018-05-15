@@ -3,16 +3,16 @@
 namespace Controller\Content;
 
 /**
- * Représente la page 'A propos de nous'
+ * Représente la page 'les équipes'
  */
-class Equipe extends \Controller\Content {
+class Equipes extends \Controller\Content {
 	
 	/**
 	 *
 	 * @return string : le titre de la page
 	 */
 	public function getTitle() {
-		return ("L'équipe");
+		return ("Les équipes");
 	}
 	
 	/**
@@ -22,7 +22,7 @@ class Equipe extends \Controller\Content {
 	 * @return string : chemin du fichier .phtml qui correspond au contenu de la page
 	 */
 	public function getPHTML() {
-		return ('/equipe.phtml');
+		return ('/equipes.phtml');
 	}
 }
 
