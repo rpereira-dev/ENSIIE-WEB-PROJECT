@@ -76,7 +76,9 @@ class Utilisateur {
 	 */
 	private function loadSession() {
 		$this->uuid = isset ( $_SESSION ['uuid'] ) ? $_SESSION ['uuid'] : NULL;
-		$this->update();
+		if ($this->uuid) {
+			$this->update();
+		}
 	}
 	
 	/**

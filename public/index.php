@@ -44,7 +44,6 @@ foreach ( $pageElementsClass as $pageElementClass ) {
 	$pageElement->afficher ();
 }
 
-var_dump($user);
 
 
 
