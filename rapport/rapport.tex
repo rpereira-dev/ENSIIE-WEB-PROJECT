@@ -78,7 +78,6 @@
 	    Rémi \textsc{Parpaillon}\\
 	  \end{flushright}
 	\end{minipage}
-	
 	\vfill
 	% Bottom of the page
 	{\large 22/05/2018}
@@ -94,7 +93,47 @@
   et prendre conscience des problématiques d’organisations d’équipes et de répartition des tâches.
   
   \newpage
-  \section{Partie A}
+  \section{La problématique}
+  
+  \newpage
+  \section{Solution technique}
+    \subsection{Répartition des rôles}
+    \subsection{Back-end}
+      La base de données est relationelle (language SQL).
+      \newline
+      Elle peut être representé par le diagramme UML suivant:
+      \begin{figure}[H]
+	\begin{center}
+	  \includegraphics[width=18cm,keepaspectratio]{./images/uml.png}
+	\end{center}
+	\caption{\textit{Schéma UML de la base de données}}
+	\label{uml}
+      \end{figure}
+      
+      La transcription SQL du modèle est disponible dans le fichier 'data/db.sql'.
+      
+      \subsubsection{Utilisateur}
+	\paragraph{Permission}
+	\paragraph{Utilisateur}
+	\paragraph{Notification}
+	\paragraph{Jeton de réinitialisation}
+      
+      \subsubsection{Ecoles}
+	Une base de données a été généré à partir de la page Wikipédia \ref{ecole_ingé}.
+	Les données ont été extraite de la page, au format csv, à l'aide d'un programme Python (et de la bibliothèque BeautifulSoup \ref{beautifulsoup}).
+	
+	Cette base de donnée aura 2 utilités principales : auto-complétion pour la recherche, et organisation de tournois par région.
+	Elle permettra également d'avoir des statistiques par région (fait t'on plus d'e-sport à Angers ou bien à Paris?).
+	
+      \subsubsection{Equipes}
+	\paragraph{Equipe}
+	\paragraph{Tournoi}
+	\paragraph{Match}
+	\paragraph{Invitation}
+
+    \subsection{Front-end}
+  \newpage
+  \section{Conclusion}
   
   \newpage
   \section{Références}
@@ -111,7 +150,15 @@
     \bibitem{discordapi}\label{discordapi}
     API officiel de Discord\newline
     \href{https://discordapp.com/developers/docs/intro}{\textit{https://discordapp.com/developers/docs/intro}}
-
+    
+    \bibitem{ecole_ingé}\label{ecole_ingé}
+    Liste écoles d'ingénieur en France - Wikipédia\newline
+    \href{https://fr.wikipedia.org/wiki/Liste_des_écoles_d'ingénieurs_en_France#Liste_des_207_écoles_françaises_accréditées_au_1er_septembre_2017}{\textit{https://fr.wikipedia.org/wiki/Liste\_des\_écoles\_d'ingénieurs\_en\_France}}
+    
+    \bibitem{beautifulsoup}\label{beautifulsoup}
+    BeautifulSoup - Documentation\newline
+    \href{https://www.crummy.com/software/BeautifulSoup/bs4/doc/}{\textit{https://www.crummy.com/software/BeautifulSoup/bs4/doc/}}
+    
   \end{thebibliography}
   
 \end{document}

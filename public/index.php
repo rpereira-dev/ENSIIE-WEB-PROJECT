@@ -26,8 +26,8 @@ $pageElementsClass = [
 		Toastbar::class,
 		Navbar::class,
 		Sidebar::class,
-		Aside::class,
 		Content::getContent (),
+		Aside::class,
 		Footer::class
 ];
 

@@ -5,13 +5,12 @@
 	display: block;
 	width: 12rem;
 	height: 100%;
-	background-color: #1B1C23F7;
-	box-shadow: 0.5vh 1vh 0.5vh 0.5vh rgba(0, 0, 0, 0.5);
-	overflow-x: hidden;
 	position: fixed;
 	z-index: 3;
 	top: 0;
 	left: 0;
+	background-color: #1B1C23F7;
+	box-shadow: 0.5vh 1vh 0.5vh 0.5vh rgba(0, 0, 0, 0.5);
 	overflow-x: hidden;
 }
 

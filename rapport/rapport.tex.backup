@@ -78,7 +78,6 @@
 	    Rémi \textsc{Parpaillon}\\
 	  \end{flushright}
 	\end{minipage}
-	
 	\vfill
 	% Bottom of the page
 	{\large 22/05/2018}
@@ -94,24 +93,56 @@
   et prendre conscience des problématiques d’organisations d’équipes et de répartition des tâches.
   
   \newpage
-  \section{Partie A}
+  \section{La problématique}
+  
+  \newpage
+  \section{Solution technique}
+    \subsection{Répartition des rôles}
+    \subsection{Back-end}
+      La base de données est relationelle (language SQL).
+      \newline
+      Elle peut être representé par le diagramme UML suivant:
+      \begin{figure}[H]
+	\begin{center}
+	  \includegraphics[width=18cm,keepaspectratio]{./images/uml.png}
+	\end{center}
+	\caption{\textit{Schéma UML de la base de données}}
+	\label{uml}
+      \end{figure}
+      \subsubsection{Utilisateur}
+      \subsubsection{Ecoles}
+	Une base de données a été généré à partir de la page Wikipédia \ref{ecole_ingé}.
+	Les données ont été extraite de la page, au format csv, à l'aide d'un programme Python (et de la bibliothèque BeautifulSoup \ref{beautifulsoup})
+      \subsubsection{Equipes}
+
+    \subsection{Front-end}
+  \newpage
+  \section{Conclusion}
   
   \newpage
   \section{Références}
   \begin{thebibliography}{}
     
+    \bibitem{phpgoodpratices}\label{phpgoodpratices}
+    'PHP The Right Way' - \href{https://github.com/codeguy/php-the-right-way/graphs/contributors}{\textit{+200 authors}} \newline
+    \href{http://www.phptherightway.com/}{\textit{http://www.phptherightway.com/}}
+    
     \bibitem{riotapi}\label{riotapi}
     API officiel de Riot Games\newline
-    \href{https://fr.wikipedia.org/wiki/Matrice\_tridiagonale}
-    {\textit{https://fr.wikipedia.org/wiki/Matrice\_tridiagonale}}
+    \href{https://developer.riotgames.com/}{\textit{https://developer.riotgames.com/}}
     
+    \bibitem{discordapi}\label{discordapi}
+    API officiel de Discord\newline
+    \href{https://discordapp.com/developers/docs/intro}{\textit{https://discordapp.com/developers/docs/intro}}
     
-    \bibitem{banded}\label{banded}
-    'Résolution de système linéaires 'en bande' - SCIPY\newline
-    \href{https://docs.scipy.org/doc/scipy/reference/linalg.html}
-    {\textit{https://docs.scipy.org/doc/scipy/reference/linalg.html}}
+    \bibitem{beautifulsoup}\label{beautifulsoup}
+    BeautifulSoup - Documentation\newline
+    \href{https://www.crummy.com/software/BeautifulSoup/bs4/doc/}{\textit{https://www.crummy.com/software/BeautifulSoup/bs4/doc/}}
     
-    
+    \bibitem{ecole_ingé}
+    Liste écoles d'ingénieur en France - Wikipédia
+    \href{https://fr.wikipedia.org/wiki/Liste_des\_écoles\_d'ingénieurs\_en\_France\#Liste\_des\_207\_écoles\_françaises\_accréditées\_au\_1er\_septembre\_2017}
+    {\textit{https://fr.wikipedia.org/wiki/Liste_des\_écoles\_d'ingénieurs\_en\_France\#Liste\_des\_207\_écoles\_françaises\_accréditées\_au\_1er\_septembre\_2017}}
   \end{thebibliography}
   
 \end{document}
