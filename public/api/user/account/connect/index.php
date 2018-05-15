@@ -36,7 +36,7 @@ if (isset ( $_POST ['mail'] ) && isset ( $_POST ['pass'] )) {
 		$user->connectAs ( $mail, $pass );
 		http_response_code ( 200 );
 	} catch ( NoSuchUtilisateurException $e ) {
-		http_response_code ( 401 );
+		http_response_code ( 400 );
 		echo "Identifiants incorrects.";
 	} catch ( ConnectionException $e ) {
 		http_response_code ( 503 );
