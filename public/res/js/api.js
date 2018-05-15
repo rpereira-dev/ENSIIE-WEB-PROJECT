@@ -1,5 +1,5 @@
 /**
- * effectue une requete à l'api (toujours en méthode POST)
+ * effectue une requete à l'api
  * 
  * @param service:
  *            la chaine de caractère correspondant au service. e.x:
@@ -28,7 +28,7 @@
 
  	// création de la requete
 	var xhr = new XMLHttpRequest();
-	xhr.open(method.name, './api' + service, true);
+	xhr.open(method.name, './api' + service + method.formatUrl(parameters), true);
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			if (xhr.status in callback) {
@@ -42,7 +42,7 @@
 		}
 	}
 	// envoie de la requete avec les arguments formattés
-	xhr.send(method.format(parameters));
+	xhr.send(method.sendArguments(parameters));
  }
 
 /**
@@ -50,25 +50,31 @@
  */
 var REQUEST = {
 	POST: {
-		"name"		: 	"POST",
-		"format"	: 	function(parameters) {
-							var data = new FormData();
-							for (var parameterName in parameters) {
-								data.append(parameterName, parameters[parameterName]);
+		"name"			: 	"POST",
+		"formatUrl" 	: 	function(parameters) {
+								return ("");
+							},
+		"sendArguments"	: 	function(parameters) {
+								var data = new FormData();
+								for (var parameterName in parameters) {
+									data.append(parameterName, parameters[parameterName]);
+								}
+								return (data);
 							}
-							return (data);
-						}
 	},
 
 	GET: {
-		"name"		: 	"GET",
-		"format"	: 	function(parameters) {
-							var data = "";
-							for (var parameterName in parameters) {
-								data = data + parameterName + "=" + parameters[parameterName] + "&";
+		"name"			: 	"GET",
+		"formatUrl"		: 	function(parameters) {
+								var data = "?";
+								for (var parameterName in parameters) {
+									data = data + parameterName + "=" + parameters[parameterName] + "&";
+								}
+								return (data);
+							},
+		"sendArguments"	: 	function(parameters) {
+								return (null);
 							}
-							return (data);
-						}
 
 	}
 }
@@ -77,15 +83,15 @@ var REQUEST = {
  * Les callback par défaut sur les retours serveurs
  */
 var DEFAULT_CALLBACK = {
-		400:	function() {
-					toast("La requête est invalide.</br>Veuillez contacter un administrateur.", "error");
+		400:	function(response) {
+					toast("La requête est invalide.</br>Veuillez contacter un administrateur. " + response, "error");
 				},
 				
         401: function(response) {
                 	toast('Vous êtes deconnecté. Veuillez vous reconnecter au site...', "error")
             	},
 				
-		503:	function() {
+		503:	function(response) {
 					toast("La base de données est innacessible pour le moment.", "error");
 				}
 };

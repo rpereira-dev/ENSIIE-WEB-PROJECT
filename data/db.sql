@@ -187,15 +187,17 @@ LANGUAGE 'plpgsql';
 
 CREATE TRIGGER "t_update_reset_token" AFTER UPDATE OF token ON reset_token FOR EACH ROW EXECUTE PROCEDURE update_reset_token() ;
 
-
-
-
 /** les écoles */
 CREATE TABLE "ecole" (
-	id		SERIAL	PRIMARY KEY ,
-	nom		VARCHAR	NOT NULL ,
-	type	t_ecole	NOT NULL
+	id			SERIAL	PRIMARY KEY ,
+	academie 	VARCHAR,
+	nom			VARCHAR	NOT NULL ,
+	sigle		VARCHAR,
+	domaine		VARCHAR,
+	ville		VARCHAR
 );
+
+/*\copy ecole(id, academie, sigle, domaine, ville)  FROM '/home/rpereira/ecoles.csv' DELIMITER ';' CSV HEADER;*/
 
 /** un utilisateur est lié à une ou plusieurs écoles */
 CREATE TABLE "utilisateur_ecole" (

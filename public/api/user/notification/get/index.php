@@ -70,6 +70,8 @@ $stmt->bindParam ( ':rows', $rows, PDO::PARAM_INT );
 /* execute la requete sécurisé */
 $stmt->execute ();
 
+http_response_code ( 200 );
+
 /* on enregistre toutes les notifications */
 echo '{"notifications":[';
 if ($stmt->rowCount () > 0) {

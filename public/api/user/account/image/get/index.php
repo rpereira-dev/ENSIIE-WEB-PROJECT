@@ -4,7 +4,7 @@
  *  @file
  *  @brief Recuperes l'image de profil d'un joueur
  *	@param :
- *		- GET \a joueur : le pseudo du joueur
+ *		- GET \a pseudo : le pseudo du joueur
  *	@return
  *		- code reponse:
  *						- 200 : l'image a été trouvé et renvoyé
@@ -16,12 +16,12 @@
 /* include path */
 require '../../../../../../vendor/autoload.php'; 
 
-if (!isset($_GET['joueur'])) {
+if (!isset($_GET['pseudo'])) {
 	http_response_code(400);
     echo 'Erreur requete';
 } else {
     http_response_code(200);
-    echo "<img src=http://localhost:8080/api/user/account/image/get/" . $_GET['joueur'] . ".png></img>";
+    echo "http://localhost:8080/api/user/account/image/get/" . $_GET['pseudo'] . ".png";
 }
 
 ///@cond INTERNAL

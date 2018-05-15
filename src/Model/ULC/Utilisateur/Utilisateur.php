@@ -308,7 +308,7 @@ class Utilisateur {
 	}
 	
 	/**
-	 * Liste les comptes League of Legends lié à ce utilisateur
+	 * Liste les comptes League of Legends lié à cet utilisateur
 	 *
 	 * @throws ConnectionException : si la connection à la bdd échoue
 	 * @throws NotConnectedException : si l'utilisateur n'est pas connecté
