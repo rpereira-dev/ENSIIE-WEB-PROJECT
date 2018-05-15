@@ -38,10 +38,7 @@ DROP TABLE "role" CASCADE ;
 
 DROP TABLE "utilisateur" CASCADE ;
 DROP TABLE "ecole" CASCADE ;
-DROP TYPE "t_ecole";
-
-/** les différents types d'écoles possibles */
-CREATE TYPE t_ecole AS ENUM ('ingenieur', 'commerce', 'universite', 'bts', 'iut', 'lycee', 'autre');
+DROP TYPE "t_ecole_status" CASCADE ;
 
 /** utilisateur */
 CREATE TABLE "utilisateur" (
@@ -188,11 +185,14 @@ LANGUAGE 'plpgsql';
 CREATE TRIGGER "t_update_reset_token" AFTER UPDATE OF token ON reset_token FOR EACH ROW EXECUTE PROCEDURE update_reset_token() ;
 
 /** les écoles */
+CREATE TYPE t_ecole_status AS ENUM('public', 'privé');
+
 CREATE TABLE "ecole" (
 	id			SERIAL	PRIMARY KEY ,
 	academie 	VARCHAR,
 	nom			VARCHAR	NOT NULL ,
 	sigle		VARCHAR,
+	status 		t_ecole_status NOT NULL,
 	domaine		VARCHAR,
 	ville		VARCHAR
 );

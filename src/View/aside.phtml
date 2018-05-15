@@ -135,10 +135,14 @@ function afficher_champs() {
 			                                requestAPI('/user/account/connect/', 
 			                                    {
 			                                        200:    function(response) {
-				                                        		var timeout = 4000;
+				                                        		var timeout = 1500;
 			                                                    toast("Connecté(e). Vous allez être redirigé(e). " + response, "fine", timeout);
 			                                                    setTimeout(function () { window.location.replace(window.location.href); }, timeout);
-			                                                }
+			                                                },
+
+			                                        400:    function(response) {
+			                                        			toast("Erreur de connexion: " + response, "error");
+			                                        		}
 			                                    },
 			
 			                                    {
@@ -191,7 +195,12 @@ function afficher_champs() {
 			                                    {
 			                                        200:    function(response) {
 			                                                    toast("Enregistré(e). Vous pouvez maintenant vous connecter.", "fine");
-			                                                    setRegistrationVisibility(false);
+			                                                    setState(STATE.CONNECT);
+			                                                },
+			                                        400:    function(response) {
+			                                                    toast("Enregistrement impossible : " + response, "error");
+			                                                    grecaptcha.reset();
+
 			                                                }
 			                                    },
 			
@@ -227,13 +236,7 @@ function afficher_champs() {
 			            	                    	{
 			            	    	                    200: function(response) {
 			            	    	                        toast("Le token a été généré et envoyé par mail à l'adresse <strong>" + mail + "</strong>", "fine");
-			            	    	                    },
-			            	    	                    400: function(response) {
-			            	    	                    	toast("Erreur dans la requete", "error")
-			            	                        	},
-			            	                        	503: function(response) {
-			            	                            	toast("Erreur serveur. Veuillez contacter un administrateur.", "error");
-			            	                        	}
+			            	    	                    }
 			            	                    	},
 			
 			            	                    	{
