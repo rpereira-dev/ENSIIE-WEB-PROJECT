@@ -103,7 +103,8 @@
 	Nous n'avons pas rencontré de problèmes de compatibilités, seulement de légères difficultés les 1ers jours pour configurer Docker.
 	Nous avons developpé sous PHP-Storm, Eclipse ou Sublime-text selon les préférences.
       \subsubsection{Répartition des rôles}
-	Romain PEREIRA et Guangyue CHEN se sont occupés du Back-end : Romain a construit l'architecture du site (et l'API), et Guangyue s'est spécialisé sur PUBG.
+	Romain PEREIRA et Guangyue CHEN se sont occupés du Back-end : Romain a construit l'architecture MVC du site (et l'API),
+	et Guangyue s'est spécialisé sur PUBG.
 	
 	Louis LAFUMA et Baptiste LAMBERT ont developpé des pages du site (partie front-end)
     \subsection{Back-end}
@@ -174,6 +175,13 @@
       \end{figure}
 
     \subsection{Front-end}
+      Le site a été construit en suivant cette leçon de \href{https://www.w3schools.com/css/css_website_layout.asp}{\textit{W3Schools}}.
+      
+      La barre de navigation (navbar), la barre sur le coté gauche (sidebar), et la barre à droite (asidebar) sont fixes,
+      et leur contenu varient selon l'état du client (connecté ou non, rôles...)
+      
+      Le centre du site contient le contenu de la page, et varient selon la page que l'utilisateur visite.
+      
       \begin{figure}[H]
 	\begin{center}
 	  \includegraphics[width=16cm,keepaspectratio]{./images/site.png}
@@ -181,6 +189,10 @@
 	\caption{\textit{Page d'accueil du site}}
 	\label{uml}
       \end{figure}
+      
+      \subsubsection{Discord}
+	Le widget dans la 'asidebar' a été programmé à l'aide de l'API Discord (\ref{discordapi}), et d'un wrapper PHP (voir 'discord.phtml').
+	Cette API se configure simplement: chaque administrateur du Discord à accès à une clef d'API sans restrictions.
   
   \newpage
   \section{Conclusion}
