@@ -32,8 +32,6 @@ DROP TABLE "reset_token" CASCADE ;
 DROP TABLE "utilisateur_ecole" CASCADE ;
 
 DROP TABLE "utilisateur_role" CASCADE ;
-DROP TABLE "role_permission" CASCADE ;
-DROP TABLE "permission" CASCADE ;
 DROP TABLE "role" CASCADE ;
 
 DROP TABLE "utilisateur" CASCADE ;
@@ -101,26 +99,8 @@ CREATE TABLE "notification" (
 
 /** les roles possibles */
 CREATE TABLE "role" (
-	id 		INTEGER 		PRIMARY KEY,
-	name 	VARCHAR(32)		NOT NULL UNIQUE
-);
-
-/** les permissions */
-CREATE TABLE "permission" (
-	id 			INTEGER			PRIMARY KEY,
-	name		VARCHAR(32)		NOT NULL UNIQUE,
-	description	VARCHAR(128)	NOT NULL
-);
-
-/** les permissions associés à un role */
-CREATE TABLE "role_permission" (
-  role_id		INTEGER	NOT NULL,
-  FOREIGN KEY (role_id) REFERENCES role(id),
-
-  permission_id	INTEGER	NOT NULL,
-  FOREIGN KEY (permission_id) REFERENCES permission(id),
-  
-  PRIMARY KEY (role_id, permission_id)
+	id		INTEGER	PRIMARY KEY,
+	name	VARCHAR	NOT NULL
 );
 
 /** les roles associés à un utilisateur */
@@ -128,30 +108,17 @@ CREATE TABLE "utilisateur_role" (
 	utilisateur_id	INTEGER	NOT NULL,
 	FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id),
 	
-	role_id			INTEGER	DEFAULT 0,
+	role_id			INTEGER	DEFAULT 1,
 	FOREIGN KEY (role_id) REFERENCES role(id),
 	
 	PRIMARY KEY (utilisateur_id, role_id)
 );
 
-/** les permissions */
-INSERT INTO role (id, name) VALUES (0, 'joueur');
-INSERT INTO role (id, name) VALUES (1, 'moderateur');
-INSERT INTO role (id, name) VALUES (2, 'administrateur');
-
-INSERT INTO permission (id, name, description) VALUES (0, 'rejoindre_tournoi', 'Autorise l inscription à un tournoi');
-INSERT INTO permission (id, name, description) VALUES (1, 'creer_tournoi', 'Autorise la création de tournois');
-
-/* joueur */
-INSERT INTO role_permission (role_id, permission_id) VALUES (0, 0); /* rejoindre_tournoi */
-
-/* modérateur */
-INSERT INTO role_permission (role_id, permission_id) VALUES (1, 0); /* rejoindre_tournoi */
-INSERT INTO role_permission (role_id, permission_id) VALUES (1, 1); /* creer_tournoi */
-
-/* administrateur */
-INSERT INTO role_permission (role_id, permission_id) VALUES (2, 0); /* rejoindre_tournoi */
-INSERT INTO role_permission (role_id, permission_id) VALUES (2, 1); /* creer_tournoi */
+/** les roles */
+INSERT INTO role (id, name) VALUES (0, 'utilisateur');
+INSERT INTO role (id, name) VALUES (1, 'joueur');
+INSERT INTO role (id, name) VALUES (2, 'moderateur');
+INSERT INTO role (id, name) VALUES (3, 'administrateur');
 
 /** FIN DES PERMISSIONS */
 
@@ -323,7 +290,7 @@ CREATE TABLE "utilisateur_lol" (
 
 /** TESTS : pass: '123456' */
 INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('a@a.fr', 'toss', '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');
-INSERT INTO utilisateur_role (utilisateur_id, role_id) VALUES (1, 2); /* toss, administrateur */
+INSERT INTO utilisateur_role (utilisateur_id, role_id) VALUES (1, 3); /* toss, administrateur */
 
 INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('b@b.fr', 'Spingz',    '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');
 INSERT INTO utilisateur_role (utilisateur_id, role_id) VALUES (2, 2); /* Spingz, moderateur */

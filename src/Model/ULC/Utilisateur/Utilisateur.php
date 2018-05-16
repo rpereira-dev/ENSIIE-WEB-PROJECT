@@ -4,6 +4,7 @@ namespace Model\ULC\Utilisateur;
 
 use Model\ULC\BDD\BDD;
 use Model\ULC\BDD\ConnectionException;
+use Model\ULC\Permissions\Role;
 use PDO;
 use PDOException;
 
@@ -32,21 +33,25 @@ class Utilisateur {
 	/**
 	 * clef primaire de l'utilisateur dans la base de données
 	 * (enregistré dans la variable de session, ou NULL si non connecté)
+	 *
 	 * @var number id dans la bdd
 	 */
 	private $uuid;
 	
 	/**
+	 *
 	 * @var string pseudo du joueur
 	 */
 	private $pseudo;
 	
 	/**
+	 *
 	 * @var string mail du joueur
 	 */
 	private $mail;
 	
 	/**
+	 *
 	 * @var array roles du joueur
 	 */
 	private $roles;
@@ -64,7 +69,7 @@ class Utilisateur {
 	 */
 	private function saveSession() {
 		if ($this->uuid == NULL) {
-			unset ( $_SESSION ['uuid'] );			
+			unset ( $_SESSION ['uuid'] );
 		} else {
 			$_SESSION ['uuid'] = $this->uuid;
 		}
@@ -77,7 +82,7 @@ class Utilisateur {
 	private function loadSession() {
 		$this->uuid = isset ( $_SESSION ['uuid'] ) ? $_SESSION ['uuid'] : NULL;
 		if ($this->uuid) {
-			$this->update();
+			$this->update ();
 		}
 	}
 	
@@ -196,7 +201,7 @@ class Utilisateur {
 		}
 		throw new NoSuchUtilisateurException ( "Mot de passe erroné" );
 	}
-
+	
 	/**
 	 *
 	 * @return true si l'utilisateur est connecté, false sinon
@@ -229,22 +234,44 @@ class Utilisateur {
 			throw new NoSuchUtilisateurException ( "L'utilisateur a été supprimé de la base de donnée" );
 		}
 		$entry = $stmt->fetch ();
-		$this->mail = $entry['mail'];
-		$this->pseudo = $entry['pseudo'];
-		$this->roles = array();
+		$this->mail = $entry ['mail'];
+		$this->pseudo = $entry ['pseudo'];
+		$this->roles = array ();
 		do {
-			array_push($this->roles, Role::getRoleByID($entry['role_id']));
-		} while (($entry = $stmt->fetch()) != NULL);
+			array_push ( $this->roles, $entry ['role_id'] );
+		} while ( ($entry = $stmt->fetch ()) != NULL );
 	}
 	
 	/**
-	 * @param Role le role
+	 *
+	 * @param
+	 *        	Role le role
 	 * @return true si l'utilisateur possède le role
 	 */
 	public function hasRole($role) {
-		return (in_array($this->roles, $role));
+		return (in_array ( $role->getID(), $this->roles ));
 	}
-
+	
+	/**
+	 *
+	 * @param
+	 *        	Permission la permission
+	 * @return true si l'utilisateur possède la permission
+	 */
+	public function hasPermission($permission) {
+		if (! $this->isConnected ()) {
+			return (Role::$UTILISATEUR->hasPermission ( $permission ));
+		}
+		
+		foreach ( $this->roles as $roleID ) {
+			$role = Role::getRoleByID ( $roleID );
+			if ($role->hasPermission ( $permission )) {
+				return (true);
+			}
+		}
+		return (false);
+	}
+	
 	/**
 	 *
 	 * @return string l'adresse mail du utilisateur
@@ -256,7 +283,6 @@ class Utilisateur {
 		}
 		return ($this->mail);
 	}
-	
 	
 	/**
 	 *
