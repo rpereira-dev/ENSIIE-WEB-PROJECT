@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.4.7)  16 MAY 2018 18:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.4.7)  16 MAY 2018 19:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -917,7 +917,7 @@ been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.95   \newpage
-                [1] [2] <./images/uml.png, id=104, 1365.1pt x 843.15pt>
+                [1] [2] <./images/uml.png, id=109, 1365.1pt x 843.15pt>
 File: ./images/uml.png Graphic file (type png)
 
 <use ./images/uml.png>
@@ -929,7 +929,7 @@ Overfull \hbox (21.62407pt too wide) in paragraph at lines 117--118
  []
 
 [3 <./images/uml.png (PNG copy)>] [4]
-<./images/architecture.png, id=129, 838.13126pt x 649.42625pt>
+<./images/architecture.png, id=134, 838.13126pt x 649.42625pt>
 File: ./images/architecture.png Graphic file (type png)
 
 <use ./images/architecture.png>
@@ -947,47 +947,146 @@ Overfull \hbox (54.63943pt too wide) in paragraph at lines 173--174
 l[][]\T1/cmr/m/n/10 . 
  []
 
-<./images/api.png, id=139, 1003.75pt x 328.22626pt>
+<./images/api.png, id=144, 1003.75pt x 328.22626pt>
 File: ./images/api.png Graphic file (type png)
  <use ./images/api.png>
 Package pdftex.def Info: ./images/api.png used on input line 182.
 (pdftex.def)             Requested size: 398.33858pt x 130.25645pt.
 
-<./images/link_account.png, id=140, 1270.7475pt x 720.6925pt>
+<./images/link_account.png, id=145, 1270.7475pt x 720.6925pt>
 File: ./images/link_account.png Graphic file (type png)
 
 <use ./images/link_account.png>
 Package pdftex.def Info: ./images/link_account.png used on input line 190.
 (pdftex.def)             Requested size: 398.33858pt x 225.90866pt.
- [6 <./images/api.png> <./images/link_account.png>] <./images/site.png, id=151,
- 1606.0pt x 903.375pt>
+ [6 <./images/api.png> <./images/link_account.png>] [7] <./images/site.png, id=
+166, 1606.0pt x 903.375pt>
 File: ./images/site.png Graphic file (type png)
- <use ./images/site.png>
-Package pdftex.def Info: ./images/site.png used on input line 208.
-(pdftex.def)             Requested size: 341.43306pt x 192.0577pt.
 
-<./images/profil.png, id=152, 1606.0pt x 903.375pt>
+<use ./images/site.png>
+Package pdftex.def Info: ./images/site.png used on input line 230.
+(pdftex.def)             Requested size: 341.43306pt x 192.0577pt.
+ <./images/profil.png, id=167, 1606.0pt x 903.375pt>
 File: ./images/profil.png Graphic file (type png)
- <use ./images/profil.png>
-Package pdftex.def Info: ./images/profil.png used on input line 216.
-(pdftex.def)             Requested size: 341.43306pt x 192.0577pt.
 
-[7 <./images/site.png> <./images/profil.png>] [8]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 271.
- [9]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 271.
+<use ./images/profil.png>
+Package pdftex.def Info: ./images/profil.png used on input line 238.
+(pdftex.def)             Requested size: 341.43306pt x 192.0577pt.
+ [8 <./images/site.png> <./images/profil.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 256--272
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 256--272
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 256--272
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 256--272
+
+ []
+
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 278--282
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 278--282
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 283--287
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 283--287
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 288--292
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 288--292
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 293--297
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 293--297
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 298--302
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 298--302
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 303--307
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 303--307
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 308--312
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 308--312
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 313--317
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 313--317
+
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 323.
+[10]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 323.
  (./rapport.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 271.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 271.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 323.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 323.
 Package rerunfilecheck Info: File `rapport.out' has not changed.
-(rerunfilecheck)             Checksum: FF695DD3BE99F677D203ECCF16A5D358;1001.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 271.
+(rerunfilecheck)             Checksum: 9F1F158C1155182FEF10D8A8CDFDA626;1081.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 323.
  ) 
 Here is how much of TeX's memory you used:
- 11255 strings out of 493029
- 158965 string characters out of 6136235
- 276027 words of memory out of 5000000
- 14561 multiletter control sequences out of 15000+600000
+ 11267 strings out of 493029
+ 159121 string characters out of 6136235
+ 276104 words of memory out of 5000000
+ 14566 multiletter control sequences out of 15000+600000
  22661 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  29i,7n,34p,942b,439s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1003,10 +1102,10 @@ super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsi1200.pfb><
 /usr/share/texmf/fonts/type1/public/cm-super/sfss1200.pfb></usr/share/texmf/fon
 ts/type1/public/cm-super/sfsx2074.pfb></usr/share/texmf/fonts/type1/public/cm-s
 uper/sfti1000.pfb>
-Output written on rapport.pdf (10 pages, 1398460 bytes).
+Output written on rapport.pdf (11 pages, 1404207 bytes).
 PDF statistics:
- 248 PDF objects out of 1000 (max. 8388607)
- 210 compressed objects within 3 object streams
- 49 named destinations out of 1000 (max. 500000)
- 151 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 265 PDF objects out of 1000 (max. 8388607)
+ 226 compressed objects within 3 object streams
+ 56 named destinations out of 1000 (max. 500000)
+ 159 words of extra memory for PDF output out of 10000 (max. 10000000)
 

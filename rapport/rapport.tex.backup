@@ -157,6 +157,15 @@
 	\end{itemize}
 	Le code est amplement commenté, et une attention particulière a été porté à sa clarté.
 	Ainsi, nous vous invitons à regarder directement les sources pour comprendre l'architecture en profondeur.
+	
+      \begin{figure}[H]
+	\begin{center}
+	  \includegraphics[width=16cm,keepaspectratio]{./images/architecture.png}
+	\end{center}
+	\caption{\textit{Liste des sources}}
+	\label{architecture}
+      \end{figure}
+      
       \newpage
       \subsubsection{API 'REST'}
 	Une API a été implementé sur le modèle REST.
@@ -183,8 +192,29 @@
 	\caption{\textit{Détail d'une requête (lié un compte Lol à l'utilisateur du site)}}
 	\label{link_account}
       \end{figure}
+     
+      \subsubsection{API externe des jeux}
+	Afin d'automatiser le système de tournois, d'effectuer des statistiques, des classements, etc... il faut des données.
+	Ces données sont bien souvent garder par les fournisseurs de jeux vidéos.
+	Récuperer ces données est donc la clef du projet.
+	
+	Voici les différents jeux envisagés, et leur politique quant aux partages des données de jeux:
+	
+	\paragraph{League of Legends - Riot Games} : Riot Games ont une API public restreinte.
+	Afin de pouvoir accéder à toutes les fonctionnalités de l'API (créer des tournois...),
+	il faut déposer le projet sur leur site, après une étude des developpeurs de Riot, le projet est accepté ou non.
+	Le projet à d'abord été rejeté car il n'était pas assez précis.
+	Après avoir ajouté ces précisions, le projet a finalement été accepté et nous avons pu obtenir une clef d'API.
+	(cette dernière est privé, nous avons donc joint une clef factice dans les sources du rendu, les fonctionnalités liés à cette API ne fonctionneront donc pas si vous souhaitez tester le site en local)
+	
+	\paragraph{Fortnite} : Epic Games (la boîte qui gère le jeu) ne fournit pas d'API officiel, et n'ont à priori pas l'intention de le faire...
+	
+	\paragraph{PUBG} : dispose d'une API complète qui fonctionne similairement à celle de Riot Games.
+	
+	\paragraph{Hearthstone (Blizzard)} ne dispose pas encore d'une API. Cependant, Blizzard dispose d'un portail developpeur proposant des API pour leurs autres jeux (World of Warcraft et Diablo 3).
+	Ils ont annoncé l'arrive d'une API Hearthstone. Tout n'est donc qu'une question de temps pour intégrer le jeu au site.
 
-     \newpage
+    \newpage
     \subsection{Front-end}
       \subsubsection{Le 'layout'}
 	Le site a été construit en suivant cette leçon de \href{https://www.w3schools.com/css/css_website_layout.asp}{\textit{W3Schools}}.
@@ -220,6 +250,14 @@
 	(voir cloche sur la figure \ref{profil})
 
   \section{Conclusion}
+    Le site est loin d'être complet. Certaines fonctionnalités présentées dans ce rapport n'ont pas pu être implémenté par manque de temps.
+    
+    De plus, il y a eu un vif écho au sein de notre entourage, et il y a un certain engouement pour le projet.
+    
+    Ainsi, une fois le projet validé, nous comptons terminer et lancer la plateforme.
+    
+    En s'inspirant des débuts de la FFF (Fédération Française de Football), nous souhaitons déclarer une association loi de 1901,
+    et créer un projet très communautaire.
   
   \newpage
   \section{Références}
