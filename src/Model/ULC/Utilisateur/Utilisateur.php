@@ -259,7 +259,7 @@ class Utilisateur {
 	 * @return true si l'utilisateur possède la permission
 	 */
 	public function hasPermission($permission) {
-		if (! $this->isConnected ()) {
+		if (! $this->isConnected ()) {			
 			return (Role::$UTILISATEUR->hasPermission ( $permission ));
 		}
 		

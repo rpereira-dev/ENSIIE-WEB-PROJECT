@@ -37,7 +37,6 @@ $bdd = BDD::instance ();
 
 /* recupere l'utilisateur */
 $user = Utilisateur::instance ();
-echo $user->hasPermission ( Permission::$CREATE_TEAM ) ? "true" : "false";
 
 foreach ( $pageElementsClass as $pageElementClass ) {
 	$pageElement = new $pageElementClass ( $bdd, $user );

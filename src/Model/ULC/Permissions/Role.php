@@ -40,15 +40,15 @@ abstract class Role {
 	 */
 	private static $ROLES_BY_ID = array ();
 	private static $ROLES_BY_NAME = array ();
-
+	
 	/**
 	 * initialises les variables statiques
 	 */
 	public static function __init() {
-		Role::$UTILISATEUR = new RoleUtilisateur();
-		Role::$JOUEUR = new RoleJoueur();
-		Role::$MODERATEUR = new RoleModerateur();
-		Role::$ADMINISTRATEUR = new RoleAdministrateur();
+		Role::$UTILISATEUR = new RoleUtilisateur ();
+		Role::$JOUEUR = new RoleJoueur ();
+		Role::$MODERATEUR = new RoleModerateur ();
+		Role::$ADMINISTRATEUR = new RoleAdministrateur ();
 	}
 	
 	/**
@@ -85,20 +85,14 @@ abstract class Role {
 	 * constructeur
 	 */
 	public function __construct() {
-		//les permissions
-		$this->permissions = array();
-		$this->addPermissions($this->permissions);
+		// les permissions
+		$this->permissions = array ();
 		
-		//ajoute au tableau global
-		$this->id = count(Role::$ROLES_BY_ID);
-		Role::$ROLES_BY_ID[$this->id] = $this;
-		Role::$ROLES_BY_NAME[$this->getName()] = $this;
+		// ajoute au tableau global
+		$this->id = count ( Role::$ROLES_BY_ID );
+		Role::$ROLES_BY_ID [$this->id] = $this;
+		Role::$ROLES_BY_NAME [$this->getName ()] = $this;
 	}
-	
-	/**
-	 * ajoutes les permissions à la liste pour ce role
-	 */
-	protected abstract function addPermissions($permissions);
 	
 	/**
 	 * Renvoie l'id de la permission
@@ -123,6 +117,15 @@ abstract class Role {
 	 */
 	public function getPermissions() {
 		return ($this->permissions);
+	}
+	
+	/**
+	 * ajoutes une permission au role
+	 *
+	 * @param Permission $permission
+	 */
+	public function addPermission($permission) {
+		array_push ( $this->permissions, $permission );
 	}
 	
 	/**
