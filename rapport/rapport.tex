@@ -99,28 +99,27 @@
   \section{Solution technique}
     \subsection{Organisation du travail}
       \subsubsection{Organisation général}
-	Un 'fork' du dépôt Github a été effectué, puis mis en privé. Guangyue travaille sous MacOSX, les 3 autres sous Linux.
+	Un 'fork' du dépôt Github a été effectué, puis mis en privé. Guangyue travaille sous MacOSX, les autres sous Linux.
 	Nous n'avons pas rencontré de problèmes de compatibilités, seulement de légères difficultés les 1ers jours pour configurer Docker.
-	Nous avons developpé sous PHP-Storm, Eclipse ou Sublime-text selon les préférences.
+	Nous avons developpé sous PHP-Storm, Eclipse et Sublime-text selon les préférences.
       \subsubsection{Répartition des rôles}
 	Romain PEREIRA et Guangyue CHEN se sont occupés du Back-end : Romain a construit l'architecture MVC du site (et l'API),
-	et Guangyue s'est spécialisé sur PUBG.
+	et Guangyue s'est spécialisé sur l'intégration du jeu PUBG.
 	
-	Louis LAFUMA et Baptiste LAMBERT ont developpé des pages du site (partie front-end)
+	Louis LAFUMA et Baptiste LAMBERT ont developpé certaines parties visuelles du site.
     \subsection{Back-end}
-      La base de données relationelle peut être representée par le diagramme UML suivant.
-      \newline
-      (La transcription SQL du modèle est disponible dans le fichier 'data/db.sql'):
-      \begin{figure}[H]
-	\begin{center}
-	  \includegraphics[width=17.5cm,keepaspectratio]{./images/uml.png}
-	\end{center}
-	\caption{\textit{Schéma UML de la base de données}}
-	\label{uml}
-      \end{figure}
+      \subsubsection{Base de données}
+	La base de données relationelle peut être representée par le diagramme UML suivant.
+	\newline
+	(La transcription SQL du modèle est disponible dans le fichier 'data/db.sql'):
+	\begin{figure}[H]
+	  \begin{center}
+	    \includegraphics[width=16.0cm,keepaspectratio]{./images/uml.png}
+	  \end{center}
+	  \caption{\textit{Schéma UML de la base de données}}
+	  \label{uml}
+	\end{figure}
       
-      \newpage
-      \subsubsection{Utilisateur}
 	\paragraph{Permission} Représente une permission ponctuelle (créer une équipe, créer un tournoi, bannir un joueur, inscrire son équipe...)
 	\paragraph{Rôle} Représente une ensemble de permissions (administrateur: toutes les permissions, modérateur: bannir un joueur, ...).
 	\paragraph{Utilisateur} Possèdent différents rôles, et donc toutes les permissions liées aux rôles.
@@ -135,19 +134,39 @@
 	Ce jeton est généré et envoyé par mail à un utilisateur s'il a oublié son mot de passe.
 	Il a alors 15 minutes pour changer son mot de passe en accédant au service consacré à cet effet.
       
-      \subsubsection{Ecoles}
 	Une base de données a été généré à partir de la page Wikipédia \ref{ecole_ingé}.
 	Les données ont été extraite de la page, au format csv, à l'aide d'un programme Python (et de la bibliothèque BeautifulSoup \ref{beautifulsoup}).
 	
 	Cette base de donnée aura 2 utilités principales : auto-complétion pour la recherche, et organisation de tournois par région.
 	Elle permettra également d'avoir des statistiques par région (fait t'on plus d'e-sport à Angers ou bien à Paris).
 	
-      \subsubsection{Equipes}
-	\paragraph{Equipe}
-	\paragraph{Tournoi}
-	\paragraph{Match}
-	\paragraph{Invitation}
+	\paragraph{Equipe} Les joueurs peuvent créer des équipes, inviter d'autres joueurs dans leur équipes, et rejoindre lorsqu'une invitation est reçu.
+	\paragraph{Tournoi} Les utilisateurs possèdant les permissions peuvent rejoindre et créer des tournois
+	\paragraph{Match} Les utilisateurs ayant la permission peuvent créer des matchs dans un tournoi.
+	Ils peuvent également être généré aléatoirement lors de la création d'un tournoi.
 
+      \newpage
+      \subsubsection{L'architecture du site}
+	Le site suit une architecture MVC classique.
+	La distinction entre les dossiers 'public' et 'src' est clair:
+	\begin{itemize}[label=-]
+	  \item 'public' : contenu auxquelles l'utilisateur à accès par son navigateur. La lecture des sources de ce dossier n'a aucunes conséquences sur la sécurité du site.
+	  Il contient l'API 'REST' public, et une page d'index qui fait appele au Controller.
+	  \item 'src': contenu 'privé', auxquelles seuls les développeurs ont accès. Il est separé en 3 sous-dossiers (Model/View/Controller).
+	  L'architecture a été conçu de sorte à scale efficacement, et à pouvoir travailler à plusieurs en parallèle sur le projet en minimisant les conflits.
+	\end{itemize}
+	Le code est amplement commenté, et une attention particulière a été porté à sa clarté.
+	Ainsi, nous vous invitons à regarder directement les sources pour comprendre l'architecture en profondeur.
+	
+      \begin{figure}[H]
+	\begin{center}
+	  \includegraphics[width=16cm,keepaspectratio]{./images/architecture.png}
+	\end{center}
+	\caption{\textit{Liste des sources}}
+	\label{architecture}
+      \end{figure}
+      
+      \newpage
       \subsubsection{API 'REST'}
 	Une API a été implementé sur le modèle REST.
 	
@@ -156,8 +175,8 @@
 	Cependant, elle ne peut pas être entièrement considéré comme totalement 'REST', car le serveur enregistre des informations dans la session PHP,
 	ce qui entre en contradiction avec le principe \ref{api_rest_session}. La satisfaction d'autres principes du 'REST' est également sujet à débat.
 	
-	Mais elle reste pratique et ouverte. Le client doit seulement récupéré le cookie 'PHP\_SESSID' via le service '/user/account/connect'.
-	
+	Mais elle reste pratique et ouverte: le client du site a été conçu en utilisant très largement cette API. (voir './res/js/api.js')
+
       \begin{figure}[H]
 	\begin{center}
 	  \includegraphics[width=14cm,keepaspectratio]{./images/api.png}
@@ -174,28 +193,43 @@
 	\label{link_account}
       \end{figure}
 
+     \newpage
     \subsection{Front-end}
-      Le site a été construit en suivant cette leçon de \href{https://www.w3schools.com/css/css_website_layout.asp}{\textit{W3Schools}}.
-      
-      La barre de navigation (navbar), la barre sur le coté gauche (sidebar), et la barre à droite (asidebar) sont fixes,
-      et leur contenu varient selon l'état du client (connecté ou non, rôles...)
-      
-      Le centre du site contient le contenu de la page, et varient selon la page que l'utilisateur visite.
-      
-      \begin{figure}[H]
-	\begin{center}
-	  \includegraphics[width=16cm,keepaspectratio]{./images/site.png}
-	\end{center}
-	\caption{\textit{Page d'accueil du site}}
-	\label{uml}
-      \end{figure}
+      \subsubsection{Le 'layout'}
+	Le site a été construit en suivant cette leçon de \href{https://www.w3schools.com/css/css_website_layout.asp}{\textit{W3Schools}}.
+	
+	La barre de navigation (navbar), la barre sur le coté gauche (sidebar), et la barre à droite (asidebar) sont fixes,
+	et leur contenu varient selon l'état du client (connecté ou non, rôles...)
+	
+	Le centre du site contient le contenu de la page, et varient selon la page que l'utilisateur visite.
+	
+	\begin{figure}[H]
+	  \begin{center}
+	    \includegraphics[width=12cm,keepaspectratio]{./images/site.png}
+	  \end{center}
+	  \caption{\textit{Page d'accueil du site (non connecté)}}
+	  \label{site}
+	\end{figure}
+	
+	\begin{figure}[H]
+	  \begin{center}
+	    \includegraphics[width=12cm,keepaspectratio]{./images/profil.png}
+	  \end{center}
+	  \caption{\textit{Page de profil d'un joueur (connecté)}}
+	  \label{profil}
+	\end{figure}
       
       \subsubsection{Discord}
 	Le widget dans la 'asidebar' a été programmé à l'aide de l'API Discord (\ref{discordapi}), et d'un wrapper PHP (voir 'discord.phtml').
 	Cette API se configure simplement: chaque administrateur du Discord à accès à une clef d'API sans restrictions.
-  
-  \newpage
+	
+      \subsubsection{Notification}
+	Le système de notification 'Facebook-like' fonctionne en temps réel.
+	Le client recupère ces notifications toutes les 5 secondes (par l'intermédiaire de l'API).
+	(voir cloche sur la figure \ref{profil})
+
   \section{Conclusion}
+  
   \newpage
   \section{Références}
   \begin{thebibliography}{}
