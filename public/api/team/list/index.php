@@ -5,17 +5,16 @@
  *  @brief Recuperes la liste des équipes
  *	@return
  *		- code reponse:
- *						- 200 : la liste a bien été générée
- *						- 400 : erreur requête (paramètre(s) manquant(s))
- 						- 500 : erreur de connection à la base de donnée
+ *					- 200 : la liste a bien été générée
+ *					- 400 : erreur requête (paramètre(s) manquant(s))
+ *					- 500 : erreur de connection à la base de donnée
  */
 
-///@cond INTERNAL
+// /@cond INTERNAL
 
 /* include path */
 use Model\ULC\BDD\BDD;
-use Model\ULC\Utilisateur\Utilisateur;
-require '../../../../vendor/autoload.php'; 
+require '../../../../vendor/autoload.php';
 
 /* on recupere la connection à la pdo */
 $bdd = BDD::instance ();
@@ -26,8 +25,8 @@ if ($pdo == NULL) {
 }
 
 /* prépares la base de données */
-$stmt = $pdo->prepare ( 'SELECT nom FROM equipe');
-$stmt->execute();
+$stmt = $pdo->prepare ( 'SELECT nom FROM equipe' );
+$stmt->execute ();
 
 http_response_code ( 200 );
 
@@ -46,9 +45,6 @@ if ($stmt->rowCount () > 0) {
 	}
 }
 echo ']}';
-
-
-
 
 // /@endcode
 

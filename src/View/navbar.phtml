@@ -1,56 +1,44 @@
 
-    <!-- barre de navigation en haut-->
-	<ul class="nav navbar">
+<!-- barre de navigation en haut-->
+<ul class="nav navbar">
 
-		<!-- barre de recherche -->
-		<li class="navbar-item" style="float:left">
-			<div class="prompt" style="margin-top: 0.8rem; margin-left: 1rem">
-				<i class="prompt-logo fa fa-search navbar-search-logo"></i>
-				<input class="prompt-input" type="text" placeholder="Rechercher..."/>
-			</div>
-		</li>
+	<!-- barre de recherche -->
+	<li class="navbar-item" style="float: left">
+		<div class="prompt" style="margin-top: 0.8rem; margin-left: 1rem">
+			<i class="prompt-logo fa fa-search navbar-search-logo"></i> <input
+				class="prompt-input" type="text" placeholder="Rechercher..." />
+		</div>
+	</li>
 
 
 <?php
-use Model\ULC\Permissions\Role;
+if ($this->getUser ()->isConnected ()) {
+	?>
+		<li class="navbar-item navbar-item-hoverable" style="float: right"
+		onclick="redirectToPage('profil');">
+		<div class="navbar-item-profil">
+			<span> </span> <img
+				src="./api/user/account/image/get/<?php echo $this->getUser()->getPseudo(); ?>.png"></img>
+		</div>
+	</li>
 
-if ($this->getUser()->isConnected()) {
-?>
-		<li class="navbar-item navbar-item-hoverable" style="float:right" onclick="redirectToPage('profil');">
-			<div class="navbar-item-profil">
-				<span>
-				<?php
-					echo $this->getUser()->getPseudo();
-					if ($this->getUser()->hasRole(Role::$ADMINISTRATEUR)) {
-						echo " (admin)";
-					} else if ($this->getUser()->hasRole(Role::$MODERATEUR)) {
-						echo " (modérateur)";
-					}
-					?>
-				</span>
-				<img src="./api/user/account/image/get/<?php echo $this->getUser()->getPseudo(); ?>.png"></img>
-			</div>
-		</li>
+	<li class="navbar-item" style="float: right"><i
+		class="navbar-item-icon navbar-item-hoverable fa fa-question"></i></li>
 
-		<li class="navbar-item" style="float:right">
-			<i class="navbar-item-icon navbar-item-hoverable fa fa-question"></i>				
-		</li>	
+	<li class="navbar-item" style="float: right"><i
+		class="navbar-item-icon navbar-item-hoverable fa fa-book"></i></li>
 
-		<li class="navbar-item" style="float:right">
-			<i class="navbar-item-icon navbar-item-hoverable fa fa-book"></i>
-		</li>
+	<!-- la cloche des notifications -->
+	<li class="navbar-item" id="notification-bell" style="float: right">
+		<div class="navbar-item-hoverable navbar-item-bell"
+			onclick="switchNotificationVisiblity();">
+			<i class="navbar-item-icon fa fa-bell"></i>
+		</div> <!-- notifications -->
+		<div id="notifications-counter" class="notifications-counter"
+			style="display: none;"></div>
+		<div id="notifications" class="notifications" style="display: none;">
 
-		<!-- la cloche des notifications -->
-		<li class="navbar-item" id="notification-bell" style="float:right">
-			<div class="navbar-item-hoverable navbar-item-bell" onclick="switchNotificationVisiblity();">
-				<i class="navbar-item-icon fa fa-bell"></i>
-			</div>
-
-			<!-- notifications -->
-			<div id="notifications-counter" 	class="notifications-counter" 	style="display: none;"></div>
-			<div id="notifications"		 		class="notifications" 			style="display: none;">
-
-				<script>
+			<script>
 					function seeNotifications() {
 						requestAPI("/user/notification/seeall/",
 							{
@@ -62,26 +50,26 @@ if ($this->getUser()->isConnected()) {
 					}
 				</script>
 
-				<div class="notifications-title">
-					Notifications
-					<div class="notifications-vu" onmousedown="seeNotifications();">vu</div>
-				</div>
-				<div id="notifications-list"></div>
+			<div class="notifications-title">
+				Notifications
+				<div class="notifications-vu" onmousedown="seeNotifications();">vu</div>
 			</div>
+			<div id="notifications-list"></div>
+		</div>
 
-		</li>			
+	</li>			
 
 		<?php
-	}
+}
 ?>
 	</ul>
 
 
 <?php
-	if ($this->getUser()->isConnected()) {
-?>
-		<!-- la cloche des notifications -->
-		<script type="text/javascript">
+if ($this->getUser ()->isConnected ()) {
+	?>
+<!-- la cloche des notifications -->
+<script type="text/javascript">
 			/** recharges les notifications */
         	var node_notifications 		= document.getElementById("notifications");
         	var node_notifications_list	= document.getElementById("notifications-list");

@@ -4,7 +4,6 @@ namespace Model\ULC\Utilisateur;
 
 use Model\ULC\BDD\BDD;
 use Model\ULC\BDD\ConnectionException;
-use Model\ULC\Permissions\Role;
 use PDO;
 use PDOException;
 
@@ -54,7 +53,7 @@ class Utilisateur {
 	 *
 	 * @var array roles du joueur
 	 */
-	private $roles;
+	private $permissions;
 	
 	/**
 	 * constructeur
@@ -226,9 +225,9 @@ class Utilisateur {
 	public function update() {
 		$pdo = BDD::instance ()->getConnection ( "ulc" );
 		
-		$stmt = $pdo->prepare ( 'SELECT mail, pseudo, role_id FROM utilisateur JOIN utilisateur_role ON utilisateur_id = id WHERE id = :id' );
+		/* recuperes les données de l'utilisateur */
+		$stmt = $pdo->prepare ( 'SELECT mail, pseudo FROM utilisateur WHERE id = :id' );
 		$stmt->bindParam ( ':id', $this->uuid, PDO::PARAM_INT );
-		
 		$stmt->execute ();
 		if ($stmt->rowCount () == 0) {
 			throw new NoSuchUtilisateurException ( "L'utilisateur a été supprimé de la base de donnée" );
@@ -236,10 +235,15 @@ class Utilisateur {
 		$entry = $stmt->fetch ();
 		$this->mail = $entry ['mail'];
 		$this->pseudo = $entry ['pseudo'];
-		$this->roles = array ();
-		do {
-			array_push ( $this->roles, $entry ['role_id'] );
-		} while ( ($entry = $stmt->fetch ()) != NULL );
+		
+		/* recuperes toutes les permissions de l'utilisateur */
+		$this->permissions = array ();
+		$stmt = $pdo->prepare ( 'SELECT DISTINCT permission_id FROM role_permission JOIN utilisateur_role ON role_permission.role_id = utilisateur_role.role_id WHERE utilisateur_id = :id' );
+		$stmt->bindParam ( ':id', $this->uuid, PDO::PARAM_INT );
+		$stmt->execute ();
+		while ( ($entry = $stmt->fetch ()) != NULL ) {
+			array_push ( $this->permissions, $entry ['permission_id'] );
+		}
 	}
 	
 	/**
@@ -249,7 +253,7 @@ class Utilisateur {
 	 * @return true si l'utilisateur possède le role
 	 */
 	public function hasRole($role) {
-		return (in_array ( $role->getID(), $this->roles ));
+		return (in_array ( $role->getID (), $this->roles ));
 	}
 	
 	/**
@@ -259,17 +263,7 @@ class Utilisateur {
 	 * @return true si l'utilisateur possède la permission
 	 */
 	public function hasPermission($permission) {
-		if (! $this->isConnected ()) {			
-			return (Role::$UTILISATEUR->hasPermission ( $permission ));
-		}
-		
-		foreach ( $this->roles as $roleID ) {
-			$role = Role::getRoleByID ( $roleID );
-			if ($role->hasPermission ( $permission )) {
-				return (true);
-			}
-		}
-		return (false);
+		return (isset ( $this->permissions [$permission->getID ()] ));
 	}
 	
 	/**

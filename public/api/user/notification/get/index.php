@@ -5,7 +5,7 @@
  *  @brief Renvoie toutes les notifications de l'utilisateur du site
  *  @param :
  *      - COOKIE \a PHPSESSID : le cookie de session PHP \ref api/user/account/connect/index.php
- *      - \a max (optionnel) : nombre maximum de notifications à afficher (les 'max' plus récentes)
+ *      - POST \a max (optionnel) : nombre maximum de notifications à afficher (les 'max' plus récentes)
  *  @return
  *      - JSON : les notifications
  *      \code{.json}

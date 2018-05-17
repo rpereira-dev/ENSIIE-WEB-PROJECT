@@ -14,7 +14,6 @@
 
 /* include path */
 use Model\ULC\BDD\BDD;
-use Model\ULC\Utilisateur\Utilisateur;
 require '../../../../vendor/autoload.php'; 
 
 /* on recupere la connection à la pdo */

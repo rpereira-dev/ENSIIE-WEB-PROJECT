@@ -13,18 +13,17 @@
 // /@cond INTERNAL
 
 /* include path */
-use Model\ULC\Permissions\Permission;
+use Model\ULC\Utilisateur\Permission;
 
 require '../../../../vendor/autoload.php';
 
 $permissions = array ();
 
 foreach ( Permission::getPermissions () as $permission ) {
-	array_push ( $permissions, array (
-			"id" => $permission->getID (),
+	$permissions [$permission->getID ()] = array (
 			"name" => $permission->getName (),
 			"desc" => $permission->getDescription () 
-	) );
+	);
 }
 
 echo json_encode ( $permissions );

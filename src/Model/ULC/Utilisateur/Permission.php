@@ -1,6 +1,6 @@
 <?php
 
-namespace Model\ULC\Permissions;
+namespace Model\ULC\Utilisateur;
 
 /**
  * Représente une permission de la bdd
@@ -20,20 +20,11 @@ class Permission {
 	private static $PERMISSIONS_BY_NAME = array ();
 	
 	/**
-	 * ajoute un permission dans le tableau
-	 */
-	private static function setPermission(&$PERMISSION_REF, $PERMISSION) {
-		$PERMISSION_REF = $PERMISSION;
-		Permission::$PERMISSIONS_BY_ID [$PERMISSION_REF->getID ()] = $PERMISSION_REF;
-		Permission::$PERMISSIONS_BY_NAME [$PERMISSION_REF->getName ()] = $PERMISSION_REF;
-	}
-	
-	/**
 	 * initialises les variables statiques
 	 */
 	public static function __init() {
-		Permission::setPermission ( Permission::$CREATE_TEAM, new Permission ( 0, "create_team", "Créer une équipe" ) );
-		Permission::setPermission ( Permission::$CREATE_TOURNAMENT, new Permission ( 1, "create_tournament", "Créer un tournoi" ) );
+		Permission::$CREATE_TEAM = new Permission ( "create_team", "Créer une équipe" );
+		Permission::$CREATE_TOURNAMENT = new Permission ( "create_tournament", "Créer un tournoi" );
 	}
 	
 	/**
@@ -49,7 +40,7 @@ class Permission {
 	 * @return Permission la permission par son ID (clef primaire)
 	 */
 	public static function getPermissionByID($permissionID) {
-		return (Permission::$PERMISSIONS_BY_ID [$permissionID]);
+		return (isset ( Permission::$PERMISSIONS_BY_ID [$permissionID] ) ? Permission::$PERMISSIONS_BY_ID [$permissionID] : NULL);
 	}
 	
 	/**
@@ -57,7 +48,7 @@ class Permission {
 	 * @return Permission la permission role par son nom
 	 */
 	public static function getPermissionByName($permissionName) {
-		return (Permission::$PERMISSIONS_BY_NAME [$permissionName]);
+		return (isset ( Permission::$PERMISSIONS_BY_NAME [$permissionName] ) ? Permission::$PERMISSIONS_BY_NAME [$permissionName] : NULL);
 	}
 	
 	/** @var number la clef primaire de la permission */
@@ -76,10 +67,12 @@ class Permission {
 	 * @param string $name
 	 * @param array $permissions
 	 */
-	public function __construct($id, $name, $description) {
-		$this->id = $id;
+	public function __construct($name, $description) {
 		$this->name = $name;
 		$this->description = $description;
+		$this->id = count ( Permission::$PERMISSIONS_BY_ID ) + 1;
+		Permission::$PERMISSIONS_BY_ID [$this->id] = $this;
+		Permission::$PERMISSIONS_BY_NAME [$this->name] = $this;
 	}
 	
 	/**

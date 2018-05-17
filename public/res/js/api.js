@@ -111,11 +111,13 @@ var DEFAULT_CALLBACK = {
  	"/user/game/lol/accounts/get/"				: REQUEST.GET,
  	"/user/game/lol/third-party-code/generate/"	: REQUEST.GET,
  	"/user/game/lol/third-party-code/link/"		: REQUEST.POST,
+ 	"/user/list/"				                : REQUEST.GET,
  	"/user/notification/get/"					: REQUEST.GET,
  	"/user/notification/see/"					: REQUEST.POST,
  	"/user/notification/seeall/"				: REQUEST.POST,
- 	"/user/list/"				                : REQUEST.GET,
+ 	"/user/permission/get/"						: REQUEST.GET,
  	"/tournament/list/"							: REQUEST.GET,
  	"/school/list/" 							: REQUEST.GET,
- 	"/team/list/"								: REQUEST.GET
+ 	"/role/get/"								: REQUEST.GET,
+ 	"/permission/get/"							: REQUEST.GET
  };

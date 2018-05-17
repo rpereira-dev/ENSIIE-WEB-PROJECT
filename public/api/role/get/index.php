@@ -8,31 +8,47 @@
  *      - JSON : les roles
  *      - code reponse:
  *                      - 200 : les roles ont été généré avec succès
+ *                      - 503 : base de données innaccessible
  */
 
 // /@cond INTERNAL
 
 /* include path */
-use Model\ULC\Permissions\Permission;
-use Model\ULC\Permissions\Role;
+
+use Model\ULC\BDD\BDD;
+use Model\ULC\BDD\ConnectionException;
 
 require '../../../../vendor/autoload.php';
 
-$roles = array ();
 
-foreach ( Role::getRoles () as $role ) {
-	$permissions = array ();
-	foreach ( Permission::getPermissions () as $permission ) {
-		array_push ( $permissions, $permission->getID () );
+/* recuperes les données de l'utilisateur */
+try {
+	$pdo = BDD::instance ()->getConnection ( "ulc" );
+	
+	$stmt = $pdo->prepare ( 'SELECT role.id AS id, role.name, permission.id AS permission_id FROM role JOIN role_permission ON role.id=role_permission.role_id JOIN permission ON permission.id=permission_id ORDER BY role.id ;' );
+	$stmt->execute ();
+	$entry = $stmt->fetch ();
+	$roles = array ();
+	while ($entry != NULL) {
+		$id = $entry['id'];
+		$name   = $entry['name'];
+		$permissions = array ();
+		while ($entry['id'] == $id) {
+			array_push ( $permissions, $entry['permission_id'] );
+			$entry = $stmt->fetch ();
+		}
+		array_push ( $roles, array (
+				"id" => $id,
+				"name" => $name,
+				"permissions" => $permissions
+		) );
 	}
-	array_push ( $roles, array (
-			"id" => $role->getID (),
-			"name" => $role->getName (),
-			"permissions" => $permissions 
-	) );
+	http_response_code(200);
+	echo json_encode ( $roles );
+} catch (ConnectionException $exception) {
+	http_response_code(503);
 }
 
-echo json_encode ( $roles );
 
 // /@endcode
 
