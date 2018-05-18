@@ -14,7 +14,6 @@
 
 /* include path */
 use Model\ULC\BDD\BDD;
-use Model\ULC\Utilisateur\Utilisateur;
 require '../../../../vendor/autoload.php'; 
 
 /* on recupere la connection à la pdo */
@@ -25,7 +24,7 @@ if ($pdo == NULL) {
 }
 
 /* prépares la base de données */
-$stmt = $pdo->prepare ( 'SELECT academie,nom,sigle,domaine,ville FROM ecole');
+$stmt = $pdo->prepare ( 'SELECT academie, nom, sigle, domaine, ville FROM ecole ORDER BY academie');
 $stmt->execute();
 
 http_response_code ( 200 );

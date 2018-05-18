@@ -40,11 +40,21 @@ abstract class Content extends PageElement {
 		include VIEW_FOLDER . "/Content/header.phtml";
 		
 		/* affiche le contenu */
-		include VIEW_FOLDER . "/Content" . $this->getPHTML ();
+		if ($this->requiteAuthentification() && !$this->getUser()->isConnected()) {
+			include VIEW_FOLDER . "/Content/non_connecte.phtml";
+		} else {
+			include VIEW_FOLDER . "/Content" . $this->getPHTML ();
+		}
 		
 		/* affiche le footer du contenu */
 		include VIEW_FOLDER . "/Content/footer.phtml";
 	}
+	
+	/**
+	 *
+	 * @return boolean true si ce contenu requiet une authentification pour être affiché
+	 */
+	public abstract function requiteAuthentification();
 	
 	/**
 	 *

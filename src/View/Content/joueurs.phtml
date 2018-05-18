@@ -1,7 +1,7 @@
 <div id="Liste">
 </div>
 <script type="text/javascript">
-function loadplayers() {
+function loadPlayers() {
                 requestAPI("/user/list/",
                 	{
                 		200: 	function(response) {
@@ -10,7 +10,7 @@ function loadplayers() {
 		                        	var players = JSON.parse(response).liste_joueurs;
 
 		                        	//pour chaque joueur
-		                        	var tab = document.createElement("table");                       // Create a <table> element
+		                        	var tab = document.createElement("table");
 		                        	var line = document.createElement("tr");
 		                        	var cell1 = document.createElement("th");
 		                        	var cell2 = document.createElement("th");
@@ -22,40 +22,49 @@ function loadplayers() {
 									line.appendChild(cell2);
 									line.appendChild(cell3);
 									tab.appendChild(line);
-		                        	for (var i = 0 ; i < players.length ; i++) {
-		                        		//le joueur
+
+									var loadNextPlayer = function(i) {
 		                        		var joueur = players[i];
-		                        		var line = document.createElement("tr");
-		                        		var cell1 = document.createElement("td");
-		                        		var img = document.createElement("img");
 			                        	requestAPI("/user/account/image/get/",
 			                        		{
-			                        			200: function(response) {
-			                        				img.setAttribute('src', response);
+			                        			200:	function(response) {
+							                        		var line = document.createElement("tr");
+							                        		var cell1 = document.createElement("td");
+							                        		var img = document.createElement("img");
+							                        		
+					                        				img.src = response;
+					                        				img.style.width  = "3rem";
+					                        				img.style.height = img.style.width;
+		
+							                        		var cell2 = document.createElement("td"); 
+															var pseudo = document.createTextNode(joueur.pseudo);
+															var cell3 = document.createElement("td");
+															var mail = document.createTextNode(joueur.mail);
+															cell1.appendChild(img);
+															cell2.appendChild(pseudo);
+															cell3.appendChild(mail);
+															line.appendChild(cell1);
+															line.appendChild(cell2);
+															line.appendChild(cell3);
+															tab.appendChild(line);
+
+															if (i + 1 < players.length) {
+																loadNextPlayer(i + 1);
+															}
 			                        			}
 			                        		},
+			                        		
 			                        		{
-			                        			'pseudo':joueur.pseudo
+			                        			'pseudo': joueur.pseudo
 			                        		}
 			                        	);
-		                        		var cell2 = document.createElement("td"); 
-										var pseudo = document.createTextNode(joueur.pseudo);
-										var cell3 = document.createElement("td");
-										var mail = document.createTextNode(joueur.mail);
-										cell1.appendChild(img);
-										cell2.appendChild(pseudo);
-										cell3.appendChild(mail);
-										line.appendChild(cell1);
-										line.appendChild(cell2);
-										line.appendChild(cell3);
-										tab.appendChild(line);
 
 		                        	}
 		                        	document.getElementById("Liste").appendChild(tab);
-
+		                        	loadNextPlayer(0);
                 				}
                 	}
                 );
             }
-            loadplayers();
+            loadPlayers();
 </script>

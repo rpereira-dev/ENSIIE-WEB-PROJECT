@@ -329,3 +329,6 @@ INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('b@b.fr', 'Spingz',    '$2y
 INSERT INTO utilisateur_role (utilisateur_id, role_id) VALUES (2, 2); /* Spingz, moderateur */
 
 INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('c@c.fr', 'lousticos', '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');
+
+/** les écoles */
+\copy ecole FROM data/ecoles.csv DELIMITER ';' CSV HEADER ;

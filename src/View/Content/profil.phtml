@@ -19,6 +19,7 @@ if (! $this->getUser ()->isConnected ()) {
                 	{
 	                    200: function(response) {
 	                        toast('Votre image a bien été uploadé :) ' + response, "fine");
+	                        updateProfilPicture();
 	                    }
                 	},
 

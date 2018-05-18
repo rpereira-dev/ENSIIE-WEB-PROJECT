@@ -242,7 +242,7 @@ class Utilisateur {
 		$stmt->bindParam ( ':id', $this->uuid, PDO::PARAM_INT );
 		$stmt->execute ();
 		while ( ($entry = $stmt->fetch ()) != NULL ) {
-			array_push ( $this->permissions, $entry ['permission_id'] );
+			$this->permissions[$entry ['permission_id']] = true;
 		}
 	}
 	

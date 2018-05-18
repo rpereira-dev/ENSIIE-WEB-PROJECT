@@ -14,11 +14,11 @@
 <?php
 if ($this->getUser ()->isConnected ()) {
 	?>
-		<li class="navbar-item navbar-item-hoverable" style="float: right"
+	<li class="navbar-item navbar-item-hoverable" style="float: right"
 		onclick="redirectToPage('profil');">
 		<div class="navbar-item-profil">
-			<span> </span> <img
-				src="./api/user/account/image/get/<?php echo $this->getUser()->getPseudo(); ?>.png"></img>
+			<span><?php echo $this->getUser()->getPseudo(); ?></span> <img
+				id="profilPictureID"></img>
 		</div>
 	</li>
 
@@ -39,16 +39,32 @@ if ($this->getUser ()->isConnected ()) {
 		<div id="notifications" class="notifications" style="display: none;">
 
 			<script>
-					function seeNotifications() {
-						requestAPI("/user/notification/seeall/",
+				/** retelecharges l'image de profil sur la barre de navigation */
+				function updateProfilPicture() {
+					requestAPI("/user/account/image/get/",
 							{
 								200: 	function(response) {
-											toast("vu", 2, 500);
+											document.getElementById("profilPictureID").src = response + "?" + new Date().getTime();
 										}
+							},
+
+							{
+								"pseudo": "<?php echo $this->getUser()->getPseudo(); ?>"
 							}
 						);
-					}
-				</script>
+				}
+				updateProfilPicture();
+				
+				function seeNotifications() {
+					requestAPI("/user/notification/seeall/",
+						{
+							200: 	function(response) {
+										toast("vu", 2, 500);
+									}
+						}
+					);
+				}
+			</script>
 
 			<div class="notifications-title">
 				Notifications

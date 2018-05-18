@@ -94,6 +94,8 @@
   
   \newpage
   \section{La problématique}
+    L'idée du projet part d'un constat simple: dans les écoles supérieures, les compétitions sportives traditionelles (football, basketball, ...)
+    sont t
   
   \newpage
   \section{Solution technique}
@@ -200,9 +202,9 @@
 	
 	Voici les différents jeux envisagés, et leur politique quant aux partages des données de jeux:
 	
-	\paragraph{League of Legends - Riot Games} : Riot Games ont une API public restreinte.
+	\paragraph{League of Legends - Riot Games}  dispose d'une API public restreinte.
 	Afin de pouvoir accéder à toutes les fonctionnalités de l'API (créer des tournois...),
-	il faut déposer le projet sur leur site, après une étude des developpeurs de Riot, le projet est accepté ou non.
+	il faut déposer un projet sur leur site, qui après une étude des developpeurs de Riot, sera accepté ou non.
 	Le projet à d'abord été rejeté car il n'était pas assez précis.
 	Après avoir ajouté ces précisions, le projet a finalement été accepté et nous avons pu obtenir une clef d'API.
 	(cette dernière est privé, nous avons donc joint une clef factice dans les sources du rendu, les fonctionnalités liés à cette API ne fonctionneront donc pas si vous souhaitez tester le site en local)
@@ -211,8 +213,9 @@
 	
 	\paragraph{PUBG} : dispose d'une API complète qui fonctionne similairement à celle de Riot Games.
 	
-	\paragraph{Hearthstone (Blizzard)} ne dispose pas encore d'une API. Cependant, Blizzard dispose d'un portail developpeur proposant des API pour leurs autres jeux (World of Warcraft et Diablo 3).
-	Ils ont annoncé l'arrive d'une API Hearthstone. Tout n'est donc qu'une question de temps pour intégrer le jeu au site.
+	\paragraph{Hearthstone (Blizzard)} ne dispose pas encore d'une API.
+	Cependant, Blizzard dispose d'un portail developpeur (voir \ref{blizzardapi}) proposant des API pour leurs autres jeux (World of Warcraft et Diablo 3).
+	Ils ont annoncé l'arrivé d'une API Hearthstone. Tout n'est donc qu'une question de temps pour intégrer le jeu au site.
 
     \newpage
     \subsection{Front-end}
@@ -251,13 +254,23 @@
 
   \section{Conclusion}
     Le site est loin d'être complet. Certaines fonctionnalités présentées dans ce rapport n'ont pas pu être implémenté par manque de temps.
-    
-    De plus, il y a eu un vif écho au sein de notre entourage, et il y a un certain engouement pour le projet.
-    
-    Ainsi, une fois le projet validé, nous comptons terminer et lancer la plateforme.
-    
-    En s'inspirant des débuts de la FFF (Fédération Française de Football), nous souhaitons déclarer une association loi de 1901,
-    et créer un projet très communautaire.
+
+    Cependant, l'architecture du site et sa base de données sont solides, et permettront d'implémenter les fonctionnalités manquantes rapidement.
+    \newline
+    \newline
+    De plus, il y a eu un vif écho au sein de notre entourage: il y a un certain engouement pour le projet.
+    Ainsi, une fois le projet validé pédagogiquement, nous comptons terminer et lancer la plateforme.
+    (à l'aide d'amis semi-professionel externe à l'école nottament).
+    \newline
+    \newline
+    En s'inspirant des débuts des différentes fédérations sportives (Fédération Française de Football),
+    nous souhaiterions déclarer une association loi de 1901, et offrir aux joueurs des tournois avec prix.
+        \newline
+    \newline
+    Plusieurs modèles économiques ont été envisagés (participation au tournoi gratuite ou payante? publicité? diffusion direct sur Twitch? revente des droits à l'image sur les matchs? ...)
+    \newline
+    \newline
+    Nous attendrons cependant d'avoir une équipe complète et soudé pour débattre de cela efficacement.
   
   \newpage
   \section{Références}
@@ -266,31 +279,43 @@
     \bibitem{phpgoodpratices}\label{phpgoodpratices}
     'PHP The Right Way' - \href{https://github.com/codeguy/php-the-right-way/graphs/contributors}{\textit{+200 authors}} \newline
     \href{http://www.phptherightway.com/}{\textit{http://www.phptherightway.com/}}
-    
+    \newline
+    \newline
     \bibitem{riotapi}\label{riotapi}
     API officiel de Riot Games \newline
     \href{https://developer.riotgames.com/}{\textit{https://developer.riotgames.com/}}
-    
+    \newline
+    \newline
     \bibitem{discordapi}\label{discordapi}
     API officiel de Discord \newline
     \href{https://discordapp.com/developers/docs/intro}{\textit{https://discordapp.com/developers/docs/intro}}
-    
+    \newline
+    \newline
+    \bibitem{blizzardapi}\label{blizzardapi}
+    API officiel de Blizzard \newline
+    \href{https://dev.battle.net/io-docs}{\textit{https://dev.battle.net/io-docs}}
+    \newline
+    \newline
     \bibitem{password_hash}\label{password_hash}
     php.net - password\_hash documentation \newline
     \href{http://php.net/manual/fr/function.password-hash.php}{\textit{http://php.net/manual/fr/function.password-hash.php}}
-    
+    \newline
+    \newline
     \bibitem{password_salt}\label{password_salt}
     Salage de mot de passe \newline
     \href{https://en.wikipedia.org/wiki/Salt_(cryptography)}{\textit{https://en.wikipedia.org/wiki/Salt\_(cryptography)}}
-    
+    \newline
+    \newline
     \bibitem{ecole_ingé}\label{ecole_ingé}
     Liste écoles d'ingénieur en France - Wikipédia \newline
     \href{https://fr.wikipedia.org/wiki/Liste_des_écoles_d'ingénieurs_en_France#Liste_des_207_écoles_françaises_accréditées_au_1er_septembre_2017}{\textit{https://fr.wikipedia.org/wiki/Liste\_des\_écoles\_d'ingénieurs\_en\_France}}
-    
+    \newline
+    \newline
     \bibitem{beautifulsoup}\label{beautifulsoup}
     BeautifulSoup - Documentation\newline
     \href{https://www.crummy.com/software/BeautifulSoup/bs4/doc/}{\textit{https://www.crummy.com/software/BeautifulSoup/bs4/doc/}}
-    
+    \newline
+    \newline
     \bibitem{api_rest_session}\label{api_rest_session}
     API REST - Wikipédia \newline
     \href{https://fr.wikipedia.org/wiki/Representational_state_transfer#Sans_état}{\textit{https://fr.wikipedia.org/wiki/Representational\_state\_transfer\#Sans\_état}}
