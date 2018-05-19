@@ -10,10 +10,11 @@ function loadteams() {
                 		200: 	function(response) {
                 		
 									// la liste des équipes au format json
-		                        	var teams = JSON.parse(response).liste_equipes;
+									console.log(response);
+		                        	var teams = JSON.parse(response).equipes;
 
 		                        	//pour chaque équipe
-		                        	var tab = document.createElement("table");                       // Create a <table> element
+		                        	var tab = document.createElement("table");
 		                        	var line = document.createElement("tr");
 		                        	var cell1 = document.createElement("th");
 		                        	cell1.appendChild(document.createTextNode("Nom"));

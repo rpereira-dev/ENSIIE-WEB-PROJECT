@@ -27,7 +27,7 @@ try {
 	http_response_code ( 200 );
 	
 	/* on enregistre la liste des équipes */
-	echo '{"liste_equipe":[';
+	echo '{"equipes":[';
 	if ($stmt->rowCount () > 0) {
 		$entry = $stmt->fetch ();
 		while ( $entry != NULL ) {

@@ -100,12 +100,20 @@ var DEFAULT_CALLBACK = {
  * Relis un service au type de la requête à envoyer
  */
  var API = {
+	"/permission/get/"							: REQUEST.GET,
+ 	"/role/add_permission/"						: REQUEST.POST,
+ 	"/role/get/"								: REQUEST.GET,
+ 	"/role/remove_permission/"					: REQUEST.POST,
+ 	"/school/list/" 							: REQUEST.GET,
  	"/user/account/connect/" 					: REQUEST.POST,
  	"/user/account/disconnect/" 				: REQUEST.POST,
  	"/user/account/register/" 					: REQUEST.POST,
  	"/user/account/image/set/" 					: REQUEST.POST,
  	"/user/account/password/modify/"			: REQUEST.POST,
  	"/user/account/password/reset/"				: REQUEST.POST,
+ 	"/user/account/permission/get/"				: REQUEST.GET,
+ 	"/user/account/role/add/"					: REQUEST.POST,
+ 	"/user/account/role/get/"					: REQUEST.GET,
  	"/user/game/lol/accounts/delete/"			: REQUEST.POST,
  	"/user/game/lol/accounts/get/"				: REQUEST.GET,
  	"/user/game/lol/third-party-code/generate/"	: REQUEST.GET,
@@ -114,13 +122,6 @@ var DEFAULT_CALLBACK = {
  	"/user/notification/get/"					: REQUEST.GET,
  	"/user/notification/see/"					: REQUEST.POST,
  	"/user/notification/seeall/"				: REQUEST.POST,
- 	"/user/account/permission/get/"				: REQUEST.GET,
- 	"/user/account/role/add/"					: REQUEST.POST,
- 	"/user/account/role/get/"					: REQUEST.GET,
- 	"/tournament/list/"							: REQUEST.GET,
- 	"/school/list/" 							: REQUEST.GET,
- 	"/role/add_permission/"						: REQUEST.POST,
- 	"/role/remove_permission/"					: REQUEST.POST,
- 	"/role/get/"								: REQUEST.GET,
- 	"/permission/get/"							: REQUEST.GET
+ 	"/team/list/"								: REQUEST.GET,
+ 	"/tournament/list/"							: REQUEST.GET
  };
