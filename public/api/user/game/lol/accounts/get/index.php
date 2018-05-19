@@ -20,9 +20,6 @@ use Model\ULC\Utilisateur\Utilisateur;
 
 require ('../../../../../../../vendor/autoload.php');
 
-/* recupere la session */
-session_start ();
-
 $user = Utilisateur::instance ();
 
 // si l'utilisateur n'est pas connecté

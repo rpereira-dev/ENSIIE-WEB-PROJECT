@@ -24,8 +24,6 @@ use Model\ULC\Utilisateur\Utilisateur;
 
 require '../../../../../vendor/autoload.php';
 
-session_start ();
-
 $user = Utilisateur::instance ();
 
 if (isset ( $_POST ['mail'] ) && isset ( $_POST ['pass'] )) {

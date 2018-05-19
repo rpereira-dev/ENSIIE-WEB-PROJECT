@@ -15,7 +15,7 @@ Renvoie toutes les notifications de l\textquotesingle{}utilisateur du site.
 {\em } & 
 \begin{DoxyItemize}
 \item C\+O\+O\+K\+IE {\itshape P\+H\+P\+S\+E\+S\+S\+ID} \+: le cookie de session P\+HP \hyperlink{user_2account_2connect_2index_8php}{api/user/account/connect/index.\+php}
-\item {\itshape max} (optionnel) \+: nombre maximum de notifications à afficher (les \textquotesingle{}max\textquotesingle{} plus récentes) 
+\item P\+O\+ST {\itshape max} (optionnel) \+: nombre maximum de notifications à afficher (les \textquotesingle{}max\textquotesingle{} plus récentes) 
 \end{DoxyItemize}\\
 \hline
 \end{DoxyParams}
@@ -41,7 +41,8 @@ Renvoie toutes les notifications de l\textquotesingle{}utilisateur du site.
 \item code reponse\+:
 \begin{DoxyItemize}
 \item 200 \+: les notifications ont été généré avec succès
-\item 401 \+: non connecté(e) 
+\item 401 \+: non connecté(e)
+\item 503 \+: erreur de connection à la base de donnée 
 \end{DoxyItemize}
 \end{DoxyItemize}
 \end{DoxyReturn}

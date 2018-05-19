@@ -1,21 +1,6 @@
 <?php
 
 /**
- *  Relis l'utilisateur de la session courante au compte
- * League of Legend passé en paramètre.
- *
- *  Arguments:
- *      - summonerName : nom de l'invocateur (e.x: 'PCF toss')
- *
- *  Code erreur:
- *      - 200: la liaison a bien été enregistré.
- *      - 400: reqûete mal formatté. (paramètre manquant, utilisateru non connecté, ou sumonnerID inexistant)
- *      - 408: aucun third-party-code n'est défini.
- *      - 409: le compte est déjà lié à un autre utilisateur du site.
- *      - 424: le code entré dans League of Legend n'est pas bon
- */
-
-/**
  *
  *  @file
  *  @brief Lis un compte League of Legends à l'utilisateur connecté du site. \ref api/user/game/lol/third-party-code/generate/index.php
@@ -39,9 +24,6 @@ require '../../../../../../../vendor/autoload.php';
 
 use Model\ULC\LOL\API;
 use Model\ULC\Utilisateur\Utilisateur;
-
-/* recupere la session */
-session_start ();
 
 $user = Utilisateur::instance ();
 

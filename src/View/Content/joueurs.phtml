@@ -24,40 +24,32 @@ function loadPlayers() {
 									tab.appendChild(line);
 
 									var loadNextPlayer = function(i) {
+										if (i >= players.length) {
+											return ;
+										}
+										
 		                        		var joueur = players[i];
-			                        	requestAPI("/user/account/image/get/",
-			                        		{
-			                        			200:	function(response) {
-							                        		var line = document.createElement("tr");
-							                        		var cell1 = document.createElement("td");
-							                        		var img = document.createElement("img");
-							                        		
-					                        				img.src = response;
-					                        				img.style.width  = "3rem";
-					                        				img.style.height = img.style.width;
-		
-							                        		var cell2 = document.createElement("td"); 
-															var pseudo = document.createTextNode(joueur.pseudo);
-															var cell3 = document.createElement("td");
-															var mail = document.createTextNode(joueur.mail);
-															cell1.appendChild(img);
-															cell2.appendChild(pseudo);
-															cell3.appendChild(mail);
-															line.appendChild(cell1);
-															line.appendChild(cell2);
-															line.appendChild(cell3);
-															tab.appendChild(line);
+		                        		var line = document.createElement("tr");
+		                        		var cell1 = document.createElement("td");
+		                        		var img = document.createElement("img");
+		                        		
+                        				img.src = "http://localhost:8080/api/user/account/image/get/" + joueur.pseudo + ".png";
+                        				img.style.width  = "3rem";
+                        				img.style.height = img.style.width;
 
-															if (i + 1 < players.length) {
-																loadNextPlayer(i + 1);
-															}
-			                        			}
-			                        		},
-			                        		
-			                        		{
-			                        			'pseudo': joueur.pseudo
-			                        		}
-			                        	);
+		                        		var cell2 = document.createElement("td"); 
+										var pseudo = document.createTextNode(joueur.pseudo);
+										var cell3 = document.createElement("td");
+										var mail = document.createTextNode(joueur.mail);
+										cell1.appendChild(img);
+										cell2.appendChild(pseudo);
+										cell3.appendChild(mail);
+										line.appendChild(cell1);
+										line.appendChild(cell2);
+										line.appendChild(cell3);
+										tab.appendChild(line);
+										
+										loadNextPlayer(i + 1);
 
 		                        	}
 		                        	document.getElementById("Liste").appendChild(tab);

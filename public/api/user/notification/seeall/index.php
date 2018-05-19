@@ -10,6 +10,7 @@
  *      - code reponse:
  *                      - 200 : les notifications ont été marqué comme lu
  *						- 401 : non connecté(e)
+ *						- 503 : erreur de connection à la base de donnée
  */
 
 // /@cond INTERNAL
@@ -20,35 +21,33 @@ use Model\ULC\Utilisateur\Utilisateur;
 
 require '../../../../../vendor/autoload.php';
 
-/* on charge la session */
-session_start ();
-
 /* on recupere l'utilisateur */
 $user = Utilisateur::instance ();
 if (! $user->isConnected ()) {
 	http_response_code ( 401 );
 	echo "Non connecté";
-	return;
+} else {
+	
+	$bdd = BDD::instance ();
+	try {
+		$pdo = $bdd->getConnection ( "ulc" );
+		
+		/* prépares la base de données */
+		$stmt = $pdo->prepare ( "UPDATE notification SET status = 'seen' WHERE utilisateur_id = :utilisateur_id" );
+		/* protège des injections sql */
+		$id = $user->getID ();
+		$stmt->bindParam ( ':utilisateur_id', $id, PDO::PARAM_INT );
+		
+		/* execute la requete sécurisé */
+		$stmt->execute ();
+		
+		echo 'OK';
+		http_response_code ( 200 );
+	} catch ( \Model\ULC\BDD\ConnectionException $e ) {
+		http_response_code ( 503 );
+		echo "erreur serveur";
+	}
 }
-
-/* on recupere la connection à la pdo */
-$bdd = BDD::instance ();
-$pdo = $bdd->getConnection ( "ulc" );
-if ($pdo == NULL) {
-	throw new PDOException ( "Connection error" );
-}
-
-/* prépares la base de données */
-$stmt = $pdo->prepare ( "UPDATE notification SET status = 'seen' WHERE utilisateur_id = :utilisateur_id" );
-/* protège des injections sql */
-$id = $user->getID ();
-$stmt->bindParam ( ':utilisateur_id', $id, PDO::PARAM_INT );
-
-/* execute la requete sécurisé */
-$stmt->execute ();
-
-echo 'OK';
-http_response_code ( 200 );
 
 // /@endcond INTERNAL
 

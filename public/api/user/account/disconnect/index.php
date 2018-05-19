@@ -14,13 +14,11 @@
 ///@cond INTERNAL
 
 /* include path */
+use Model\ULC\Utilisateur\Utilisateur;
+
 require '../../../../../vendor/autoload.php'; 
 
-/* recupere la session */
-session_start();
-
-/** fin de la session */
-session_destroy();
+Utilisateur::instance()->disconnect();
 
 /* code de reponse */
 http_response_code(200);

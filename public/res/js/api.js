@@ -103,7 +103,6 @@ var DEFAULT_CALLBACK = {
  	"/user/account/connect/" 					: REQUEST.POST,
  	"/user/account/disconnect/" 				: REQUEST.POST,
  	"/user/account/register/" 					: REQUEST.POST,
- 	"/user/account/image/get/" 					: REQUEST.GET,
  	"/user/account/image/set/" 					: REQUEST.POST,
  	"/user/account/password/modify/"			: REQUEST.POST,
  	"/user/account/password/reset/"				: REQUEST.POST,

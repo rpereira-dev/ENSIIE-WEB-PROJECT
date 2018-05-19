@@ -21,9 +21,6 @@ require '../../../../../../../vendor/autoload.php';
 use Model\ULC\Utils;
 use Model\ULC\Utilisateur\Utilisateur;
 
-/* recupere la session */
-session_start ();
-
 $user = Utilisateur::instance ();
 
 // si l'utilisateur n'est pas connecté

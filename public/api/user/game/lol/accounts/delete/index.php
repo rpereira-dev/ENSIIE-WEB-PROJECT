@@ -13,27 +13,25 @@
  *						- 404 : l'invocateur fourni n'était pas lié à l'utilisateur
  */
 
-///@cond INTERNAL
+// /@cond INTERNAL
 
 /* include path */
-require '../../../../../../../vendor/autoload.php'; 
+require '../../../../../../../vendor/autoload.php';
 
 use Model\ULC\Utilisateur\Utilisateur;
 
-session_start();
+$user = Utilisateur::instance ();
 
-$user = Utilisateur::instance();
-
-if (!$user->isConnected() || !isset($_POST['summonerName'])) {
-    http_response_code(400);
+if (! $user->isConnected () || ! isset ( $_POST ['summonerName'] )) {
+	http_response_code ( 400 );
 } else {
 	try {
-		$user->unlinkAccount($_POST['summonerName']);
-	} catch (Exception $e) {
-		http_response_code(404);
+		$user->unlinkAccount ( $_POST ['summonerName'] );
+	} catch ( Exception $e ) {
+		http_response_code ( 404 );
 	}
 }
 
-///@endcond INTERNAL
+// /@endcond INTERNAL
 
 ?>

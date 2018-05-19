@@ -41,17 +41,7 @@ if ($this->getUser ()->isConnected ()) {
 			<script>
 				/** retelecharges l'image de profil sur la barre de navigation */
 				function updateProfilPicture() {
-					requestAPI("/user/account/image/get/",
-							{
-								200: 	function(response) {
-											document.getElementById("profilPictureID").src = response + "?" + new Date().getTime();
-										}
-							},
-
-							{
-								"pseudo": "<?php echo $this->getUser()->getPseudo(); ?>"
-							}
-						);
+					document.getElementById("profilPictureID").src = "http://localhost:8080/api/user/account/image/get/<?php echo $this->getUser()->getPseudo(); ?>.png"; + "?" + new Date().getTime();
 				}
 				updateProfilPicture();
 				

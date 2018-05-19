@@ -96,7 +96,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
   <table class="params">
     <tr><td class="paramname"></td><td><ul>
 <li>COOKIE <em>PHPSESSID</em> : le cookie de session PHP <a class="el" href="user_2account_2connect_2index_8php.html">api/user/account/connect/index.php</a></li>
-<li><em>max</em> (optionnel) : nombre maximum de notifications à afficher (les 'max' plus récentes) </li>
+<li>POST <em>max</em> (optionnel) : nombre maximum de notifications à afficher (les 'max' plus récentes) </li>
 </ul>
 </td></tr>
   </table>
@@ -106,7 +106,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
 <li>JSON : les notifications <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;{</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    &quot;notifications&quot;: [</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;      {</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;            &quot;id&quot;: &quot;1&quot;,</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;            &quot;type&quot;: &quot;bienvenue&quot;,</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;            &quot;content&quot;: &quot;L&#39;équipe d&#39;ULC vous souhaite la bienvenue.&quot;,</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;            &quot;date&quot;: &quot;2018-05-07 14:08:52.671358&quot;,</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;            &quot;status&quot;: &quot;unseen&quot;,</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;            &quot;action&quot;: &quot;equipe&quot;</div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        }</div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    ]</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div></div><!-- fragment --></li>
 <li>code reponse:<ul>
 <li>200 : les notifications ont été généré avec succès</li>
-<li>401 : non connecté(e) </li>
+<li>401 : non connecté(e)</li>
+<li>503 : erreur de connection à la base de donnée </li>
 </ul>
 </li>
 </ul>

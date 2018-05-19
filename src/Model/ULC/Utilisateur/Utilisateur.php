@@ -67,8 +67,11 @@ class Utilisateur {
 	 * @internal : export l'utilisateur vers la variable session
 	 */
 	private function saveSession() {
+		if (session_status () == PHP_SESSION_NONE) {
+			session_start ();
+		}
 		if ($this->uuid == NULL) {
-			unset ( $_SESSION ['uuid'] );
+			session_destroy ();
 		} else {
 			$_SESSION ['uuid'] = $this->uuid;
 		}
@@ -79,10 +82,21 @@ class Utilisateur {
 	 * @internal : charges l'utilisateur à partir de sa session
 	 */
 	private function loadSession() {
+		if (session_status () == PHP_SESSION_NONE) {
+			session_start ();
+		}
 		$this->uuid = isset ( $_SESSION ['uuid'] ) ? $_SESSION ['uuid'] : NULL;
 		if ($this->uuid) {
 			$this->update ();
 		}
+	}
+	
+	/**
+	 * deconnectes l'utilisateur (detruit sa session)
+	 */
+	public function disconnect() {
+		$this->uuid = NULL;
+		$this->saveSession ();
 	}
 	
 	/**
@@ -242,7 +256,7 @@ class Utilisateur {
 		$stmt->bindParam ( ':id', $this->uuid, PDO::PARAM_INT );
 		$stmt->execute ();
 		while ( ($entry = $stmt->fetch ()) != NULL ) {
-			$this->permissions[$entry ['permission_id']] = true;
+			$this->permissions [$entry ['permission_id']] = true;
 		}
 	}
 	
