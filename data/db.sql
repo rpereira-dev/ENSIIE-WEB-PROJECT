@@ -102,7 +102,7 @@ CREATE TABLE "notification" (
 /** les roles possibles */
 CREATE TABLE "role" (
 	id		SERIAL	PRIMARY KEY,
-	name	VARCHAR	NOT NULL
+	name	VARCHAR	NOT NULL UNIQUE
 );
 
 /** les roles associés à un utilisateur */
@@ -141,6 +141,12 @@ INSERT INTO role (name) VALUES ('administrateur');	/* 3 */
 /** les permissions */
 INSERT INTO permission (name) VALUES ('create_team');		/* 1 */
 INSERT INTO permission (name) VALUES ('create_tournament');	/* 2 */
+INSERT INTO permission (name) VALUES ('create_role');		/* 3 */
+INSERT INTO permission (name) VALUES ('delete_role');		/* 4 */
+INSERT INTO permission (name) VALUES ('assign_role');		/* 5 */
+INSERT INTO permission (name) VALUES ('unassign_role');		/* 6 */
+INSERT INTO permission (name) VALUES ('add_permission');	/* 7 */
+INSERT INTO permission (name) VALUES ('remove_permission');	/* 8 */
 
 /* joueur */
 INSERT INTO role_permission (role_id, permission_id) VALUES (1, 1); /* create_team */
@@ -149,9 +155,9 @@ INSERT INTO role_permission (role_id, permission_id) VALUES (1, 1); /* create_te
 INSERT INTO role_permission (role_id, permission_id) VALUES (2, 1); /* create_team */
 INSERT INTO role_permission (role_id, permission_id) VALUES (2, 2); /* create_tournament */
 
-/* administrateur */
-INSERT INTO role_permission (role_id, permission_id) VALUES (3, 1); /* create_team */
-INSERT INTO role_permission (role_id, permission_id) VALUES (3, 2); /* create_tournament */
+/* administrateur : toutes les permissions */
+INSERT INTO role_permission (role_id, permission_id) SELECT 3, id FROM permission ;
+
 
 /** FIN DES PERMISSIONS */
 
@@ -322,13 +328,15 @@ CREATE TABLE "utilisateur_lol" (
 
 
 /** TESTS : pass: '123456' */
-INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('a@a.fr', 'toss', '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');
+INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('a@a.fr', 'toss', 		'$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');
 INSERT INTO utilisateur_role (utilisateur_id, role_id) VALUES (1, 3); /* toss, administrateur */
 
-INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('b@b.fr', 'Spingz',    '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');
-INSERT INTO utilisateur_role (utilisateur_id, role_id) VALUES (2, 2); /* Spingz, moderateur */
+INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('b@b.fr', 'jk50',   	 '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');
+INSERT INTO utilisateur_role (utilisateur_id, role_id) VALUES (2, 2); /* jk50, moderateur */
 
 INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('c@c.fr', 'lousticos', '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');
+
+INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('d@d.fr', 'deemo', 	'$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');
 
 /** les écoles */
 \copy ecole FROM data/ecoles.csv DELIMITER ';' CSV HEADER ;

@@ -28,9 +28,10 @@ if (! isset ( $_POST ['mail'] ) || ! isset ( $_POST ['token'] ) || ! isset ( $_P
 	echo "Requete invalide";
 } else {
 	$user = Utilisateur::instance ();
-	$mail = $_POST ['mail'];
-	$token = $_POST ['token'];
-	$pass = $_POST ['pass'];
+	$mail = filter_input ( INPUT_POST, 'mail', FILTER_SANITIZE_EMAIL );
+	$token = filter_input ( INPUT_POST, 'token', FILTER_SANITIZE_STRING );
+	$pass = filter_input ( INPUT_POST, 'pass', FILTER_SANITIZE_STRING );
+	
 	try {
 		if ($user->isTokenValid ( $mail, $token )) {
 			$user->modifyPassword ( $mail, $pass );

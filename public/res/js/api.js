@@ -19,7 +19,7 @@
 
  	// on s'assure que le service existe
  	if (!(service in API)) {
- 		toast("Le service demandé est invalide: " + service);
+ 		toast("Le service demandé est invalide: " + service, "error");
  		return (false);
  	}
 
@@ -115,9 +115,13 @@ var DEFAULT_CALLBACK = {
  	"/user/notification/get/"					: REQUEST.GET,
  	"/user/notification/see/"					: REQUEST.POST,
  	"/user/notification/seeall/"				: REQUEST.POST,
- 	"/user/permission/get/"						: REQUEST.GET,
+ 	"/user/account/permission/get/"				: REQUEST.GET,
+ 	"/user/account/role/add/"					: REQUEST.POST,
+ 	"/user/account/role/get/"					: REQUEST.GET,
  	"/tournament/list/"							: REQUEST.GET,
  	"/school/list/" 							: REQUEST.GET,
+ 	"/role/add_permission/"						: REQUEST.POST,
+ 	"/role/remove_permission/"					: REQUEST.POST,
  	"/role/get/"								: REQUEST.GET,
  	"/permission/get/"							: REQUEST.GET
  };

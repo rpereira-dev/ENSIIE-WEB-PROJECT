@@ -5,7 +5,7 @@
 	display: block;
 	width: 14rem;
 	height: calc(100% - 4rem);
-	position: absolute;
+	position: fixed;
 	z-index: 1;
 	top: 4rem;
 	right: 0;

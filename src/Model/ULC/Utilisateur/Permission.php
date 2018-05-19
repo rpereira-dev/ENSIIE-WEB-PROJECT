@@ -12,6 +12,12 @@ class Permission {
 	 */
 	public static $CREATE_TEAM;
 	public static $CREATE_TOURNAMENT;
+	public static $CREATE_ROLE;
+	public static $DELETE_ROLE;
+	public static $ASSIGN_ROLE;
+	public static $UNASSIGN_ROLE;
+	public static $ADD_PERMISSION;
+	public static $REMOVE_PERMISSION;
 	
 	/**
 	 * le tableau qui contient tous les permissions
@@ -25,6 +31,12 @@ class Permission {
 	public static function __init() {
 		Permission::$CREATE_TEAM = new Permission ( "create_team", "Créer une équipe" );
 		Permission::$CREATE_TOURNAMENT = new Permission ( "create_tournament", "Créer un tournoi" );
+		Permission::$CREATE_ROLE = new Permission ( "create_role", "Créer un nouveau rôle" );
+		Permission::$DELETE_ROLE = new Permission ( "delete_role", "Supprimer un rôle" );
+		Permission::$ASSIGN_ROLE = new Permission ( "assign_role", "Assigner un rôle à un utilisateur" );
+		Permission::$UNASSIGN_ROLE = new Permission ( "unassign_role", "Supprimer un rôle à un utilisateur" );
+		Permission::$ADD_PERMISSION = new Permission ( "add_permission", "Ajouter une permission à un rôle" );
+		Permission::$REMOVE_PERMISSION = new Permission ( "remove_permission", "Supprimer une permission d'un rôle" );
 	}
 	
 	/**

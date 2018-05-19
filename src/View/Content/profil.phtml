@@ -74,7 +74,7 @@ if (! $this->getUser ()->isConnected ()) {
 
 <div>
 
-	<h1>Permissions</h1>
+	<h1>Vos permissions</h1>
 	<div id="permissionsListID"></div>
 </div>
 
@@ -83,27 +83,31 @@ if (! $this->getUser ()->isConnected ()) {
     		{
     			200:	function(response) {
     						var permissions = JSON.parse(response);
-	    					console.log(permissions);
-    						requestAPI("/user/permission/get/",
+    						requestAPI("/user/account/permission/get/",
 	        		    		{
-	        		    			200: function(response) {
-	        		        			var permissionsID = JSON.parse(response);
-	        	                    	var tab = document.createElement("table");
-	        		        			
-	        	                    	for (var i = 0 ; i < permissionsID.length ; i++) {
-	        	                        	var permissionID = permissionsID[i];
-	        		        				var line = document.createElement("tr");
-	        		        				var cell = document.createElement("td");
-	        		        				cell.appendChild(document.createTextNode(permissions[permissionID].name));
-	        		        				line.appendChild(cell);
-	        		        				tab.appendChild(line);
-	        		        			}	        		        			
-	        	                		document.getElementById("permissionsListID").appendChild(tab);
-	        		    			}
-	        		    		},
-	        		    		{
-	        		    			'pseudo': '<?php echo Utilisateur::instance()->getPseudo(); ?>'
-	        		    		}
+	        		    			200:	function(response) {
+			        		        			var permissionsID = JSON.parse(response);
+			        	                    	var tab = document.createElement("table");
+		        		        				var line = document.createElement("tr");
+		        		        				var cell = document.createElement("th");
+		        		        				cell.innerHTML = "Nom des permissions";
+		        		        				line.appendChild(cell);
+		        		        				tab.appendChild(line);
+			        	                    	for (var i = 0 ; i < permissionsID.length ; i++) {
+			        	                        	var permissionID = permissionsID[i];
+			        		        				var line = document.createElement("tr");
+			        		        				var cell = document.createElement("td");
+			        		        				cell.appendChild(document.createTextNode(permissions[permissionID].name));
+			        		        				line.appendChild(cell);
+			        		        				tab.appendChild(line);
+			        		        			}	        		        			
+			        	                		document.getElementById("permissionsListID").appendChild(tab);
+			        		    			}
+	        		    				},
+	        		    				
+		        		    		{
+		        		    			'pseudo': '<?php echo Utilisateur::instance()->getPseudo(); ?>'
+		        		    		}
 	        		    );
     			}
     		}
