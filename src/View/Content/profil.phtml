@@ -4,7 +4,7 @@ $pseudo = isset ( $_GET ['pseudo'] ) ? $_GET ['pseudo'] : 'toss';
 
 <!-- DEBUT: Profil -->
 
-<h1>Compte de <?php echo $pseudo;?></h1>
+<h1>Profil de <?php echo $pseudo;?></h1>
 <div>
 
 	<h1>Permissions</h1>
@@ -76,8 +76,9 @@ $pseudo = isset ( $_GET ['pseudo'] ) ? $_GET ['pseudo'] : 'toss';
 				                                node_summoner_icon.style.maxWidth = "2rem";
 				                                node_summoner_icon.style.minWidth = "2rem";
 				                                node_summoner_icon.src = "http://ddragon.leagueoflegends.com/cdn/8.9.1/img/profileicon/" + summoner.profileIconId  + ".png";
-				                                var node_summoner_name = document.createElement("span");
+				                                var node_summoner_name = document.createElement("a");
 				                                node_summoner_name.innerHTML = summoner.name;
+				                                node_summoner_name.href = "http://euw.op.gg/summoner/userName=" + summoner.name;
 				                                node_summoner.appendChild(node_summoner_icon);
 				                                node_summoner.appendChild(node_summoner_name);
 				                                node_list.appendChild(node_summoner);
