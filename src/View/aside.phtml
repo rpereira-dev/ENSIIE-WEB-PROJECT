@@ -5,7 +5,7 @@ namespace View;
 /**
  * affiche les informations sur le profil du joueur
  */
-function afficher_profil() {
+function afficher_compte() {
 	?>
 <script>
 		function disconnect() {
@@ -24,19 +24,19 @@ function afficher_profil() {
 		}
 	</script>
 
-<div class="button" style="margin-top: 2.0rem; width: 8rem;"
-	onclick="redirectToPage('profil');">
-	<div class="button_text">Mon profil</div>
-</div>
-
-<div class="button" style="width: 8rem;"
-	onclick="redirectToPage('tournois');">
-	<div class="button_text" onclick="">Mes tournois</div>
-</div>
-
-<div class="button" style="width: 8rem;" onclick="disconnect();">
-	<div class="button_text">Se déconnecter</div>
-</div>
+	<div class="button" style="margin-top: 2.0rem; width: 8rem;"
+		onclick="redirectToPage('compte');">
+		<div class="button_text">Mon compte</div>
+	</div>
+	
+	<div class="button" style="width: 8rem;"
+		onclick="redirectToPage('tournois');">
+		<div class="button_text" onclick="">Mes tournois</div>
+	</div>
+	
+	<div class="button" style="width: 8rem;" onclick="disconnect();">
+		<div class="button_text">Se déconnecter</div>
+	</div>
 <?php
 }
 
@@ -384,7 +384,7 @@ function afficher_discord() {
 if (! $this->getUser ()->isConnected ()) {
 	afficher_champs ();
 } else {
-	afficher_profil ();
+	afficher_compte ();
 }
 afficher_discord ();
 ?>

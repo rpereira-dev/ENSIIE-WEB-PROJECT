@@ -99,6 +99,7 @@ var DEFAULT_CALLBACK = {
 /**
  * Relis un service au type de la requête à envoyer
  */
+//TODO : method on parameters not on request
  var API = {
 	"/permission/get/"							: REQUEST.GET,
  	"/role/add_permission/"						: REQUEST.POST,

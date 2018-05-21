@@ -17,6 +17,7 @@ abstract class Content extends PageElement {
 		 */
 		$pages = [ 
 				"accueil" => Content\Accueil::class,
+				"compte" => Content\Compte::class,
 				"ecoles" => Content\Ecoles::class,
 				"erreur" => Content\Erreur::class,
 				"equipes" => Content\Equipes::class,
@@ -40,7 +41,7 @@ abstract class Content extends PageElement {
 		include VIEW_FOLDER . "/Content/header.phtml";
 		
 		/* affiche le contenu */
-		if ($this->requiteAuthentification() && !$this->getUser()->isConnected()) {
+		if ($this->requiteAuthentification () && ! $this->getUser ()->isConnected ()) {
 			include VIEW_FOLDER . "/Content/non_connecte.phtml";
 		} else {
 			include VIEW_FOLDER . "/Content" . $this->getPHTML ();

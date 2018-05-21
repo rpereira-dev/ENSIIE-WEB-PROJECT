@@ -15,7 +15,7 @@
 if ($this->getUser ()->isConnected ()) {
 	?>
 	<li class="navbar-item navbar-item-hoverable" style="float: right"
-		onclick="redirectToPage('profil');">
+		onclick="redirectToPage('profil&pseudo=<?php echo $this->getUser()->getPseudo(); ?>');">
 		<div class="navbar-item-profil">
 			<span><?php echo $this->getUser()->getPseudo(); ?></span> <img
 				id="profilPictureID"></img>

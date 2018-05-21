@@ -340,33 +340,6 @@ class Utilisateur {
 		$stmt->execute ();
 		return (true);
 	}
-	
-	/**
-	 * Liste les comptes League of Legends lié à cet utilisateur
-	 *
-	 * @throws ConnectionException : si la connection à la bdd échoue
-	 * @throws NotConnectedException : si l'utilisateur n'est pas connecté
-	 */
-	public function listLolAccounts() {
-		if (! $this->isConnected ()) {
-			throw new NotConnectedException ();
-		}
-		
-		$pdo = BDD::instance ()->getConnection ( "ulc" );
-		
-		$stmt = $pdo->prepare ( "SELECT * FROM utilisateur_lol WHERE utilisateur_id = :utilisateur_id" );
-		$stmt->bindParam ( ':utilisateur_id', $this->uuid, PDO::PARAM_INT );
-		$stmt->execute ();
-		
-		/* renvoie un tableau associatif de l'entrée dans la table */
-		$r = array ();
-		
-		while ( ($entry = $stmt->fetch ()) != NULL ) {
-			array_push ( $r, $entry ['summoner_id'] );
-		}
-		
-		return ($r);
-	}
 }
 
 ?>
