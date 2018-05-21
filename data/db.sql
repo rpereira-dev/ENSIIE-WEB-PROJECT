@@ -330,7 +330,6 @@ INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('a@a.fr', 'toss', 		'$2y$10
 INSERT INTO utilisateur_role (utilisateur_id, role_id) VALUES (1, 3); /* toss, administrateur */
 INSERT INTO utilisateur_lol (utilisateur_id, summoner_id) VALUES (1, 31531972); /** PCF toss */
 INSERT INTO utilisateur_lol (utilisateur_id, summoner_id) VALUES (1, 36652136); /** Lamoukk */
-INSERT INTO utilisateur_lol (utilisateur_id, summoner_id) VALUES (1, 27979273); /** lousticos */
 INSERT INTO utilisateur_lol (utilisateur_id, summoner_id) VALUES (1, 20143385); /** Spingz */
 
 INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('b@b.fr', 'jk50',   	 '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');
@@ -338,9 +337,11 @@ INSERT INTO utilisateur_role (utilisateur_id, role_id) VALUES (2, 2); /* jk50, m
 
 INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('c@c.fr', 'lousticos', '$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');
 INSERT INTO utilisateur_lol (utilisateur_id, summoner_id) VALUES (3, 27979273); /** lousticos */
-INSERT INTO utilisateur_lol (utilisateur_id, summoner_id) VALUES (3, 20143385); /** Spingz */
 
 INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('d@d.fr', 'deemo', 	'$2y$10$9YX30iU9gZ7QpTrOXErofuKlxswhQka2ZFu9m.XJHxfPHppuoTu4y');
 
 /** les écoles */
 \copy ecole FROM data/ecoles.csv DELIMITER ';' CSV HEADER ;
+
+/** les equipes */
+INSERT INTO equipe (nom) VALUES ('la lousticos team') ;

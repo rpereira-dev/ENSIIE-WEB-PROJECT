@@ -1,10 +1,10 @@
-<div>
-Coucou, tu veux voir mon équipe
-</div>
+<!-- PAGE LISTANT LES EQUIPES -->
+
+<h1>Liste des équipes</h1>
 <div id="Liste">
 </div>
 <script type="text/javascript">
-function loadteams() {
+function loadTeams() {
                 requestAPI("/team/list/",
                 	{
                 		200: 	function(response) {
@@ -25,8 +25,7 @@ function loadteams() {
 		                        		var equipe = teams[i];
 		                        		var line = document.createElement("tr");
 		                        		var cell1 = document.createElement("td");
-		                        		var nom = document.createElement(equipe.nom);
-										cell1.appendChild(nom);
+										cell1.innerHTML = equipe.nom;
 										line.appendChild(cell1);
 										tab.appendChild(line);
 		                        	}
@@ -35,5 +34,5 @@ function loadteams() {
                 	}
                 );
             }
-            loadteams();
+            loadTeams();
 </script>

@@ -3,13 +3,13 @@
  */
 .page {
 	display: block;
-	margin-top: 4rem;
+	margin-top: 6rem;
 	margin-left: 14rem;
 	margin-right: 16rem;
 }
 
 .page-background {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;

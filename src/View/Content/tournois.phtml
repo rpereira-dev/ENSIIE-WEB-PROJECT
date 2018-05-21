@@ -1,4 +1,5 @@
-<!-- créer un tournoi si permssion -->
+<!-- PAGE LISTANT LES TOURNOIS-->
+
 <?php
 use Model\ULC\Utilisateur\Permission;
 if ($this->getUser ()->isConnected () && $this->getUser ()->hasPermission ( Permission::$CREATE_TOURNAMENT )) {
@@ -19,7 +20,7 @@ if ($this->getUser ()->isConnected () && $this->getUser ()->hasPermission ( Perm
 <h1>Les tournois</h1>
 <div id="Liste"></div>
 <script type="text/javascript">
-function loadtournaments() {
+function loadTournaments() {
                 requestAPI("/tournament/list/",
                 	{
                 		200: 	function(response) {
@@ -77,5 +78,5 @@ function loadtournaments() {
                 	}
                 );
             }
-            loadtournaments();
+	loadTournaments();
 </script>

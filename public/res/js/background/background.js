@@ -114,8 +114,9 @@ class Background {
 		noise.seed(Math.random());
 		this.colors = [];
 		this.positions = [];
-		this.nx = 16 * 1;
-		this.ny = 9 * 1;
+		var S = 2;
+		this.nx = 16 * S;
+		this.ny = 9 * S;
 		var w = 2.0 / this.nx;
 		var h = 2.0 / this.ny;
 		var vx = w * 0.25;
@@ -163,8 +164,8 @@ class Background {
 		this.acc = 0;
 		this.offx = 0.0;
 		this.offy = 0.0;
-		this.vx = 0.005 * (2.0 * Math.random() - 1.0);
-		this.vy = 0.005 * (2.0 * Math.random() - 1.0);
+		this.vx = 0.01 * (2.0 * Math.random() - 1.0);
+		this.vy = 0.01 * (2.0 * Math.random() - 1.0);
 	}
 
 	/**
@@ -186,7 +187,7 @@ class Background {
 	    		var index = i * this.ny + j;
 	    		var x = i / this.nx;
 	    		var y = j / this.ny;
-	    		var f =  0.5 * (noise.perlin2((x + this.offx) * frequency, (y + this.offy) * frequency) + 1.0);
+	    		var f =  0.3 * (noise.perlin2((x + this.offx) * frequency, (y + this.offy) * frequency) + 1.0);
 				this.colors[index] = 0.4 + 0.4 * f;
 				if (this.colors[index] < 0.0) {
 					console.log(this.colors[index]);

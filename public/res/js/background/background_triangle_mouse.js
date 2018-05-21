@@ -34,8 +34,8 @@ var Background = function() {
 			if (d < 200) {
 				d = 200;
 			}
-			var offx = -2000 * dx / d;
-			var offy = -2000 * dy / d;
+			var offx = -1000 * dx / d;
+			var offy = -1000 * dy / d;
 			this.positions[i][0] = x + offx;
 			this.positions[i][1] = y + offy;
 		}
@@ -67,7 +67,7 @@ var Background = function() {
 
 	/** dessines le fond d'écran animé */
 	this.draw = function() {
-		this.ctx.fillStyle = "rgb(112, 115, 132)"
+		this.ctx.fillStyle = "rgb(182, 185, 202)"
 		this.ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 		/** dessines les arrêtes */
