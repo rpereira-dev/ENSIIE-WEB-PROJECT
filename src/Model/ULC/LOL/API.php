@@ -36,7 +36,7 @@ class API {
 	public static function riot() {
 		if (API::$riot == NULL) {
 			API::$riot = new RiotAPI ( [ 
-					RiotAPI::SET_KEY => 'RGAPI-2b8d4eea-913c-4d2c-ba8b-499aa9ed299f',
+					RiotAPI::SET_KEY => 'RGAPI-7525589e-1c31-489b-9145-e2b89663db9a',
 					RiotAPI::SET_REGION => Region::EUROPE_WEST 
 			] );
 		}

@@ -4,41 +4,41 @@
  */
 
 /** suppression des données précèdentes dans la table */
-DROP TABLE "notification" CASCADE;
-DROP TYPE "t_notification";
-DROP TYPE "t_notification_status";
+DROP TABLE IF EXISTS "notification" CASCADE;
+DROP TYPE IF EXISTS "t_notification";
+DROP TYPE IF EXISTS "t_notification_status";
 
-DROP TRIGGER "t_insert_utilisateur" ON utilisateur ;
-DROP FUNCTION "on_utilisateur_inserted" ;
+DROP TRIGGER IF EXISTS "t_insert_utilisateur" ON utilisateur ;
+DROP FUNCTION IF EXISTS "on_utilisateur_inserted" ;
 
-DROP TRIGGER "t_insert_invitation" ON invitation;
-DROP FUNCTION "notifier_invite" ;
+DROP TRIGGER IF EXISTS "t_insert_invitation" ON invitation;
+DROP FUNCTION IF EXISTS "notifier_invite" ;
 
-DROP TABLE "match_equipe" ;
-DROP TABLE "match" CASCADE ;
+DROP TABLE IF EXISTS "match_equipe" ;
+DROP TABLE IF EXISTS "match" CASCADE ;
 
-DROP TYPE "t_invitation_status" ;
-DROP TABLE "invitation" ;
-DROP TABLE "utilisateur_equipe" ;
-DROP TABLE "equipe_tournoi" CASCADE;
-DROP TABLE "equipe" CASCADE ;
-DROP TABLE "tournoi" CASCADE ;
-DROP TYPE "t_jeu";
+DROP TYPE IF EXISTS "t_invitation_status" ;
+DROP TABLE IF EXISTS "invitation" ;
+DROP TABLE IF EXISTS "utilisateur_equipe" ;
+DROP TABLE IF EXISTS "equipe_tournoi" CASCADE;
+DROP TABLE IF EXISTS "equipe" CASCADE ;
+DROP TABLE IF EXISTS "tournoi" CASCADE ;
+DROP TYPE IF EXISTS "t_jeu";
 
-DROP TABLE "utilisateur_lol" CASCADE ;
-DROP TRIGGER "t_update_reset_token" ON reset_token;
-DROP FUNCTION "update_reset_token" ;
-DROP TABLE "reset_token" CASCADE ;
-DROP TABLE "utilisateur_ecole" CASCADE ;
+DROP TABLE IF EXISTS "utilisateur_lol" CASCADE ;
+DROP TRIGGER IF EXISTS "t_update_reset_token" ON reset_token;
+DROP FUNCTION IF EXISTS "update_reset_token" ;
+DROP TABLE IF EXISTS "reset_token" CASCADE ;
+DROP TABLE IF EXISTS "utilisateur_ecole" CASCADE ;
 
-DROP TABLE "utilisateur_role" CASCADE ;
-DROP TABLE "role_permission" CASCADE ;
-DROP TABLE "permission" CASCADE ;
-DROP TABLE "role" CASCADE ;
+DROP TABLE IF EXISTS "utilisateur_role" CASCADE ;
+DROP TABLE IF EXISTS "role_permission" CASCADE ;
+DROP TABLE IF EXISTS "permission" CASCADE ;
+DROP TABLE IF EXISTS "role" CASCADE ;
 
-DROP TABLE "utilisateur" CASCADE ;
-DROP TABLE "ecole" CASCADE ;
-DROP TYPE "t_ecole_status" CASCADE ;
+DROP TABLE IF EXISTS "utilisateur" CASCADE ;
+DROP TABLE IF EXISTS "ecole" CASCADE ;
+DROP TYPE IF EXISTS "t_ecole_status" CASCADE ;
 
 /** utilisateur */
 CREATE TABLE "utilisateur" (
