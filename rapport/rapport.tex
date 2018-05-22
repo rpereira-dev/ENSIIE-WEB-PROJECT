@@ -138,20 +138,20 @@
 	
 	\paragraph{Notification} Un message destiné à attirer l'attention de l'utilisateur du site (e.x: le notifie d'une invitation à rejoindre une équipe)
 	\paragraph{Jeton de réinitialisation} Une chaîne de 32 caractères générées aléatoirement.
-	Ce jeton est généré et envoyé par mail à un utilisateur s'il a oublié son mot de passe.
-	Il a alors 15 minutes pour changer son mot de passe en accédant au service consacré à cet effet.
+	  Ce jeton est généré et envoyé par mail à un utilisateur s'il a oublié son mot de passe.
+	  Il a alors 15 minutes pour changer son mot de passe en accédant au service consacré à cet effet.
       
-	Une base de données a été généré à partir de la page Wikipédia \ref{ecole_ingé}.
-	Les données ont été extraite de la page, au format csv, à l'aide d'un programme Python (et de la bibliothèque BeautifulSoup \ref{beautifulsoup}).
+	\paragraph{Ecole, ville, ...} 
+	  Une base de données a été généré à partir de la page Wikipédia \ref{ecole_ingé}.
+	  Les données ont été extraite de la page, au format csv, à l'aide d'un programme Python (et de la bibliothèque BeautifulSoup \ref{beautifulsoup}).
 	
-	Cette base de donnée aura 2 utilités principales : auto-complétion pour la recherche, et organisation de tournois par région.
-	Elle permettra également d'avoir des statistiques par région (fait t'on plus d'e-sport à Angers ou bien à Paris).
+	  Cette base de donnée aura 2 utilités principales : auto-complétion pour la recherche, et organisation de tournois par région.
+	  Elle permettra également d'avoir des statistiques par région (fait t'on plus d'e-sport à Angers ou bien à Paris).
 	
 	\paragraph{Equipe} Les joueurs peuvent créer des équipes, inviter d'autres joueurs dans leur équipes, et rejoindre lorsqu'une invitation est reçu.
 	\paragraph{Tournoi} Les utilisateurs possèdant les permissions peuvent rejoindre et créer des tournois
 	\paragraph{Match} Les utilisateurs ayant la permission peuvent créer des matchs dans un tournoi.
-	Ils peuvent également être généré aléatoirement lors de la création d'un tournoi.
-
+	  Ils peuvent également être généré aléatoirement lors de la création d'un tournoi.	
       \newpage
       \subsubsection{L'architecture du site}
 	Le site suit une architecture MVC classique.

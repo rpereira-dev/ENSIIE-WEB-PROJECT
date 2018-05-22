@@ -345,3 +345,6 @@ INSERT INTO utilisateur (mail, pseudo, pass) VALUES ('d@d.fr', 'deemo', 	'$2y$10
 
 /** les equipes */
 INSERT INTO equipe (nom) VALUES ('la lousticos team') ;
+
+/** notification */
+INSERT INTO notification (type, utilisateur_id) VALUES ('invitation', 1) ;
